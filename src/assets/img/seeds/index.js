@@ -1,7 +1,7 @@
 import acapulcogold from './Acapulco Gold.png';
 import aceh from './Aceh.png';
 import afghani from './Afghani.png';
-import chocolatethai from './Chocolate Thai.png';
+import thaichocolate from './Chocolate Thai.png';
 import colombiangold from './Colombian Gold.png';
 import durbanpoison from './Durban Poison.png';
 import hindukush from './Hindu Kush.png';
@@ -19,7 +19,7 @@ export const seedsImgs = {
     acapulcogold,
     aceh,
     afghani,
-    chocolatethai,
+    thaichocolate,
     colombiangold,
     durbanpoison,
     hindukush,

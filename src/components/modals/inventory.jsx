@@ -388,11 +388,13 @@ class InventoryModal extends Component {
   }
 
   getImageForAsset(assetName, images) {
-    const cleanedUpAssetName = assetName.toLowerCase().replace(" ", "");
+    const cleanedUpAssetName = assetName.toLowerCase().replace(" ", "").replace("’","").replace(" ","");
     console.log(
       "imagen",
       images[
-        Object.keys(images).filter((image) => image == cleanedUpAssetName)[0]
+        Object.keys(images).filter((image) => {
+          console.log(image,cleanedUpAssetName);
+          return image == cleanedUpAssetName})[0]
       ]
     );
     return images[
@@ -451,8 +453,8 @@ class InventoryModal extends Component {
   }
 
   renderSeeds() {
+
     const seeds = this.user().seeds;
-    console.log(seeds);
 
     return seeds.map((seed) => {
       if (seed.properties?.PLANTED) {
@@ -484,6 +486,7 @@ class InventoryModal extends Component {
         </div>
       );
     });
+    
   }
 
   renderWaterTowers() {
@@ -505,7 +508,7 @@ class InventoryModal extends Component {
                 actions: ["upgrade"],
                 upgradeFunction: (e) => alert(`Upgrade: ${tower}`),
               },
-              showUpgradeModal: "block",
+              showUpgradeModal: "none",
             })
           }
         >
