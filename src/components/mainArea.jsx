@@ -61,10 +61,11 @@ class MainArea extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const user = state.API_bucket.users[state.user];
+    let user = state.API_bucket;
+    user = user ? user : state.API_bucket
     return {
         user,
-        username: state.user,
+        username: localStorage.getItem("username"),
         map_area: state.map_area
     }
 }

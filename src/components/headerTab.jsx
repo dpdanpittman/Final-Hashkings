@@ -7,6 +7,7 @@ import H2OPNG from '../assets/img/ui/H2O.png';
 import BudsPNG from '../assets/img/ui/BUDS.png';
 import MotaPNG from '../assets/img/ui/Moneda2.png';
 import XpPNG from '../assets/img/ui/Icono XP.png';
+import LvPNG from '../assets/img/ui/Level.png';
 import FarmerPNG from '../assets/img/profile_pictures/Farmer.png';
 
 function HeaderTab(props) {
@@ -14,6 +15,7 @@ function HeaderTab(props) {
     const getXPWidth = xp => `${xp}px`;
 
     const getStat = stat => {
+        console.log("",props.userDets)
         return props.userDets !== undefined ? props.userDets[stat] : <i className="fa fa-circle-o-notch fa-spin text-danger"></i>;
     }
 
@@ -38,7 +40,6 @@ function HeaderTab(props) {
                 <div className="icon-group">
                     <img src={ MotaPNG } alt="MOTA" title="MOTA" />
                     <div className="tag">{ parseInt(user().tokens.mota.stake) + parseInt(user().tokens.mota.balance) }</div>
-{/* >>>>>>> 59ba91075a0e2901d530b52a93e79a78d5e68622 */}
                 </div>
             </div>
             <div>
@@ -51,8 +52,15 @@ function HeaderTab(props) {
                 <div className="icon-group">
                     <img style={{ transform: 'scale(1.2)' }} src={ XpPNG } alt="XP" title="XP" />
                     <div className="xp-tag">
-                        <div className="xp-slide" style={{ width: parseInt(user().xp) + 'px' }}>&nbsp;</div>
                         <em>{ parseInt(user().xp) }</em>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div className="icon-group">
+                    <img style={{ transform: 'scale(1.2)' }} src={ LvPNG } alt="LV" title="LV" />
+                    <div className="lv-tag">
+                        <em>{ parseInt(user().lvl) }</em>
                     </div>
                 </div>
             </div>
@@ -61,10 +69,14 @@ function HeaderTab(props) {
 }
 
 const mapStateToProps = (state, ownProps) => {
+    
+    let user = state.API_bucket
+    console.log("header", user)
+
     return {
-        user: state.user,
+        user: localStorage.getItem("username"),
         bucket: state.API_bucket,
-        userDets: state.API_bucket.users[state.user]
+        userDets: user
     }
 }
 

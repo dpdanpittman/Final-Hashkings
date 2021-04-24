@@ -48,7 +48,7 @@ class SideBar extends Component {
                 <div>
                     <img className="background" src={ HojaPNG } />
                     <div className="logo-wrapper">
-                        <img src={ LogoPNG } alt="Hashkings logo" idName="haskings_logo" />
+                        <img src={ LogoPNG } alt="Hashkings logo" id="haskings_logo" />
                     </div>
                     <div className="links-wrapper">
                         <div className="inventory-link-row my-2">
@@ -73,7 +73,7 @@ class SideBar extends Component {
                             <div className="d-flex flex-row justify-content-around regions-row">
                                 <div>
                                     <img onClick={ e => this.areasLinksOnClick('Jamaica', SidebarLinks.regions[0]) } src={ JamaicaPNG } alt="Country Jamaica on Hashkings" />
-                                    <div className="tag" reg-name>Jamaica</div>
+                                    <div className="tag reg-name">Jamaica</div>
                                 </div>
                                 <div>
                                     <img onClick={ e => this.areasLinksOnClick('Mexico', SidebarLinks.regions[0]) } src={ MexicoPNG } alt="Country Mexico on Hashkings" />

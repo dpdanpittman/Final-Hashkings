@@ -16,7 +16,7 @@ const ProfilePictureModal = props => {
     ];
 
     const extractByGender = gender => Object.keys(Profiles).filter(profile => Profiles[profile].gender == gender).map(profile => ( 
-        <div onClick={ e => handleClick(e, profile) } className="profile-image-thumbnail-wrapper">
+        <div key={Profiles[profile].name} onClick={ e => handleClick(e, profile) } className="profile-image-thumbnail-wrapper">
             <div className="image-wrapper">
                 <img className="highlight-on-hover" src={ Profiles[profile].image } />
             </div>
@@ -43,9 +43,9 @@ const ProfilePictureModal = props => {
                     <div className="radio-buttons-group">
                         <div className="small">Choose your gender</div>
                         {
-                            genders.map(gender => (
+                            genders.map( (gender,i) => (
                                 <>
-                                    <label className="m-2">
+                                    <label key={gender+i} className="m-2">
                                         <input name="gender" onChange={ e => setActiveGender(e.currentTarget.value) } value={gender} type="radio" label={ gender.toUpperCase() } />
                                         { gender.toUpperCase() }
                                     </label>

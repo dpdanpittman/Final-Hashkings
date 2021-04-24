@@ -437,7 +437,7 @@ class MapModal extends React.Component {
       <Card
         class='lx-modal modal-vs main-area-modal'
         style={{ display: this.props.shouldModalShow() }}>
-        <img class='bg' src={modalbg} />
+        <img className='bg' src={modalbg} />
         <ul class='text-content'>
           <li class='d-flex flex-row justify-content-start'>
             <span class='tag'>Region Name:</span>
@@ -471,7 +471,8 @@ class MapModal extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const user = state.API_bucket.users[state.user];
+  let user = state.API_bucket;
+  user = user ? user : state.API_bucket
   return {
     user,
   };

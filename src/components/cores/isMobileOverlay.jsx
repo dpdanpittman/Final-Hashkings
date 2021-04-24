@@ -6,10 +6,10 @@ const IsMobileOverlay = props => (
     <div className={ "is-mobile-modal " + props.class }>
         <h1 className="message">
             <em>😞</em>
-            <txt>
+            <div>
                 <p>Unfortunately, we don't support mobile browsers at this time. Our team is working to bring <b>Hashkings</b> to mobile devices.</p>
                 <p>Switch to a desktop browser to continue playing instead.</p>
-            </txt>
+            </div>
         </h1>
     </div>
 );

@@ -209,7 +209,7 @@ html body * {
 
 /* Main Area */
 .main-area-modal {
-  position: absolute;
+ /* position: absolute;*/
   left: 600px;
   top: -2em;
   z-index: 8;
@@ -590,6 +590,17 @@ html body * {
   border-bottom-right-radius: 22px;
   position: relative;
 }
+#header-tab .icon-group .lv-tag {
+  width: 50px;
+  padding: 2px 0px;
+  background-color: lightgreen;
+  display: inline-block;
+  height: 20px;
+  margin: auto;
+  border-top-right-radius: 72px;
+  border-bottom-right-radius: 22px;
+  position: relative;
+}
 #header-tab .icon-group .xp-tag em {
   position: absolute;
   right: 3px;
@@ -601,7 +612,28 @@ html body * {
   text-align: center;
   background-color: transparent;
 }
+#header-tab .icon-group .lv-tag em {
+  position: absolute;
+  right: 3px;
+  font-size: 75%;
+  top: 1px;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  background-color: transparent;
+}
 #header-tab .icon-group .xp-slide {
+  background-color: burlywood;
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+  position: absolute;
+  height: 18px;
+  top: 50%;
+  z-index: 3;
+  margin-top: -9px;
+}
+#header-tab .icon-group .lv-slide {
   background-color: burlywood;
   border-top-right-radius: 18px;
   border-bottom-right-radius: 18px;
@@ -1151,7 +1183,7 @@ html body * {
 .farms-in-region-wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  
 }
 .farms-in-region-wrapper .popup {
   height: 420px;
@@ -1256,6 +1288,46 @@ html body * {
   height: auto;
 }
 
+
+
+
+.seeds-popup {
+  background: rgba(0, 0, 0, 0.6) !important;
+  width: 300px;
+  min-height: 400px;
+  max-height: 400px;
+  position: absolute;
+  top: 1em;
+  right: -10em;
+  z-index: 8;
+  padding-top: 1em;
+  display: none;
+}
+.seeds-popup.active {
+  display: block;
+}
+.seeds-popup .close-btn {
+  width: 35px;
+  height: auto;
+  position: absolute;
+  right: -0.6em;
+  top: -0.6em;
+  border-radius: 50%;
+  z-index: 11;
+}
+.seeds-popup .inventory_asset {
+  
+  margin-bottom: 30px;
+  height: 70px;
+  width: 100%;
+}
+.seeds-popup .inventory_asset img {
+  width: 38px;
+  height: auto;
+}
+
+
+
 .no-farms-notice {
   height: 420px;
   padding: 5em 2em;
@@ -1325,7 +1397,6 @@ html body * {
   width: 100%;
   display: none;
 }
->>>>>>>435a710b7cbd9d384ff1228927cad85eafddb092
   .staking_modal
   .sub-modal-wrapper
   .submodal
@@ -1450,6 +1521,13 @@ html body * {
   height: 100%;
   cursor: pointer;
 }
+
+.inventory_asset_joint img {
+  width: 60%;
+ 
+  cursor: pointer;
+}
+
 .inventory_asset .title-tag {
   position: absolute;
   bottom: -0.2em;
