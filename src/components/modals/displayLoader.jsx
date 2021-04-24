@@ -44,7 +44,7 @@ class DisplayLoader extends Component {
 
     if (this.props.plantstatus.completePlant) {
       const ipAPI =
-        "http://hashkings.xyz/u/" + localStorage.getItem("username");
+        "https://hashkings.xyz/u/" + localStorage.getItem("username");
       if (!this.props.plantstatus.errorPlant) {
         Swal.close();
         Swal.fire({

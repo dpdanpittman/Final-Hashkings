@@ -121,7 +121,7 @@ class GameBoard extends Component {
     }
 
     populateStore() {
-        const API = "http://hashkings.xyz/u/"+localStorage.getItem("username");
+        const API = "https://hashkings.xyz/u/"+localStorage.getItem("username");
         axios.get(API)
             .then(res => {
 
@@ -136,7 +136,7 @@ class GameBoard extends Component {
 
             .catch(err =>{
                 console.log("se produjo un error aqui",err)
-                //window.location.href ="/login";
+                window.location.href ="/login";
             });
     }
 

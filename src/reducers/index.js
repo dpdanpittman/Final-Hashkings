@@ -149,7 +149,7 @@ export const populateStore = async () => {
     console.log("actualizando username", localStorage.getItem("username"));
     indexReducer(localStorage.getItem("username"), "UPDATE USERNAME");
   }
-  const API = "http://hashkings.xyz/u/" + localStorage.getItem("username");
+  const API = "https://hashkings.xyz/u/" + localStorage.getItem("username");
 
   console.log("API", API);
   await axios
