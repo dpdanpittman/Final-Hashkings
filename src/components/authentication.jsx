@@ -18,72 +18,90 @@ class AuthenticationView extends Component {
         this.state = {
             mode: 'app',
             loginModalShow: false,
-            signupModalShow: false
+            signupModalShow: false,
+            username: ""
         };
+        this._handleInputChange = this._handleInputChange.bind(this)
+    }
+
+
+    _handleInputChange(event) {
+        const { value, name } = event.target
+
+        console.log(value, name)
+
+        this.setState({
+            [name]: value
+        })
+
+
     }
 
     render() {
+
+        const { username } = this.state
         return (
             <>
                 <div className="authentication">
                     <div className="overlay"></div>
                     <div className="auth-screen-tabstrip">
                         <div className="social-links">
-                            <a target="_blank" href={ contact.discord.link }>
-                                <img src={ contact.discord.image } title="Join our Discord community" alt="Join our Discord community" />
+                            <a target="_blank" href={contact.discord.link}>
+                                <img src={contact.discord.image} title="Join our Discord community" alt="Join our Discord community" />
                             </a>
-                            <a target="_blank" href={ contact.twitter.link }>
-                                <img src={ contact.twitter.image } title="Connect with us on Twitter" alt="Connect with us on Twitter" />
+                            <a target="_blank" href={contact.twitter.link}>
+                                <img src={contact.twitter.image} title="Connect with us on Twitter" alt="Connect with us on Twitter" />
                             </a>
-                            <a target="_blank" href={ contact.nft.link }>
-                                <img src={ contact.nft.image } title="" alt="" />
+                            <a target="_blank" href={contact.nft.link}>
+                                <img src={contact.nft.image} title="" alt="" />
                             </a>
-                            <a target="_blank" href={ contact.blog.link }>
-                                <img src={ contact.blog.image } title="Checkout the Hashkings blog" alt="Checkout the Hashkings blog" />
+                            <a target="_blank" href={contact.blog.link}>
+                                <img src={contact.blog.image} title="Checkout the Hashkings blog" alt="Checkout the Hashkings blog" />
                             </a>
                         </div>
-                        <img className="logo-grande" src={ LogoPNG } alt="Hashkings: Logo" />
+                        <img className="logo-grande" src={LogoPNG} alt="Hashkings: Logo" />
                         <div className="auth-screen-link-wrapper">
                             <a href="/signup" className="auth-screen-link">Sign up</a>
                             <a href="/login" className="auth-screen-link">Log in</a>
                         </div>
                     </div>
                     <div>
-                        <button onClick={ e => this.toggleHowToPlay(e) } className="how-to-play-btn px-1">How to play</button>
-                        <button onClick={ () => this.props.history.push('/play') } className="play-now-btn px-1">Play Now</button>
+                        <button onClick={e => this.toggleHowToPlay(e)} className="how-to-play-btn px-1">How to play</button>
+                        <button onClick={() => window.location.href = '/login'} className="play-now-btn px-1">Play Now</button>
 
-                        <Modal show={ this.state.loginModalShow } onHide={ () => this.setState({ loginModalShow: false }) } centered>
+                        <Modal show={this.state.loginModalShow} onHide={() => this.setState({ loginModalShow: false })} centered>
                             <div className="modal-transparent-overlay">
                                 <Modal.Header closeButton></Modal.Header>
                                 <Modal.Body>
                                     <div className="mb-3">
                                         <label className="d-block text-center" style={{ fontWeight: "500", fontSize: "120%" }}>Username</label>
-                                        <input style={{ background: "white" }} className="form-control bg-white w-100" />
+                                        <input value={username}
+                                            onChange={this._handleInputChange} name="username" type="text" style={{ background: "white" }} className="form-control bg-white w-100" />
                                     </div>
                                     <div className="mb-4">
                                         <h4 align="center">Login with</h4>
                                     </div>
                                     <div className="mt-2">
-                                        <Button variant="light" size="lg" block>
+                                        <Button variant="light" size="lg" block onClick={e => this.loginKeychain(username)} >
                                             <i className="fa fa-lock mr-2" style={{ fontSize: "1.5em" }}></i> <span>Keychain</span>
                                         </Button>
                                     </div>
                                     <div className="mt-2">
-                                        <Button onClick={ e => this.handleLogin() } variant="light" size="lg" block>
-                                            <img src={ HivesignerPNG } alt="Hivesigner logo" width="25" height="25" /> <span>Hivesigner</span>
+                                        <Button onClick={e => this.handleLogin()} variant="light" size="lg" block>
+                                            <img src={HivesignerPNG} alt="Hivesigner logo" width="25" height="25" /> <span>Hivesigner</span>
                                         </Button>
                                     </div>
                                     <div className="mt-5 mb-3">
                                         <h5 align="center">Don't have a Hive account?</h5>
                                         <div className="d-flex flex-row justify-content-center">
-                                            <Button onClick={ e => this.props.history.push("/signup") }>Sign up with Hive Onboard</Button>
+                                            <Button onClick={e => this.props.history.push("/signup")}>Sign up with Hive Onboard</Button>
                                         </div>
 
                                     </div>
-                                </Modal.Body>   
+                                </Modal.Body>
                             </div>
                         </Modal>
-                        <Modal show={ this.state.signupModalShow } onHide={ () => this.setState({ signupModalShow: false }) } centered>
+                        <Modal show={this.state.signupModalShow} onHide={() => this.setState({ signupModalShow: false })} centered>
                             <div className="modal-transparent-overlay">
                                 <Modal.Header closeButton></Modal.Header>
                                 <Modal.Body>
@@ -95,20 +113,20 @@ class AuthenticationView extends Component {
                                     <div className="mt-5 mb-3">
                                         <h5 align="center">Already have a Hive account?</h5>
                                         <div className="mt-2 d-flex flex-row justify-content-center">
-                                            <Button variant="light" onClick={ e => this.props.history.push("/login") }>Login here</Button>
+                                            <Button variant="light" onClick={e => this.props.history.push("/login")}>Login here</Button>
                                         </div>
                                     </div>
-                                </Modal.Body>   
+                                </Modal.Body>
                             </div>
                         </Modal>
                         <article id="how-to-play">
                             <h1 className="title">
                                 How To Play
-                                <span onClick={ e => this.toggleHowToPlay(e) }>close</span>
+                                <span onClick={e => this.toggleHowToPlay(e)}>close</span>
                             </h1>
                             <hr />
                             <section>
-                            Hashkings is a NFT(non-fungible token) powered Cannabis farming simulator on the Hive Blockchain.  Please follow <a href="https://peakd.com/@hashkings">this guide</a> to learn how to play.
+                                Hashkings is a NFT(non-fungible token) powered Cannabis farming simulator on the Hive Blockchain.  Please follow <a href="https://peakd.com/@hashkings">this guide</a> to learn how to play.
                             </section>
                         </article>
                     </div>
@@ -136,9 +154,41 @@ class AuthenticationView extends Component {
         window.location.href = login_link;
     }
 
+    loginKeychain(username) {
+
+        if (!Object.prototype.hasOwnProperty.call(window, "hive_keychain")) {
+
+            alert("please install hive keychain")
+
+            return;
+        }
+
+        if (!username) {
+            alert("please write a username");
+            return;
+        }
+
+        window.hive_keychain.requestSignBuffer(
+            username,
+            "Login to hashkings",
+            "Posting",
+            async (response) => {
+                if (response.success === true) {
+                    //
+                    await this.props.saveNameToState(response["data"]["username"]);
+                    localStorage.setItem("username", response["data"]["username"]);
+                    this.props.history.push('/play');
+                } else {
+
+                    // window.location.reload();
+                }
+            }
+        );
+    }
+
     evaluateComponentMode() {
         this.state.mode = this.props.mode;
-        switch(this.state.mode) {
+        switch (this.state.mode) {
             case 'login':
                 this.setState({ loginModalShow: true });
                 break;
@@ -150,7 +200,7 @@ class AuthenticationView extends Component {
                 const params = new URLSearchParams(window.location.search);
                 access_token = params.get('access_token');
                 expires_in = params.get('expires_in');
-                username = params.get('username') || 'gamsam';
+                username = params.get('username');
 
                 hivesignerClient.setAccessToken(access_token);
                 this.props.saveNameToState(username);
@@ -162,9 +212,9 @@ class AuthenticationView extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const user = state.API_bucket.users[state.user];
+    //let user = state.API_bucket.users[state.user];
+    //user = user ? user : state.API_bucket.users[localStorage.getItem("username")]
     return {
-        user,
         map_area: state.map_area
     }
 }

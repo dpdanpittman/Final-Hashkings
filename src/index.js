@@ -1,25 +1,43 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import indexReducer from './reducers';
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import indexReducer from "./reducers";
+import createSagaMiddleware from "redux-saga";
+import "regenerator-runtime/runtime";
+import {
+  plantWatches,
+  waterTowerUpgradeWatches,
+  waterTowerWatches,
+  harvestPLantWatches,
+  buyJointWatches,
+} from "./reducers/indexSaga";
+import { all } from "redux-saga/effects";
 
-import axios from 'axios';
+const sagaMiddleware = createSagaMiddleware();
 
-const store = createStore(indexReducer);
+const store = createStore(indexReducer, applyMiddleware(sagaMiddleware));
 
- 
+function* rootSaga() {
+  yield all([
+    ...plantWatches,
+    ...waterTowerUpgradeWatches,
+    ...waterTowerWatches,
+    ...harvestPLantWatches,
+    ...buyJointWatches,
+  ]);
+}
+sagaMiddleware.run(rootSaga);
+
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={ store }>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
 );
 
 serviceWorker.unregister();
