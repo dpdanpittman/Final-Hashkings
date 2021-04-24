@@ -209,7 +209,7 @@ html body * {
 
 /* Main Area */
 .main-area-modal {
-  position: absolute;
+ /* position: absolute;*/
   left: 600px;
   top: -2em;
   z-index: 8;
