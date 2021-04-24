@@ -21,13 +21,57 @@ export const harvestPLantWatches = [takeEvery("FARM/HARVEST", harvest)];
 
 export const buyJointWatches = [takeEvery("BUY/JOIN", buyJoint)];
 
+export const motaPoolDeposit = [takeEvery("POOL/BUDS", motaPool)];
+
+export function* motaPool(action) {
+  yield call(MotaPool, action.payload);
+}
+
+function* MotaPool(action) {
+  console.log("METIENDOME EN LA POOOOOL", action);
+  let response = yield new Promise((resolve, reject) => {
+    window.hive_keychain.requestSendToken(
+      action.username,
+      "hk-vault",
+      parseFloat("" + action.cantidad).toFixed(3),
+      "deposit",
+      "BUDS",
+      (resp) => {
+        resolve(resp);
+      },
+      null
+    );
+  });
+
+  if (response.success) {
+    yield put(
+      userActions.plantComplete({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: false,
+        mensajePlant: response.message,
+      })
+    );
+  } else {
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: response.message,
+      })
+    );
+    return;
+  }
+}
+
 export function* buyJoint(action) {
   yield call(BuyJoints, action.payload);
 }
 
 function* BuyJoints(action) {
-  console.info("BUUUUY JOOOOIN",action, action.username, action.join);
-  
+  console.info("BUUUUY JOOOOIN", action, action.username, action.join);
+
   let response = yield new Promise((resolve, reject) => {
     window.hive_keychain.requestSendToken(
       action.username,

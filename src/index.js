@@ -15,6 +15,7 @@ import {
   waterTowerWatches,
   harvestPLantWatches,
   buyJointWatches,
+  motaPoolDeposit
 } from "./reducers/indexSaga";
 import { all } from "redux-saga/effects";
 
@@ -29,6 +30,7 @@ function* rootSaga() {
     ...waterTowerWatches,
     ...harvestPLantWatches,
     ...buyJointWatches,
+    ...motaPoolDeposit
   ]);
 }
 sagaMiddleware.run(rootSaga);

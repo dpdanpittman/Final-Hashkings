@@ -12,10 +12,14 @@ import DepositButton from "../../assets/img/staking_modal/Deposit.png";
 
 import { Farm } from "../configs/farming";
 
+import DisplayLoader from "./displayLoader";
+
 const StakingModal = (props) => {
   const [unstakeBalance, setunstakeBalance] = React.useState(0);
 
   const [stakeBalance, setstakeBalance] = React.useState(0);
+
+  const [Cantidad, setstakePool] = React.useState(0);
 
   const getStat = (stat) => {
     return props.user !== undefined ? (
@@ -67,14 +71,22 @@ const StakingModal = (props) => {
               </div>
             </div>
             <div className="value">
-              <input type="number" step="1" min="1" />
+              <input
+                onChange={(e) => {
+                  setstakePool(e.target.value);
+                }}
+                type="number"
+                step="1"
+                min="1"
+              />
               <img
-                onClick={(e) =>
-                  Farm.depositBuds(
-                    props.username,
-                    "nothing has been set to state here yet"
-                  )
-                }
+                onClick={(e) => {
+                  let payload = {
+                    username: props.username,
+                    cantidad: Cantidad,
+                  };
+                  props.staking(payload);
+                }}
                 className="highlight-on-hover deposit-buds"
                 src={DepositButton}
               />
@@ -198,23 +210,26 @@ const StakingModal = (props) => {
   };
 
   return (
-    <Modal
-      centered
-      dialogClassName="staking_modal"
-      show={props.show}
-      onHide={() => props.hideModal("staking")}
-      size={props.size || "lg"}
-    >
-      <div id="staking_modal">
-        {/* <img onClick={e => toggleSubModal('staking_modal', true)} className="close-btn highlight-on-hover" src={ClosePNG} alt="closeHK" /> */}
+    <>
+      <DisplayLoader></DisplayLoader>
+      <Modal
+        centered
+        dialogClassName="staking_modal"
+        show={props.show}
+        onHide={() => props.hideModal("staking")}
+        size={props.size || "lg"}
+      >
+        <div id="staking_modal">
+          {/* <img onClick={e => toggleSubModal('staking_modal', true)} className="close-btn highlight-on-hover" src={ClosePNG} alt="closeHK" /> */}
 
-        {renderTabs()}
-      </div>
-      <div className="sub-modal-wrapper">
-        {MotaModal()}
-        {StakeModal()}
-      </div>
-    </Modal>
+          {renderTabs()}
+        </div>
+        <div className="sub-modal-wrapper">
+          {MotaModal()}
+          {StakeModal()}
+        </div>
+      </Modal>
+    </>
   );
 };
 
@@ -227,4 +242,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(StakingModal);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    staking: (payload) => dispatch({ type: "POOL/BUDS", payload }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StakingModal);

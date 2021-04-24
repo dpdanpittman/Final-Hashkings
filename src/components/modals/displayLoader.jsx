@@ -27,6 +27,10 @@ class DisplayLoader extends Component {
     if (this.props.displayBuyJoint) {
       this.renderAlert("Buying Join");
     }
+
+    if (this.props.displayPoolBuds) {
+      this.renderAlert("Deposit Buds");
+    }
   }
 
   renderAlert(tipe) {
@@ -65,7 +69,7 @@ class DisplayLoader extends Component {
                 .catch(() => {
                   window.location.reload();
                 });
-            }, 50000);
+            }, 25000);
           },
         });
       } else {
@@ -114,6 +118,8 @@ const mapStateToProps = (state) => {
 
   let displayBuyJoint = state.displayBuyJoint;
 
+  let displayPoolBuds = state.displayPoolBuds;
+
   return {
     user,
     bucket,
@@ -124,6 +130,7 @@ const mapStateToProps = (state) => {
     displayWaterModal,
     displayHarvestModal,
     displayBuyJoint,
+    displayPoolBuds
   };
 };
 

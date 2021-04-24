@@ -22,6 +22,7 @@ let initState = {
   displayWaterModal: false,
   displayHarvestModal: false,
   displayBuyJoint: false,
+  displayPoolBuds: false,
   prices: {
     timeBooster: {},
   },
@@ -84,6 +85,7 @@ const indexReducer = (state = initState, action) => {
         displayWaterModal: action.payload,
         displayHarvestModal: action.payload,
         displayBuyJoint: action.payload,
+        displayPoolBuds: action.payload
       };
 
     case "RESTORELOADER":
@@ -126,6 +128,12 @@ const indexReducer = (state = initState, action) => {
         ...state,
         displayBuyJoint: true,
       };
+    
+    case "POOL/BUDS":
+      return {
+        ...state,
+        displayPoolBuds: true
+      }
 
     default:
       break;

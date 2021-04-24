@@ -86,11 +86,12 @@ class AuthenticationView extends Component {
                                             <i className="fa fa-lock mr-2" style={{ fontSize: "1.5em" }}></i> <span>Keychain</span>
                                         </Button>
                                     </div>
+                                    {/*
                                     <div className="mt-2">
                                         <Button onClick={e => this.handleLogin()} variant="light" size="lg" block>
                                             <img src={HivesignerPNG} alt="Hivesigner logo" width="25" height="25" /> <span>Hivesigner</span>
                                         </Button>
-                                    </div>
+                                    </div>  */}
                                     <div className="mt-5 mb-3">
                                         <h5 align="center">Don't have a Hive account?</h5>
                                         <div className="d-flex flex-row justify-content-center">
