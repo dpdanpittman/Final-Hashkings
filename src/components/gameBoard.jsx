@@ -136,7 +136,7 @@ class GameBoard extends Component {
 
             .catch(err =>{
                 console.log("se produjo un error aqui",err)
-                window.location.href ="/login";
+                //window.location.href ="/login";
             });
     }
 

@@ -69,7 +69,7 @@ class DisplayLoader extends Component {
                 .catch(() => {
                   window.location.reload();
                 });
-            }, 25000);
+            }, 15000);
           },
         });
       } else {

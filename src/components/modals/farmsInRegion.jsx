@@ -20,68 +20,36 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import DisplayLoader from "./displayLoader";
 
-const SEEDS = [
-  {
-    0: {
-      NAME: "Aceh",
-    },
-    1: {
-      NAME: "Thai",
-    },
-    2: {
-      NAME: "Thai Chocolate",
-    },
+const SEEDS = {
+  asia: {
+    Aceh: "Aceh",
+    hai: "Thai",
+    ThaiChocolate: "Thai Chocolate",
   },
-  {
-    0: {
-      NAME: "Lamb’s Bread",
-    },
-    1: {
-      NAME: "King’s Bread",
-    },
+  jamaica: {
+    "Lamb’sBread": "Lamb’s Bread",
+    "King’sBread": "King’s Bread",
   },
-  {
-    0: {
-      NAME: "Swazi Gold",
-    },
-    1: {
-      NAME: "Kilimanjaro",
-    },
-    2: {
-      NAME: "Durban Poison",
-    },
-    3: {
-      NAME: "Malawi",
-    },
+  africa: {
+    SwaziGold: "Swazi Gold",
+    Kilimanjaro: "Kilimanjaro",
+    DurbanPoison: "Durban Poison",
+    Malawi: "Malawi",
   },
-  {
-    0: {
-      NAME: "Hindu Kush",
-    },
-    1: {
-      NAME: "Afghani",
-    },
-    2: {
-      NAME: "Lashkar Gah",
-    },
-    3: {
-      NAME: "Mazar I Sharif",
-    },
+  afghanistan: {
+    HinduKush: "Hindu Kush",
+    Afghani: "Afghani",
+    LashkarGah: "Lashkar Gah",
+    MazarISharif: "Mazar I Sharif",
   },
-  {
-    0: {
-      NAME: "Acapulco Gold",
-    },
+  mexico: {
+    AcapulcoGold: "Acapulco Gold",
   },
-  {
-    0: {
-      NAME: "Colombian Gold",
-    },
-    1: {
-      NAME: "Panama Red",
-    },
+  southamerica: {
+    ColombianGold: "Colombian Gold",
+    PanamaRed: "Panama Red",
   },
-];
+};
 
 class FarmsInRegion extends Component {
   constructor(props) {
@@ -263,17 +231,29 @@ class FarmsInRegion extends Component {
 
   renderSeedsPopup() {
     let boosters = this.props.user.seeds;
-    console.log(boosters);
-    boosters = boosters.filter((e) => {
-      if (!e.properties.hasOwnProperty("PLANTED")) {
-        return e;
-      } else {
-        if (e.properties.PLANTED) {
-        } else {
-          return e;
+
+    try {
+      let seed = SEEDS[this.props.activeFarm];
+
+      boosters = boosters.filter((e) => {
+        let seedNameFormated = e.properties.NAME.replace(" ", "");
+
+        if (seed[seedNameFormated]) {
+          if (!e.properties.hasOwnProperty("PLANTED")) {
+            return e;
+          } else {
+            if (e.properties.PLANTED) {
+              
+            } else {
+              return e;
+            }
+          }
         }
-      }
-    });
+      });
+    } catch (e) {
+      boosters = [];
+    }
+
     boosters = boosters.map((booster) => (
       <div key={booster.id} className="inventory_asset">
         <div
