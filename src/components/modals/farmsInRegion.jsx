@@ -22,32 +22,32 @@ import DisplayLoader from "./displayLoader";
 
 const SEEDS = {
   asia: {
-    Aceh: "Aceh",
-    hai: "Thai",
-    ThaiChocolate: "Thai Chocolate",
+    aceh: "Aceh",
+    thai: "Thai",
+    thaichocolate: "Thai Chocolate",
   },
   jamaica: {
     "Lamb’sBread": "Lamb’s Bread",
     "King’sBread": "King’s Bread",
   },
   africa: {
-    SwaziGold: "Swazi Gold",
-    Kilimanjaro: "Kilimanjaro",
-    DurbanPoison: "Durban Poison",
-    Malawi: "Malawi",
+    swazigold: "Swazi Gold",
+    kilimanjaro: "Kilimanjaro",
+    durbanPoison: "Durban Poison",
+    malawi: "Malawi",
   },
   afghanistan: {
-    HinduKush: "Hindu Kush",
-    Afghani: "Afghani",
-    LashkarGah: "Lashkar Gah",
-    MazarISharif: "Mazar I Sharif",
+    hinduKush: "Hindu Kush",
+    afghani: "Afghani",
+    lashkargah: "Lashkar Gah",
+    mazarisharif: "Mazar I Sharif",
   },
   mexico: {
-    AcapulcoGold: "Acapulco Gold",
+    acapulcogold: "Acapulco Gold",
   },
   southamerica: {
-    ColombianGold: "Colombian Gold",
-    PanamaRed: "Panama Red",
+    colombiangold: "Colombian Gold",
+    panamaRed: "Panama Red",
   },
 };
 
@@ -175,7 +175,7 @@ class FarmsInRegion extends Component {
   }
 
   getImageForAsset(assetName, images) {
-    const cleanedUpAssetName = assetName.toLowerCase().replace(" ", "");
+    const cleanedUpAssetName = assetName.toLowerCase().replace(" ", "").replace("’","").replace(" ","");
     return images[
       Object.keys(images).filter((image) => image == cleanedUpAssetName)[0]
     ];
@@ -230,27 +230,41 @@ class FarmsInRegion extends Component {
   }
 
   renderSeedsPopup() {
+  
     let boosters = this.props.user.seeds;
 
     try {
       let seed = SEEDS[this.props.activeFarm];
-
       boosters = boosters.filter((e) => {
-        let seedNameFormated = e.properties.NAME.replace(" ", "");
 
-        if (seed[seedNameFormated]) {
-          if (!e.properties.hasOwnProperty("PLANTED")) {
-            return e;
-          } else {
-            if (e.properties.PLANTED) {
-              
-            } else {
+        let seedNameFormated = e.properties.NAME.replace(" ", "").replace(" ", "").toLowerCase();
+
+        try {
+          //console.log("seedNaMed",seedNameFormated, seed);
+          if (seed[seedNameFormated]) {
+            //console.log("TESTEANDO SEMILLA PARA VER SI ESTA PLANTADA", e);
+            if (!e.properties.hasOwnProperty("PLANTED")) {
               return e;
+            } else {
+              if (e?.properties?.PLANTED) {
+              } else {
+                return e;
+              }
             }
           }
+        } catch (err) {
+          /*console.log(
+            "buscando -->" + seedNameFormated,
+            "en",
+            boosters,
+            "i semillas activas en la marm",
+            seed
+          );*/
         }
       });
+      
     } catch (e) {
+      console.error("ERROR AL RENDERIZAR", e);
       boosters = [];
     }
 
@@ -428,6 +442,7 @@ class FarmsInRegion extends Component {
     };
 
     console.log("ACTIVANDO ESTA FARM", farm);
+  
     this.setState({ activeFarm: farm });
   }
 
@@ -547,7 +562,7 @@ class FarmsInRegion extends Component {
             >
               <div className="image">
                 <h6 style={{ marginBottom: "2px", marginTop: "7px" }}>
-                  ocupped
+                  ocuppied
                 </h6>
                 <img src={regionsToMiniatures[image]} alt={plotName} />
               </div>

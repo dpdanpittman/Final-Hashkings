@@ -393,7 +393,7 @@ class InventoryModal extends Component {
       "imagen",
       images[
         Object.keys(images).filter((image) => {
-          console.log(image,cleanedUpAssetName);
+          //console.log(image,cleanedUpAssetName);
           return image == cleanedUpAssetName})[0]
       ]
     );
@@ -457,7 +457,7 @@ class InventoryModal extends Component {
     const seeds = this.user().seeds;
 
     return seeds.map((seed) => {
-      if (seed.properties?.PLANTED) {
+      if (seed?.properties?.PLANTED) {
         return <></>;
       }
       return (
