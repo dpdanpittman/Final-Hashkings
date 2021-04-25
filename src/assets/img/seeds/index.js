@@ -16,6 +16,7 @@ import thai from './Thai.png';
 import malawi from './Malawi.png';
 
 export const seedsImgs = {
+    thai,
     acapulcogold,
     aceh,
     afghani,
@@ -30,6 +31,5 @@ export const seedsImgs = {
     mazarisharif,
     panamared,
     swazigold,
-    thai,
     malawi
 }

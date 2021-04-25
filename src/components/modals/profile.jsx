@@ -112,7 +112,7 @@ function ProfileModal(props) {
       } else {
         output[current] = 1;
       }
-      console.log(output);
+     // console.log(output);
 
       return output;
     }, {});
