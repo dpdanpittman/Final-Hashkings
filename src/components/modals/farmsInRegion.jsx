@@ -562,7 +562,7 @@ class FarmsInRegion extends Component {
             >
               <div className="image">
                 <h6 style={{ marginBottom: "2px", marginTop: "7px" }}>
-                  ocupped
+                  ocuppied
                 </h6>
                 <img src={regionsToMiniatures[image]} alt={plotName} />
               </div>
