@@ -53,6 +53,7 @@ class GameBoard extends Component {
                 <img style={{
                     width: "900px"
                 }} src={logo} />
+                <h6 style={{color:"red !important"}}>now on Alfa</h6>
             Now Loading ...
 
             </div >)

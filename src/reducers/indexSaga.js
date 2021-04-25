@@ -299,6 +299,21 @@ function* plantSeed(action) {
 function* regarPlot(action) {
   console.error(action);
 
+  try{
+    if(action.farm.seedToPlant.properties.WATER){
+      
+    }
+  }catch(e){
+    return yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: "you can't irrigate this land now, sorry we're working on this",
+      })
+    );
+  }
+
   let response = yield new Promise((resolve, reject) => {
     window.hive_keychain.requestSendToken(
       action.username,

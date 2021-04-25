@@ -11,25 +11,25 @@ class DisplayLoader extends Component {
 
   componentDidUpdate() {
     if (this.props.displayModalPlanting) {
-      this.renderAlert("Planting");
+      this.renderAlert("Loading");
     }
     if (this.props.displayUpgradeWaterPlantModal) {
-      this.renderAlert("Upgrading");
+      this.renderAlert("Loading");
     }
     if (this.props.displayWaterModal) {
-      this.renderAlert("Watering");
+      this.renderAlert("Loading");
     }
 
     if (this.props.displayHarvestModal) {
-      this.renderAlert("Harvesting");
+      this.renderAlert("Loading");
     }
 
     if (this.props.displayBuyJoint) {
-      this.renderAlert("Buying Join");
+      this.renderAlert("Loading");
     }
 
     if (this.props.displayPoolBuds) {
-      this.renderAlert("Deposit Buds");
+      this.renderAlert("Loading");
     }
   }
 
