@@ -63,7 +63,7 @@ class FarmsInRegion extends Component {
     };
   }
 
-  updateStorage() {}
+  updateStorage() { }
 
   render() {
     return (
@@ -173,7 +173,7 @@ class FarmsInRegion extends Component {
   }
 
   getImageForAsset(assetName, images) {
-    const cleanedUpAssetName = assetName.toLowerCase().replace(" ", "").replace("’","").replace(" ","");
+    const cleanedUpAssetName = assetName.toLowerCase().replace(" ", "").replace("’", "").replace(" ", "");
     return images[
       Object.keys(images).filter((image) => image == cleanedUpAssetName)[0]
     ];
@@ -228,7 +228,7 @@ class FarmsInRegion extends Component {
   }
 
   renderSeedsPopup() {
-  
+
     let boosters = this.props.user.seeds;
 
     try {
@@ -238,7 +238,7 @@ class FarmsInRegion extends Component {
         let seedNameFormated = e.properties.NAME.replace(" ", "").replace(" ", "").replace("’", "").toLowerCase();
 
         try {
-          console.log("seedNaMed",seedNameFormated, seed);
+          console.log("seedNaMed", seedNameFormated, seed);
           if (seed[seedNameFormated]) {
             //console.log("TESTEANDO SEMILLA PARA VER SI ESTA PLANTADA", e);
             if (!e.properties.hasOwnProperty("PLANTED")) {
@@ -260,7 +260,7 @@ class FarmsInRegion extends Component {
           );*/
         }
       });
-      
+
     } catch (e) {
       console.error("ERROR AL RENDERIZAR", e);
       boosters = [];
@@ -399,10 +399,28 @@ class FarmsInRegion extends Component {
                   });
                 }
               } else {
-                this.props.regar({
-                  username: this.props.username,
-                  farm: this.state.activeFarm,
-                });
+                let seed = jsonQL.query(
+                  this.props.user.seeds,
+                  `$[?(@.id==${this.state.activeFarm.farmid.properties.SEEDID})]`
+                )[0];
+
+                if (seed) {
+
+                  console.log("regando", seed);
+                 let farm = {
+                    name: this.state.activeFarm.name,
+                    image: this.state.activeFarm.image,
+                    farmid: this.state.activeFarm.farmid,
+                    seedToPlant: seed,
+                  };
+
+
+                  this.props.regar({
+                    username: this.props.username,
+                    farm: farm,
+                  });
+
+                }
               }
             } else {
               this.activateSeedPopup();
@@ -429,7 +447,7 @@ class FarmsInRegion extends Component {
     }, 200);
     const image =
       regionsToMiniatures[
-        Object.keys(regionsToMiniatures).filter((img) => img == farm)[0]
+      Object.keys(regionsToMiniatures).filter((img) => img == farm)[0]
       ];
 
     farm = {
@@ -440,7 +458,7 @@ class FarmsInRegion extends Component {
     };
 
     console.log("ACTIVANDO ESTA FARM", farm);
-  
+
     this.setState({ activeFarm: farm });
   }
 
