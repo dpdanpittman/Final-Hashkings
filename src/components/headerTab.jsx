@@ -16,7 +16,7 @@ function HeaderTab(props) {
 
     const getStat = stat => {
         console.log("",props.userDets)
-        return props.userDets !== undefined ? props.userDets[stat] : <i className="fa fa-circle-o-notch fa-spin text-danger"></i>;
+        return props.userDets !== undefined ? props.userDets.tokens.hkwater[stat] : <i className="fa fa-circle-o-notch fa-spin text-danger"></i>;
     }
 
     const user = () => props.userDets !== undefined ? props.userDets : {};
@@ -32,7 +32,7 @@ function HeaderTab(props) {
             <div>
                 <div className="icon-group">
                     <img src={ H2OPNG } alt="WATER" title="WATER" />
-                    <div className="tag">{ getStat('hkwater') }</div>
+                    <div className="tag">{ getStat('balance') }</div>
                 </div>
             </div>
 
