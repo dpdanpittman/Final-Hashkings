@@ -22,11 +22,21 @@ const StakingModal = (props) => {
   const [Cantidad, setstakePool] = React.useState(0);
 
   const getStat = (stat) => {
-    return props.user !== undefined ? (
-      props.user.tokens[stat]
-    ) : (
-      <i className="fa fa-circle-o-notch fa-spin text-danger"></i>
-    );
+
+    try {
+
+      return props.user !== undefined ? (
+        props.user.tokens[stat]
+      ) : (
+        <i className="fa fa-circle-o-notch fa-spin text-danger"></i>
+      );
+
+    }catch(e){
+      return <i className="fa fa-circle-o-notch fa-spin text-danger"></i>;
+    }
+
+    
+
   };
 
   const user = () => (props.user !== undefined ? props.user : {});

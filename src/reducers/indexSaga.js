@@ -297,19 +297,31 @@ function* plantSeed(action) {
 }
 
 function* regarPlot(action) {
-  console.error(action);
+  console.error("regando", action);
 
-  try{
-    if(action.farm.seedToPlant.properties.WATER){
+  try {
+    if (action.farm.seedToPlant.properties.WATER) {
+    }
+    if (action.farm.seedToPlant.properties.WATER <= 0) {
+      return yield put(
+        userActions.plantError({
+          loaderPlant: false,
+          completePlant: true,
+          errorPlant: true,
+          mensajePlant:
+          "you don't need to add more water",
+        })
+      );
       
     }
-  }catch(e){
+  } catch (e) {
     return yield put(
       userActions.plantError({
         loaderPlant: false,
         completePlant: true,
         errorPlant: true,
-        mensajePlant: "you can't irrigate this land now, sorry we're working on this",
+        mensajePlant:
+          "you can't irrigate this land now, sorry we're working on this",
       })
     );
   }

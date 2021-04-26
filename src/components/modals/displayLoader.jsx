@@ -90,7 +90,12 @@ class DisplayLoader extends Component {
         title: mensaje,
         allowOutsideClick: false,
         didOpen: () => {
-          Swal.showLoading();
+          if (!this.props.plantstatus.errorPlant) {
+            Swal.showLoading();
+          }else{
+            this.props.restoreLoaders();
+            this.props.displayAllModals(false);
+          }
         },
       });
     }
@@ -130,7 +135,7 @@ const mapStateToProps = (state) => {
     displayWaterModal,
     displayHarvestModal,
     displayBuyJoint,
-    displayPoolBuds
+    displayPoolBuds,
   };
 };
 
