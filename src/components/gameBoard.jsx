@@ -122,7 +122,7 @@ class GameBoard extends Component {
     }
 
     populateStore() {
-        const API = "https://hashkings.xyz/u/"+localStorage.getItem("username");
+        const API = "https://hashkings.xyz/utest/"+localStorage.getItem("username");
         axios.get(API)
             .then(res => {
 

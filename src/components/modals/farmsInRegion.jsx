@@ -16,8 +16,6 @@ import { seedsImgs } from "../../assets/img/seeds";
 import ClosePNG from "../../assets/img/ui/x close.png";
 import jsonQL from "jsonpath";
 
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import DisplayLoader from "./displayLoader";
 
 const SEEDS = {
@@ -27,17 +25,17 @@ const SEEDS = {
     thaichocolate: "Chocolate Thai",
   },
   jamaica: {
-    "Lamb’sBread": "Lamb’s Bread",
-    "King’sBread": "King’s Bread",
+    lambsbread: "Lamb’s Bread",
+    kingsbread: "King’s Bread",
   },
   africa: {
     swazigold: "Swazi Gold",
     kilimanjaro: "Kilimanjaro",
-    durbanPoison: "Durban Poison",
+    durbanpoison: "Durban Poison",
     malawi: "Malawi",
   },
   afghanistan: {
-    hinduKush: "Hindu Kush",
+    hindukush: "Hindu Kush",
     afghani: "Afghani",
     lashkargah: "Lashkar Gah",
     mazarisharif: "Mazar I Sharif",
@@ -47,7 +45,7 @@ const SEEDS = {
   },
   southamerica: {
     colombiangold: "Colombian Gold",
-    panamaRed: "Panama Red",
+    panamared: "Panama Red",
   },
 };
 
@@ -237,10 +235,10 @@ class FarmsInRegion extends Component {
       let seed = SEEDS[this.props.activeFarm];
       boosters = boosters.filter((e) => {
 
-        let seedNameFormated = e.properties.NAME.replace(" ", "").replace(" ", "").toLowerCase();
+        let seedNameFormated = e.properties.NAME.replace(" ", "").replace(" ", "").replace("’", "").toLowerCase();
 
         try {
-          //console.log("seedNaMed",seedNameFormated, seed);
+          console.log("seedNaMed",seedNameFormated, seed);
           if (seed[seedNameFormated]) {
             //console.log("TESTEANDO SEMILLA PARA VER SI ESTA PLANTADA", e);
             if (!e.properties.hasOwnProperty("PLANTED")) {

@@ -44,7 +44,7 @@ class DisplayLoader extends Component {
 
     if (this.props.plantstatus.completePlant) {
       const ipAPI =
-        "https://hashkings.xyz/u/" + localStorage.getItem("username");
+        "https://hashkings.xyz/utest/" + localStorage.getItem("username");
       if (!this.props.plantstatus.errorPlant) {
         Swal.close();
         Swal.fire({
@@ -90,7 +90,12 @@ class DisplayLoader extends Component {
         title: mensaje,
         allowOutsideClick: false,
         didOpen: () => {
-          Swal.showLoading();
+          if (!this.props.plantstatus.errorPlant) {
+            Swal.showLoading();
+          }else{
+            this.props.restoreLoaders();
+            this.props.displayAllModals(false);
+          }
         },
       });
     }
@@ -130,7 +135,7 @@ const mapStateToProps = (state) => {
     displayWaterModal,
     displayHarvestModal,
     displayBuyJoint,
-    displayPoolBuds
+    displayPoolBuds,
   };
 };
 
