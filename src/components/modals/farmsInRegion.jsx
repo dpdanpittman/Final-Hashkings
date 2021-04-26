@@ -24,7 +24,7 @@ const SEEDS = {
   asia: {
     aceh: "Aceh",
     thai: "Thai",
-    thaichocolate: "Thai Chocolate",
+    thaichocolate: "Chocolate Thai",
   },
   jamaica: {
     "Lamb’sBread": "Lamb’s Bread",

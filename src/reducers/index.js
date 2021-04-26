@@ -160,7 +160,7 @@ export const populateStore = async () => {
     .catch((err) => console.log("Error fetching bucket :>>", err));
 
   await axios
-    .get("http:hashkings.xyz/prices")
+    .get("https://hashkings.xyz/prices") //dan changed this url
     .then((res) => {
       indexReducer(res.data, "PRICE UPDATE");
     })
