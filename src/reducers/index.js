@@ -149,7 +149,7 @@ export const populateStore = async () => {
     console.log("actualizando username", localStorage.getItem("username"));
     indexReducer(localStorage.getItem("username"), "UPDATE USERNAME");
   }
-  const API = "https://hashkings.xyz/u/" + localStorage.getItem("username");
+  const API = "https://hashkings.xyz/utest/" + localStorage.getItem("username");
 
   console.log("API", API);
   await axios
@@ -160,7 +160,7 @@ export const populateStore = async () => {
     .catch((err) => console.log("Error fetching bucket :>>", err));
 
   await axios
-    .get("http:hashkings.xyz/prices")
+    .get("https://hashkings.xyz/prices")
     .then((res) => {
       indexReducer(res.data, "PRICE UPDATE");
     })

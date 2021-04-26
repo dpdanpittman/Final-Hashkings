@@ -7,7 +7,7 @@ import TwitterPNG from '../../assets/img/socialmedia/Twitter.png';
 
 export default {
   discord: {
-    link: 'https://discord.gg/aCMpRgYPkY',
+    link: 'https://discord.gg/FeeVASqh55',
     image: DiscordPNG,
   },
   nft: {

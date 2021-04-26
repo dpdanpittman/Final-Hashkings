@@ -53,7 +53,7 @@ class GameBoard extends Component {
                 <img style={{
                     width: "900px"
                 }} src={logo} />
-                <h6 style={{color:"red !important"}}>now on Alfa</h6>
+                <h6 style={{color:"red !important"}}>Hashkings Alpha</h6>
             Now Loading ...
 
             </div >)
@@ -122,7 +122,7 @@ class GameBoard extends Component {
     }
 
     populateStore() {
-        const API = "https://hashkings.xyz/u/"+localStorage.getItem("username");
+        const API = "https://hashkings.xyz/utest/"+localStorage.getItem("username");
         axios.get(API)
             .then(res => {
 

@@ -61,7 +61,7 @@ function ProfileModal(props) {
 
   const getStat = (stat) => {
     return props.user !== undefined ? (
-      props.user[stat]
+      props.user.tokens.hkwater[stat] // dan changed this, we were using the wrong db
     ) : (
       <i className="fa fa-circle-o-notch fa-spin text-danger"></i>
     );
@@ -484,7 +484,7 @@ function ProfileModal(props) {
                 <h3>Total HKWater</h3>
                 <div className="content">
                   <img src={WaterPNG} alt="Total HkWater" />
-                  <span>{user().hkwater}</span>
+                  <span>{user().tokens.hkwater.balance}</span>
                 </div>
               </div>
             </div>
@@ -585,7 +585,7 @@ function ProfileModal(props) {
 
                 <span>total hkwater</span>
               </div>
-              <div className="figure">{getStat("hkwater")}</div>
+              <div className="figure">{getStat("balance")}</div>
             </div>
           </div>
         </div>
