@@ -77,7 +77,7 @@ const StakingModal = (props) => {
           <div>
             <div className="span">
               <div>
-                <div>deposit buds</div>
+                <div>burn buds</div>
               </div>
             </div>
             <div className="value">
