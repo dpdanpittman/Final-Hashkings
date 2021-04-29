@@ -583,7 +583,7 @@ function ProfileModal(props) {
                   src={WaterPNG}
                 />
 
-                <span>total hkwater</span>
+                <span>total hkwater</span>{/*please change this to available hive*/}
               </div>
               <div className="figure">{getStat("balance")}</div>
             </div>
