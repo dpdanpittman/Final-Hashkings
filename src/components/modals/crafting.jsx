@@ -142,7 +142,9 @@ function CraftingModal(props) {
                 alt="Time Boosters"
               />
               <div>
+      
                 <h3 style={{fontSize:"smaller"}}>Time Boosters (SOON)</h3>
+      
               </div>
             </div>
             <div className="item xp">
