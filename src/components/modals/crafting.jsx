@@ -142,18 +142,18 @@ function CraftingModal(props) {
                 alt="Time Boosters"
               />
               <div>
-                <h3>Time Boosters (SOON)</h3>
+                <h3 style={{fontSize:"smaller"}}>Time Boosters (SOON)</h3>
               </div>
             </div>
             <div className="item xp">
               <img
-                onClick={() => toggleSubModal("xpboosters")}
+                onClick={() => {}  /*toggleSubModal("xpboosters") */}
                 className="highlight-on-hover xp-boosters-main-img"
                 src={xp_boosters.BroncePNG.image}
                 alt="XP Boosters"
               />
               <div>
-                <h3>Consumables</h3>
+                <h3 style={{fontSize:"smaller"}}>Consumables (temporarily disabled)</h3>
               </div>
             </div>
           </div>

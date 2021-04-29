@@ -110,7 +110,7 @@ const StakingModal = (props) => {
           {/* <div className="body mt-3"> */}
           {/* <div className="dopist-buds plank">
                         <img className="icon" src={ CogolloPNG } />
-                        <span>DEPOSIT BUDS</span>
+                        <span>burn BUDS</span>
                     </div>
                     <div className="dopist-buds plank pt-2">
                         <input style={{ maxWidth: "140px", background: "transparent" }} type="number" step="1" />
