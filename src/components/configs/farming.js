@@ -47,7 +47,6 @@ class FarmingOperations {
   }
 
   harvest(username, seed, plot) {
-   
     return alert("Harvesting...");
   }
 
@@ -112,10 +111,10 @@ class FarmingOperations {
       "Active",
       `${JSON.stringify(body)}`,
       "Subdivide " + obj.properties.NAME,
-      (res) => {}
+      (res) => {
+        window.location.reload();
+      }
     );
-
-    return alert("Subdividing...");
   }
 
   smoke(username, piner) {
@@ -151,8 +150,6 @@ class FarmingOperations {
       alert("error joint not selected");
       return;
     }
-    
-
   }
 
   useTimebooster(username, boosterLevel) {
