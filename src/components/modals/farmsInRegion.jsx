@@ -63,7 +63,7 @@ class FarmsInRegion extends Component {
     };
   }
 
-  updateStorage() { }
+  updateStorage() {}
 
   render() {
     return (
@@ -114,7 +114,12 @@ class FarmsInRegion extends Component {
                     </div>
                     <div className="slider-wrapper">
                       <br />
-                      <div>Time left: {this.getTime()}</div>
+                      <div style={{ fontSize: "small" }}>
+                        Time left: {this.getTime()}
+                      </div>
+                      <div style={{ fontSize: "small" }}>
+                        Water left: {this.getWater()}
+                      </div>
                     </div>
                     <div className="booster-wrapper">
                       <img
@@ -133,6 +138,30 @@ class FarmsInRegion extends Component {
         </div>
       </>
     );
+  }
+
+  getWater() {
+    let farm = this.state.activeFarm.farmid.properties;
+    if (farm) {
+      if (farm.OCCUPIED) {
+        if (farm.SEEDID) {
+          let seed = jsonQL.query(
+            this.props.user.seeds,
+            `$[?(@.id==${farm.SEEDID})]`
+          )[0];
+
+          if (seed) {
+            return seed.properties.WATER;
+          }else{
+            return "search support";
+          }
+        } else {
+          return "search support";
+        }
+      } else {
+        return "place the seed";
+      }
+    }
   }
 
   getTime() {
@@ -173,7 +202,11 @@ class FarmsInRegion extends Component {
   }
 
   getImageForAsset(assetName, images) {
-    const cleanedUpAssetName = assetName.toLowerCase().replace(" ", "").replace("’", "").replace(" ", "");
+    const cleanedUpAssetName = assetName
+      .toLowerCase()
+      .replace(" ", "")
+      .replace("’", "")
+      .replace(" ", "");
     return images[
       Object.keys(images).filter((image) => image == cleanedUpAssetName)[0]
     ];
@@ -228,14 +261,15 @@ class FarmsInRegion extends Component {
   }
 
   renderSeedsPopup() {
-
     let boosters = this.props.user.seeds;
 
     try {
       let seed = SEEDS[this.props.activeFarm];
       boosters = boosters.filter((e) => {
-
-        let seedNameFormated = e.properties.NAME.replace(" ", "").replace(" ", "").replace("’", "").toLowerCase();
+        let seedNameFormated = e.properties.NAME.replace(" ", "")
+          .replace(" ", "")
+          .replace("’", "")
+          .toLowerCase();
 
         try {
           console.log("seedNaMed", seedNameFormated, seed);
@@ -260,7 +294,6 @@ class FarmsInRegion extends Component {
           );*/
         }
       });
-
     } catch (e) {
       console.error("ERROR AL RENDERIZAR", e);
       boosters = [];
@@ -317,6 +350,8 @@ class FarmsInRegion extends Component {
   renderFarmingOperationsButtons() {
     const buttons = farmingOperationsImgs;
     let farm = this.state.activeFarm.farmid.properties;
+
+    console.log("RENDERIZANDO BOTONES PARA ESTA FARM", farm);
     let Plant = { e: true, c: false };
     let Water = { e: false, c: false };
     let Harvest = { e: false, c: false };
@@ -329,10 +364,11 @@ class FarmsInRegion extends Component {
             `$[?(@.id==${farm.SEEDID})]`
           )[0];
 
-          console.log("seed properties", seed);
           if (seed) {
             if (seed.properties.SPT > 0) {
               Plant.c = false;
+              Harvest.e = false;
+              Harvest.c = false;
 
               if (seed.properties.WATER <= 0) {
                 Water.e = true;
@@ -341,8 +377,6 @@ class FarmsInRegion extends Component {
                 Water.e = true;
                 Water.c = true;
               }
-              Harvest.e = false;
-              Harvest.c = false;
             } else {
               if (seed.properties.WATER > 0) {
                 Plant.c = false;
@@ -405,21 +439,18 @@ class FarmsInRegion extends Component {
                 )[0];
 
                 if (seed) {
-
                   console.log("regando", seed);
-                 let farm = {
+                  let farm = {
                     name: this.state.activeFarm.name,
                     image: this.state.activeFarm.image,
                     farmid: this.state.activeFarm.farmid,
                     seedToPlant: seed,
                   };
 
-
                   this.props.regar({
                     username: this.props.username,
                     farm: farm,
                   });
-
                 }
               }
             } else {
@@ -447,7 +478,7 @@ class FarmsInRegion extends Component {
     }, 200);
     const image =
       regionsToMiniatures[
-      Object.keys(regionsToMiniatures).filter((img) => img == farm)[0]
+        Object.keys(regionsToMiniatures).filter((img) => img == farm)[0]
       ];
 
     farm = {
@@ -490,6 +521,8 @@ class FarmsInRegion extends Component {
   }
 
   selectedSeed(plot, allSeeds) {
+    return "";
+    /*
     let s = allSeeds.map((seed) => {
       if (seed.properties.hasOwnProperty("PLANTED")) {
         if (seed.properties.PLANTED) {
@@ -552,6 +585,8 @@ class FarmsInRegion extends Component {
         console.log("seed south america", r);
         return r[0];
     }
+
+    */
   }
 
   renderJSXForItems(plots, allSeeds) {
