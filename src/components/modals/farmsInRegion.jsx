@@ -153,10 +153,10 @@ class FarmsInRegion extends Component {
           if (seed) {
             return seed.properties.WATER;
           }else{
-            return "search support";
+            return "Shaggi is Harvesting";
           }
         } else {
-          return "search support";
+          return "Shaggi is Harvesting";
         }
       } else {
         return "place the seed";
