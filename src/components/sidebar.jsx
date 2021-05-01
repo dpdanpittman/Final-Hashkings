@@ -218,9 +218,7 @@ class SideBar extends Component {
                 </a>
               </div>
               <div style={{ textAlign: "center" }}>
-                <br/>
-                <br/>
-                Hashkings Time:<TimeServer></TimeServer>
+              Hashkings Time:<TimeServer></TimeServer>
               </div>
             </div>
           </div>
