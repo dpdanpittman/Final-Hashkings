@@ -27,7 +27,7 @@ export const subdividePlot = [
   takeEvery("UPGRADE/SUBDIVIDE", upgradeSubdividePlot),
 ];
 
-export function* camelize(str) {
+function camelize(str) {
   return str
     .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
       return index === 0 ? word.toLowerCase() : word.toUpperCase();
@@ -58,7 +58,7 @@ function* subdividep({ username, obj }) {
 
     let body = { region: camelize(obj.properties.NAME), plotID: obj.id };
 
-    let response = yield new Promise(
+    let response = yield new Promise((resolve, reject) => {
       window.hive_keychain.requestCustomJson(
         username,
         "qwoyn_subdivide_plot",
@@ -66,10 +66,10 @@ function* subdividep({ username, obj }) {
         `${JSON.stringify(body)}`,
         "Subdivide " + obj.properties.NAME,
         (res) => {
-          window.location.reload();
+          resolve(res);
         }
-      )
-    );
+      );
+  });
 
     if (response.success) {
       yield put(
@@ -92,15 +92,7 @@ function* subdividep({ username, obj }) {
       return;
     }
   } catch (e) {
-    yield put(
-      userActions.plantError({
-        loaderPlant: false,
-        completePlant: true,
-        errorPlant: true,
-        mensajePlant: "u cant subdivide to this farm try again",
-      })
-    );
-    return;
+    console.log("ERROR AL SUBDIVIDIR",e)
   }
 }
 
