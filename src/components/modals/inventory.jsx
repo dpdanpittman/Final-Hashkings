@@ -97,21 +97,21 @@ class InventoryModal extends Component {
           </div>
           <div data-key="3" className="popup p-2">
             <h5 className="text-center">Requirements</h5>
-            <div className="tag text-center">Coming Soon</div>
-            {/*
+            <div className="tag text-center">free</div>
+
             <div className="text-center">
               <img
-                onClick={(e) =>
-                  Farm.subdivide(
-                    this.props.username,
-                    this.state.selectedForUpgrade.item
-                  )
-                }
+                onClick={(e) => {
+                  let payload = {
+                    username: this.props.username,
+                    obj: this.state.selectedForUpgrade.item,
+                  };
+                  this.props.subdivide(payload);
+                }}
                 className="action-btn highlight-on-hover"
                 src={UpgradeButton}
               />
             </div>
-            */}
           </div>
         </div>
         <div className="actions">
@@ -388,13 +388,18 @@ class InventoryModal extends Component {
   }
 
   getImageForAsset(assetName, images) {
-    const cleanedUpAssetName = assetName.toLowerCase().replace(" ", "").replace("’","").replace(" ","");
+    const cleanedUpAssetName = assetName
+      .toLowerCase()
+      .replace(" ", "")
+      .replace("’", "")
+      .replace(" ", "");
     console.log(
       "imagen",
       images[
         Object.keys(images).filter((image) => {
           //console.log(image,cleanedUpAssetName);
-          return image == cleanedUpAssetName})[0]
+          return image == cleanedUpAssetName;
+        })[0]
       ]
     );
     return images[
@@ -453,7 +458,6 @@ class InventoryModal extends Component {
   }
 
   renderSeeds() {
-
     const seeds = this.user().seeds;
 
     return seeds.map((seed) => {
@@ -486,7 +490,6 @@ class InventoryModal extends Component {
         </div>
       );
     });
-    
   }
 
   renderWaterTowers() {
@@ -634,6 +637,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     upgradeWaterTower: (payload) =>
       dispatch({ type: "UPGRADE/WATERPLANT", payload }),
+      subdivide: (payload) => dispatch({ type: "UPGRADE/SUBDIVIDE", payload }),
   };
 };
 

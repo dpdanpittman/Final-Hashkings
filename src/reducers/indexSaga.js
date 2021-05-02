@@ -23,6 +23,87 @@ export const buyJointWatches = [takeEvery("BUY/JOIN", buyJoint)];
 
 export const motaPoolDeposit = [takeEvery("POOL/BUDS", motaPool)];
 
+export const subdividePlot = [
+  takeEvery("UPGRADE/SUBDIVIDE", upgradeSubdividePlot),
+];
+
+export function* camelize(str) {
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, "");
+}
+
+export function* upgradeSubdividePlot(action) {
+  yield call(subdividep, action.payload);
+}
+
+function* subdividep({ username, obj }) {
+  console.log(username, obj);
+
+  try {
+    if (username || obj.id) {
+    } else {
+      yield put(
+        userActions.plantError({
+          loaderPlant: false,
+          completePlant: true,
+          errorPlant: true,
+          mensajePlant: "u cant subdivide to this farm",
+        })
+      );
+      return;
+    }
+
+    let body = { region: camelize(obj.properties.NAME), plotID: obj.id };
+
+    let response = yield new Promise(
+      window.hive_keychain.requestCustomJson(
+        username,
+        "qwoyn_subdivide_plot",
+        "Active",
+        `${JSON.stringify(body)}`,
+        "Subdivide " + obj.properties.NAME,
+        (res) => {
+          window.location.reload();
+        }
+      )
+    );
+
+    if (response.success) {
+      yield put(
+        userActions.plantComplete({
+          loaderPlant: false,
+          completePlant: true,
+          errorPlant: false,
+          mensajePlant: response.message,
+        })
+      );
+    } else {
+      yield put(
+        userActions.plantError({
+          loaderPlant: false,
+          completePlant: true,
+          errorPlant: true,
+          mensajePlant: response.message,
+        })
+      );
+      return;
+    }
+  } catch (e) {
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: "u cant subdivide to this farm try again",
+      })
+    );
+    return;
+  }
+}
+
 export function* motaPool(action) {
   yield call(MotaPool, action.payload);
 }
@@ -308,11 +389,9 @@ function* regarPlot(action) {
           loaderPlant: false,
           completePlant: true,
           errorPlant: true,
-          mensajePlant:
-          "you don't need to add more water",
+          mensajePlant: "you don't need to add more water",
         })
       );
-      
     }
   } catch (e) {
     return yield put(

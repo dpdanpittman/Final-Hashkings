@@ -85,7 +85,7 @@ const indexReducer = (state = initState, action) => {
         displayWaterModal: action.payload,
         displayHarvestModal: action.payload,
         displayBuyJoint: action.payload,
-        displayPoolBuds: action.payload
+        displayPoolBuds: action.payload,
       };
 
     case "RESTORELOADER":
@@ -111,6 +111,12 @@ const indexReducer = (state = initState, action) => {
         displayUpgradeWaterPlantModal: true,
       };
 
+    case "UPGRADE/SUBDIVIDE":
+      return {
+        ...state,
+        displayUpgradeWaterPlantModal: true,
+      };
+
     case "FARM/REGAR":
       return {
         ...state,
@@ -128,12 +134,12 @@ const indexReducer = (state = initState, action) => {
         ...state,
         displayBuyJoint: true,
       };
-    
+
     case "POOL/BUDS":
       return {
         ...state,
-        displayPoolBuds: true
-      }
+        displayPoolBuds: true,
+      };
 
     default:
       break;
