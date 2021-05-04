@@ -48,7 +48,7 @@ class DisplayLoader extends Component {
       if (!this.props.plantstatus.errorPlant) {
         Swal.close();
         Swal.fire({
-          title: "Connecting with Backend Wait please...",
+          title: "Shaggi is in the fields...",
           allowOutsideClick: false,
           footer:
             "remember sometimes transactions take up to 5 minutes to confirm. do not send transaction again!!",
