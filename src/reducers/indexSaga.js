@@ -107,7 +107,7 @@ function* MotaPool(action) {
   let response = yield new Promise((resolve, reject) => {
     window.hive_keychain.requestSendToken(
       action.username,
-      "hk-vault",
+      "hk-buds",
       parseFloat("" + action.cantidad).toFixed(3),
       "deposit",
       "BUDS",
