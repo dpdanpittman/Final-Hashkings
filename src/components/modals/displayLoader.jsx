@@ -31,6 +31,10 @@ class DisplayLoader extends Component {
     if (this.props.displayPoolBuds) {
       this.renderAlert("Loading");
     }
+
+    if (this.props.displaySmokeJoint) {
+      this.renderAlert("Loading");
+    }
   }
 
   renderAlert(tipe) {
@@ -123,6 +127,8 @@ const mapStateToProps = (state) => {
 
   let displayBuyJoint = state.displayBuyJoint;
 
+  let displaySmokeJoint = state.displaySmokeJoint;
+
   let displayPoolBuds = state.displayPoolBuds;
 
   return {
@@ -136,6 +142,7 @@ const mapStateToProps = (state) => {
     displayHarvestModal,
     displayBuyJoint,
     displayPoolBuds,
+    displaySmokeJoint
   };
 };
 

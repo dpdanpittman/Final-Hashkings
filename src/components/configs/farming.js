@@ -98,26 +98,6 @@ class FarmingOperations {
   smoke(username, piner) {
     console.log("smoke", username, piner);
 
-    let body = {
-      contractName: "nft",
-      contractAction: "transfer",
-      contractPayload: {
-        to: "hk-vault",
-        nfts: [{ symbol: "HKFARM", ids: [`${piner.id}`] }],
-      },
-    };
-
-    window.hive_keychain.requestCustomJson(
-      username,
-      "ssc-mainnet-hive",
-      "Active",
-      `${JSON.stringify(body)}`,
-      "Smoke a " + piner.properties.NAME,
-      (res) => {
-        console.log("response", res);
-        alert("Success");
-      }
-    );
 
     return alert("Smoking...");
   }

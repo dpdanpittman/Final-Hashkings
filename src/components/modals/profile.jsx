@@ -484,7 +484,7 @@ function ProfileModal(props) {
                 <h3>Total HKWater</h3>
                 <div className="content">
                   <img src={WaterPNG} alt="Total HkWater" />
-                  <span>{user().tokens.hkwater.balance}</span>
+                  <span>{parseFloat(user().tokens.hkwater.balance).toFixed(0)}</span>
                 </div>
               </div>
             </div>
@@ -585,7 +585,7 @@ function ProfileModal(props) {
 
                 <span>total hkwater</span>{/*please change this to available hive*/}
               </div>
-              <div className="figure">{getStat("balance")}</div>
+              <div className="figure">{parseFloat(getStat("balance")).toFixed(0)}</div>
             </div>
           </div>
         </div>

@@ -1201,6 +1201,7 @@ html body * {
 }
 .farms-in-region-wrapper .popup.active {
   display: block;
+  margin-left: 45%;
 }
 .farms-in-region-wrapper .popup > .background {
   position: absolute;

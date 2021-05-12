@@ -48,13 +48,33 @@ function CraftingModal(props) {
                 <img
                   onClick={(e) => {
                     mapDispatchToProps(true);
+
+                    let name = ( ""+boostersObj[booster].name).toLowerCase();
+
+                    if(name=="cross"){
+                      name = "cross joint"
+                    }
+
+                    if(name=="hemp wrapped"){
+                      name = "hemp wrapped joint"
+                    }
+
+                    if(name=="twax") {
+                      name ="twax joint"
+                    }
+
+                    boostersObj[booster].name = name
+
                     let payload = {
                       username:props.username,
-                      join:boostersObj[booster]
+                      join:boostersObj[booster],
+                      lvl: props.bucket.lvl
                     }
+
                     props.displayBuyJoint(
                       payload
                     );
+
                   }}
                   className="crafting-icon highlight-on-hover"
                   src={CraftingPNG}
@@ -134,41 +154,17 @@ function CraftingModal(props) {
             <span className="modal-title">CRAFT</span>
           </div>
           <div className="d-flex flex-row justify-content-around images-container">
-            <div className="item">
-              <img
-                onClick={() => {} /* toggleSubModal("timeboosters")  */}
-                className="highlight-on-hover"
-                src={TimeBoosterLvl1PNG}
-                alt="Time Boosters"
-              />
-              <div>
-                <h3 style={{fontSize:"smaller"}}>Time Boosters (SOON)</h3>
-              </div>
-            </div>
             <div className="item xp">
               <img
-                onClick={() => {}  /*toggleSubModal("xpboosters") */}
+                onClick={() =>   toggleSubModal("xpboosters") }
                 className="highlight-on-hover xp-boosters-main-img"
                 src={xp_boosters.BroncePNG.image}
                 alt="XP Boosters"
               />
               <div>
-                <h3 style={{fontSize:"smaller"}}>Consumables (temporarily disabled)</h3>
+                <h3 style={{fontSize:"smaller"}}>Consumables</h3>
               </div>
             </div>
-          </div>
-        </div>
-        <div id="timeboosters" className="crafting-sub-modal">
-          <i
-            style={{ borderRadius: "50%" }}
-            onClick={() => toggleSubModal("timeboosters")}
-            className="fa fa-close fa-2x text-black-50 highlight-on-hover"
-          ></i>
-          <div className="d-flex flex-row justify-content-around">
-            {extractTimeBoosters(props.timeBooster, [0, 3])}
-          </div>
-          <div className="d-flex flex-row justify-content-around">
-            {extractTimeBoosters(props.timeBooster, [3, 6])}
           </div>
         </div>
         <div id="xpboosters" className="crafting-sub-modal">
@@ -200,6 +196,7 @@ const mapStateToProps = (state) => {
     timeBooster,
     username,
     displayModalPlanting,
+    bucket
   };
 };
 
