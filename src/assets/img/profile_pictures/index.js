@@ -13,32 +13,32 @@ import WatherPNG from './Wather.png';
 
 export default {
   Tifica: {
-    name: 'Scientist Female',
+    name: 'Scientist Maggi',
     image: TificaPNG,
     gender: 'female',
   },
   Tifiko: {
-    name: 'Scientist Male',
+    name: 'Scientist Shaggi',
     image: TifikoPNG,
     gender: 'male',
   },
   FarmerLady: {
-    name: 'Farmer Lady',
+    name: 'Farmer Maggi',
     image: FarmerLadyPNG,
     gender: 'female',
   },
   Farmer: {
-    name: 'Farmer',
+    name: 'Farmer Shaggi',
     image: FarmerPNG,
     gender: 'male',
   },
   Femenino: {
-    name: 'Magical Female',
+    name: 'Magical Maggi',
     image: FemeninoPNG,
     gender: 'female',
   },
   Lady: {
-    name: 'Young Lady',
+    name: 'Lucky Maggi',
     image: LadyPNG,
     gender: 'female',
   },
@@ -48,17 +48,17 @@ export default {
     gender: 'male',
   },
   Terrateniente: {
-    name: 'Young Man',
+    name: 'Lucky Shaggi',
     image: TerratenientePNG,
     gender: 'male',
   },
   WatherLady: {
-    name: 'Waterer Lady',
+    name: 'Water Baroness Maggi',
     image: WatherLadyPNG,
     gender: 'female',
   },
   Wather: {
-    name: 'Waterer',
+    name: 'Water Baron Shaggi',
     image: WatherPNG,
     gender: 'male',
   },
