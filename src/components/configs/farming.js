@@ -92,54 +92,12 @@ class FarmingOperations {
   }
 
   subdivide(username, obj) {
-    console.log(username, obj);
-
-    try {
-      if (username || obj.id) {
-      } else {
-        return alert("u cant subdivide to this farm");
-      }
-    } catch (e) {
-      return alert("u dont have seed to water ");
-    }
-
-    let body = { region: this.camelize(obj.properties.NAME), plotID: obj.id };
-
-    window.hive_keychain.requestCustomJson(
-      username,
-      "qwoyn_subdivide_plot",
-      "Active",
-      `${JSON.stringify(body)}`,
-      "Subdivide " + obj.properties.NAME,
-      (res) => {
-        window.location.reload();
-      }
-    );
+   
   }
 
   smoke(username, piner) {
     console.log("smoke", username, piner);
 
-    let body = {
-      contractName: "nft",
-      contractAction: "transfer",
-      contractPayload: {
-        to: "hk-vault",
-        nfts: [{ symbol: "HKFARM", ids: [`${piner.id}`] }],
-      },
-    };
-
-    window.hive_keychain.requestCustomJson(
-      username,
-      "ssc-mainnet-hive",
-      "Active",
-      `${JSON.stringify(body)}`,
-      "Smoke a " + piner.properties.NAME,
-      (res) => {
-        console.log("response", res);
-        alert("Success");
-      }
-    );
 
     return alert("Smoking...");
   }

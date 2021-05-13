@@ -70,7 +70,7 @@ class InventoryModal extends Component {
                   Farm.transfer(
                     this.props.username,
                     this.state.selectedForUpgrade.item,
-                    item.name
+                    item.name,
                   )
                 }
                 className="action-btn highlight-on-hover"
@@ -88,6 +88,7 @@ class InventoryModal extends Component {
                   this.props.upgradeWaterTower({
                     username: this.props.username,
                     waterTower: this.state.selectedForUpgrade,
+                    lvl: this.props.user.lvl
                   })
                 }
                 className="action-btn highlight-on-hover"
@@ -97,21 +98,21 @@ class InventoryModal extends Component {
           </div>
           <div data-key="3" className="popup p-2">
             <h5 className="text-center">Requirements</h5>
-            <div className="tag text-center">Coming Soon</div>
-            {/*
+            <div className="tag text-center">(soon)</div>
+
             <div className="text-center">
               <img
-                onClick={(e) =>
-                  Farm.subdivide(
-                    this.props.username,
-                    this.state.selectedForUpgrade.item
-                  )
-                }
+                onClick={(e) => {
+                  let payload = {
+                    username: this.props.username,
+                    obj: this.state.selectedForUpgrade.item,
+                  };
+                  //this.props.subdivide(payload);
+                }}
                 className="action-btn highlight-on-hover"
                 src={UpgradeButton}
               />
             </div>
-            */}
           </div>
         </div>
         <div className="actions">
@@ -128,10 +129,12 @@ class InventoryModal extends Component {
                         popup.classList.remove("active")
                       );
 
-                      Farm.smoke(
-                        this.props.username,
-                        this.state.selectedForUpgrade.item
-                      );
+                      let payload = {
+                      username:this.props.username,
+                      join:this.state.selectedForUpgrade.item,
+                      lvl: this.props.user.lvl
+                    }
+                      this.props.smoke(payload);
                     }}
                   >
                     SMOKE
@@ -293,7 +296,7 @@ class InventoryModal extends Component {
               src={ClosePNG}
             />
             <h1 className="text-center font-weight-bold mb-2">Inventory</h1>
-            <div class="mb-0">
+            <div className="mb-0">
               <h3 className="text-center">
                 AVAILABLE Plots
                 <div className="text-center inventory_item-total-count">
@@ -305,7 +308,7 @@ class InventoryModal extends Component {
               </div>
             </div>
 
-            <div class="mb-0">
+            <div className="mb-0">
               <h3 className="text-center">
                 available Seeds
                 <div className="text-center inventory_item-total-count">
@@ -388,13 +391,18 @@ class InventoryModal extends Component {
   }
 
   getImageForAsset(assetName, images) {
-    const cleanedUpAssetName = assetName.toLowerCase().replace(" ", "").replace("’","").replace(" ","");
+    const cleanedUpAssetName = assetName
+      .toLowerCase()
+      .replace(" ", "")
+      .replace("’", "")
+      .replace(" ", "");
     console.log(
       "imagen",
       images[
         Object.keys(images).filter((image) => {
           //console.log(image,cleanedUpAssetName);
-          return image == cleanedUpAssetName})[0]
+          return image == cleanedUpAssetName;
+        })[0]
       ]
     );
     return images[
@@ -406,12 +414,25 @@ class InventoryModal extends Component {
     const cleanedUpAssetName = assetName.toLowerCase();
     return images[
       Object.keys(images).filter((image) => {
+        let imgName = images[image].name.toLowerCase();
+        if (imgName == "cross") {
+          imgName = "cross joint";
+        }
+
+        if (imgName == "hemp wrapped") {
+          imgName = "hemp wrapped joint";
+        }
+
+        if (imgName == "twax") {
+          imgName = "twax joint";
+        }
+
         console.log(
-          images[image].name.toLowerCase(),
+          imgName,
           "COMPARADO CON",
           cleanedUpAssetName
         );
-        return images[image].name.toLowerCase() == cleanedUpAssetName;
+        return imgName == cleanedUpAssetName;
       })[0]
     ].image;
   }
@@ -453,7 +474,6 @@ class InventoryModal extends Component {
   }
 
   renderSeeds() {
-
     const seeds = this.user().seeds;
 
     return seeds.map((seed) => {
@@ -486,42 +506,49 @@ class InventoryModal extends Component {
         </div>
       );
     });
-    
   }
 
   renderWaterTowers() {
-    const towers = this.user().waterPlants;
+    const towers = this.user().waterTowers;
 
     console.log("water towers", towers);
-    return Object.keys(towers)
-      .filter((tower) => towers[tower] > 0)
-      .map((tower) => (
-        <div
-          className="inventory_asset"
-          onClick={(e) =>
-            this.setState({
-              selectedForUpgrade: {
-                item: tower,
-                name: tower,
-                image: this.getImageForAsset(tower, waterTowersImgs),
-                id: tower,
-                actions: ["upgrade"],
-                upgradeFunction: (e) => alert(`Upgrade: ${tower}`),
-              },
-              showUpgradeModal: "none",
-            })
-          }
-        >
-          <img
-            style={{ width: "80%", height: "100%" }}
-            src={this.getImageForAsset(tower, waterTowersImgs)}
-            title={`Click to see options`}
-          />
-          <span style={{ left: "4em" }} className="title-tag">
-            {this.hydrateTowerName(tower)}
-          </span>
-        </div>
-      ));
+    return Object.keys(towers).map((tower) => (
+      <div
+        key={tower.id}
+        className="inventory_asset"
+        onClick={(e) =>
+          this.setState({
+            selectedForUpgrade: {
+              item: "lvl" + towers[tower][0].properties.LVL,
+              name: "lvl" + towers[tower][0].properties.LVL,
+              image: this.getImageForAsset(
+                "lvl" + towers[tower][0].properties.LVL,
+                waterTowersImgs
+              ),
+              id: towers[tower][0].id,
+              actions: ["upgrade"],
+              upgradeFunction: (e) => alert(`Upgrade: ${towers[tower][0]}`),
+            },
+            showUpgradeModal: "block",
+          })
+        }
+      >
+        <img
+          style={{ width: "80%", height: "100%" }}
+          onClick={(e) => {
+            document.querySelector("body").scrollTo(0, 0);
+          }}
+          src={this.getImageForAsset(
+            "lvl" + towers[tower][0].properties.LVL,
+            waterTowersImgs
+          )}
+          title={`Click to see options`}
+        />
+        <span style={{ left: "4em" }} className="title-tag">
+          {this.hydrateTowerName("lvl" + towers[tower][0].properties.LVL)}
+        </span>
+      </div>
+    ));
   }
 
   renderTimeBoosters() {
@@ -531,6 +558,7 @@ class InventoryModal extends Component {
       .filter((booster) => boosters[booster] > 0)
       .map((booster) => (
         <div
+          key={booster}
           className="inventory_asset"
           onClick={(e) =>
             this.setState({
@@ -634,6 +662,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     upgradeWaterTower: (payload) =>
       dispatch({ type: "UPGRADE/WATERPLANT", payload }),
+    subdivide: (payload) => dispatch({ type: "UPGRADE/SUBDIVIDE", payload }),
+    smoke: (payload) => dispatch({ type: "SMOKE/JOIN", payload }),
   };
 };
 

@@ -438,21 +438,21 @@ class MapModal extends React.Component {
         class='lx-modal modal-vs main-area-modal'
         style={{ display: this.props.shouldModalShow() }}>
         <img className='bg' src={modalbg} />
-        <ul class='text-content'>
-          <li class='d-flex flex-row justify-content-start'>
-            <span class='tag'>Region Name:</span>
-            <span class='value'>{this.props.area.name}</span>
+        <ul className='text-content'>
+          <li className='d-flex flex-row justify-content-start'>
+            <span className='tag'>Region Name:</span>
+            <span className='value'>{this.props.area.name}</span>
           </li>
-          <li class='d-flex flex-row justify-content-start'>
-            <span class='tag'>Plots In Region:</span>
-            <span class='value'>
+          <li className='d-flex flex-row justify-content-start'>
+            <span className='tag'>Plots In Region:</span>
+            <span className='value'>
               {' '}
               {this.getPlotCount(this.props.area.name)}{' '}
             </span>
           </li>
-          <li class='d-flex flex-row justify-content-start'>
-            <span class='tag'>Active Farms:</span>
-            <span class='value'>{this.props.area.name}</span>
+          <li className='d-flex flex-row justify-content-start'>
+            <span className='tag'>Active Farms:</span>
+            <span className='value'>{this.props.area.name}</span>
           </li>
         </ul>
       </Card>

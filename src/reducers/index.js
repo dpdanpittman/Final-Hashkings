@@ -23,6 +23,7 @@ let initState = {
   displayHarvestModal: false,
   displayBuyJoint: false,
   displayPoolBuds: false,
+  displaySmokeJoint: false,
   prices: {
     timeBooster: {},
   },
@@ -77,7 +78,6 @@ const indexReducer = (state = initState, action) => {
       };
 
     case "FARM/DISPLAYPLANTMODAL":
-      console.log("MOSTRANDO MODAL DE CARGANDO", action.payload);
       return {
         ...state,
         displayPlantModal: action.payload,
@@ -85,7 +85,8 @@ const indexReducer = (state = initState, action) => {
         displayWaterModal: action.payload,
         displayHarvestModal: action.payload,
         displayBuyJoint: action.payload,
-        displayPoolBuds: action.payload
+        displaySmokeJoint: action.payload,
+        displayPoolBuds: action.payload,
       };
 
     case "RESTORELOADER":
@@ -111,6 +112,12 @@ const indexReducer = (state = initState, action) => {
         displayUpgradeWaterPlantModal: true,
       };
 
+    case "UPGRADE/SUBDIVIDE":
+      return {
+        ...state,
+        displayUpgradeWaterPlantModal: true,
+      };
+
     case "FARM/REGAR":
       return {
         ...state,
@@ -128,12 +135,18 @@ const indexReducer = (state = initState, action) => {
         ...state,
         displayBuyJoint: true,
       };
-    
+
+      case "SMOKE/JOIN":
+      return {
+        ...state,
+        displaySmokeJoint: true,
+      };
+
     case "POOL/BUDS":
       return {
         ...state,
-        displayPoolBuds: true
-      }
+        displayPoolBuds: true,
+      };
 
     default:
       break;

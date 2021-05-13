@@ -21,7 +21,82 @@ export const harvestPLantWatches = [takeEvery("FARM/HARVEST", harvest)];
 
 export const buyJointWatches = [takeEvery("BUY/JOIN", buyJoint)];
 
+export const smokeJointWatches = [takeEvery("SMOKE/JOIN", smokeJoint)];
+
 export const motaPoolDeposit = [takeEvery("POOL/BUDS", motaPool)];
+
+export const subdividePlot = [
+  takeEvery("UPGRADE/SUBDIVIDE", upgradeSubdividePlot),
+];
+
+function camelize(str) {
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, "");
+}
+
+export function* upgradeSubdividePlot(action) {
+  yield call(subdividep, action.payload);
+}
+
+function* subdividep({ username, obj }) {
+  console.log(username, obj);
+
+  try {
+    if (username || obj.id) {
+    } else {
+      yield put(
+        userActions.plantError({
+          loaderPlant: false,
+          completePlant: true,
+          errorPlant: true,
+          mensajePlant: "u cant subdivide to this farm",
+        })
+      );
+      return;
+    }
+
+    let body = { region: camelize(obj.properties.NAME), plotID: obj.id };
+
+    let response = yield new Promise((resolve, reject) => {
+      window.hive_keychain.requestCustomJson(
+        username,
+        "qwoyn_subdivide_plot",
+        "Active",
+        `${JSON.stringify(body)}`,
+        "Subdivide " + obj.properties.NAME,
+        (res) => {
+          resolve(res);
+        }
+      );
+  });
+
+    if (response.success) {
+      yield put(
+        userActions.plantComplete({
+          loaderPlant: false,
+          completePlant: true,
+          errorPlant: false,
+          mensajePlant: response.message,
+        })
+      );
+    } else {
+      yield put(
+        userActions.plantError({
+          loaderPlant: false,
+          completePlant: true,
+          errorPlant: true,
+          mensajePlant: response.message,
+        })
+      );
+      return;
+    }
+  } catch (e) {
+    console.log("ERROR AL SUBDIVIDIR",e)
+  }
+}
 
 export function* motaPool(action) {
   yield call(MotaPool, action.payload);
@@ -32,7 +107,7 @@ function* MotaPool(action) {
   let response = yield new Promise((resolve, reject) => {
     window.hive_keychain.requestSendToken(
       action.username,
-      "hk-vault",
+      "hk-buds",
       parseFloat("" + action.cantidad).toFixed(3),
       "deposit",
       "BUDS",
@@ -69,15 +144,132 @@ export function* buyJoint(action) {
   yield call(BuyJoints, action.payload);
 }
 
+
+export function* smokeJoint(action) {
+  yield call(SmokeJoints, action.payload);
+}
+
+function autorizedBuyJoin(join, lvl){
+  switch(join){
+
+    case "pinner":
+    if(lvl >=1){
+      return true;
+    }
+    break;
+    case "hempWrappedJoint":
+    if(lvl >=15){
+      return true;
+    }
+    break;
+    case "crossJoint":
+    if(lvl >=30){
+      return true;
+    }
+    break;
+    case "blunt":
+    if(lvl >=45){
+      return true;
+    }
+    break;
+    case "hempWrappedBlunt":
+    if(lvl >=60){
+      return true;
+    }
+    break;
+    case "twaxJoint":
+    if(lvl >=75){
+      return true;
+    }
+    break;
+
+  }
+
+  return false;
+}
+
+function* SmokeJoints(action) {
+  console.info("SMOOOKE JOOOOIN", action, action.username, action.join);
+
+  if(!autorizedBuyJoin(camelize(("" + action.join.properties.NAME)), action.lvl)){
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: "Your LVL is not high enough to smoke this join",
+      })
+    );
+    return;
+}
+
+    let body = {
+      contractName: "nft",
+      contractAction: "transfer",
+      contractPayload: {
+        to: "hk-vault",
+        nfts: [{ symbol: "HKFARM", ids: [`${action.join.id}`] }],
+      },
+    };
+let response = yield new Promise((resolve, reject) => {
+    window.hive_keychain.requestCustomJson(
+      action.username,
+      "ssc-mainnet-hive",
+      "Active",
+      `${JSON.stringify(body)}`,
+      "Smoke a " + action.join.properties.NAME,
+      (resp) => {
+          resolve(resp);
+      }
+    );
+ });
+
+
+  if (response.success) {
+    yield put(
+      userActions.plantComplete({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: false,
+        mensajePlant: response.message,
+      })
+    );
+  } else {
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: response.message,
+      })
+    );
+    return;
+  }
+}
+
 function* BuyJoints(action) {
   console.info("BUUUUY JOOOOIN", action, action.username, action.join);
+
+
+  if(!autorizedBuyJoin(camelize(("" + action.join.name)), action.lvl)){
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: "Your LVL is not high enough to buy this join",
+      })
+    );
+    return;
+}
+
 
   let response = yield new Promise((resolve, reject) => {
     window.hive_keychain.requestSendToken(
       action.username,
       "hk-vault",
       parseFloat("" + action.join.buds).toFixed(3),
-      ("" + action.join.name).toLowerCase(),
+      camelize(("" + action.join.name)),
       "BUDS",
       (resp) => {
         resolve(resp);
@@ -171,19 +363,94 @@ function* harvestPlot(action) {
   }
 }
 
+function autorizedLVLUp(watertowerLvl , lvl){
+  let response = false;
+  switch(watertowerLvl+1) {
+
+    case  2 : 
+    if(lvl >= 10){
+      response = true;
+    }
+    break;
+
+    case  3 : 
+if(lvl >= 20){
+      response = true;
+    }
+    break;
+
+    case  4 : 
+if(lvl >= 30){
+      response = true;
+    }
+    break;
+
+    case  5 : 
+if(lvl >= 40){
+      response = true;
+    }
+    break;
+
+    case  6 : 
+if(lvl >= 50){
+      response = true;
+    }
+    break;
+
+    case  7 : 
+if(lvl >= 60){
+      response = true;
+    }
+    break;
+
+    case  8 : 
+if(lvl >= 70){
+      response = true;
+    }
+    break;
+
+    case  9 : 
+if(lvl >= 80){
+      response = true;
+    }
+    break;
+
+    case  10 : 
+if(lvl >= 90){
+      response = true;
+    }
+    break;
+
+  }
+
+  return response;
+}
 function* upgradeWater(action) {
   console.error("UPGRADE WATER FUNCIONA", action);
   let data = action.waterTower.item.split("lvl");
-  let name = data[0];
   let lvl = parseInt(data[1]);
 
+
+if(!autorizedLVLUp(lvl,action.lvl)){
+
+  yield put(userActions.plantError({
+      loaderPlant: false,
+      completePlant: true,
+      errorPlant: true,
+      mensajePlant: "Your LVL is not high enough to upgrade this water tower",
+    }) );
+
+    return "imposible upgradear";
+}
+
+
   if (lvl + 1 > 10) {
-    yield userActions.plantError({
+    yield put(userActions.plantError({
       loaderPlant: false,
       completePlant: true,
       errorPlant: true,
       mensajePlant: "water tower is at maximum level",
-    });
+    }));
     return "imposible upgradear";
   }
 
@@ -210,9 +477,9 @@ function* upgradeWater(action) {
     let rkeychain = yield new Promise((resolve, reject) => {
       window.hive_keychain.requestTransfer(
         action.username,
-        "hk-vault",
+        "hashkings",
         response.toFixed(3),
-        "water" + lvl + 1,
+        "water" + (lvl + 1) +" "+action.waterTower.id,
         "HIVE",
         (response) => {
           resolve(response);
@@ -308,11 +575,9 @@ function* regarPlot(action) {
           loaderPlant: false,
           completePlant: true,
           errorPlant: true,
-          mensajePlant:
-          "you don't need to add more water",
+          mensajePlant: "you don't need to add more water",
         })
       );
-      
     }
   } catch (e) {
     return yield put(

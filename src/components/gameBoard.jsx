@@ -25,7 +25,7 @@ class GameBoard extends Component {
     super(props);
 
     this.state = {
-      isMobileOverlayClass: "d-block",
+      isMobileOverlayClass: "d-none",
       showInventory: false,
       showProfile: false,
       showCrafting: false,
@@ -206,8 +206,8 @@ class GameBoard extends Component {
       this.populateStore();
     }, 120000);
 
-    if (!isMobile()) {
-      this.setState({ isMobileOverlayClass: "d-none" });
+    if (isMobile()) {
+      this.setState({ isMobileOverlayClass: "d-block" });
     }
   }
 }
