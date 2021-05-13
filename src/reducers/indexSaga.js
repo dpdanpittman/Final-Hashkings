@@ -71,7 +71,7 @@ function* subdividep({ username, obj }) {
           resolve(res);
         }
       );
-  });
+    });
 
     if (response.success) {
       yield put(
@@ -94,7 +94,7 @@ function* subdividep({ username, obj }) {
       return;
     }
   } catch (e) {
-    console.log("ERROR AL SUBDIVIDIR",e)
+    console.log("ERROR AL SUBDIVIDIR", e);
   }
 }
 
@@ -144,45 +144,42 @@ export function* buyJoint(action) {
   yield call(BuyJoints, action.payload);
 }
 
-
 export function* smokeJoint(action) {
   yield call(SmokeJoints, action.payload);
 }
 
-function autorizedBuyJoin(join, lvl){
-  switch(join){
-
+function autorizedBuyJoin(join, lvl) {
+  switch (join) {
     case "pinner":
-    if(lvl >=1){
-      return true;
-    }
-    break;
+      if (lvl >= 1) {
+        return true;
+      }
+      break;
     case "hempWrappedJoint":
-    if(lvl >=15){
-      return true;
-    }
-    break;
+      if (lvl >= 15) {
+        return true;
+      }
+      break;
     case "crossJoint":
-    if(lvl >=30){
-      return true;
-    }
-    break;
+      if (lvl >= 30) {
+        return true;
+      }
+      break;
     case "blunt":
-    if(lvl >=45){
-      return true;
-    }
-    break;
+      if (lvl >= 45) {
+        return true;
+      }
+      break;
     case "hempWrappedBlunt":
-    if(lvl >=60){
-      return true;
-    }
-    break;
+      if (lvl >= 60) {
+        return true;
+      }
+      break;
     case "twaxJoint":
-    if(lvl >=75){
-      return true;
-    }
-    break;
-
+      if (lvl >= 75) {
+        return true;
+      }
+      break;
   }
 
   return false;
@@ -191,7 +188,19 @@ function autorizedBuyJoin(join, lvl){
 function* SmokeJoints(action) {
   console.info("SMOOOKE JOOOOIN", action, action.username, action.join);
 
-  if(!autorizedBuyJoin(camelize(("" + action.join.properties.NAME)), action.lvl)){
+  yield put(
+    userActions.plantError({
+      loaderPlant: false,
+      completePlant: true,
+      errorPlant: true,
+      mensajePlant: "sorry, smoking is currently disabled",
+    })
+  );
+  return;
+
+  if (
+    !autorizedBuyJoin(camelize("" + action.join.properties.NAME), action.lvl)
+  ) {
     yield put(
       userActions.plantError({
         loaderPlant: false,
@@ -201,17 +210,17 @@ function* SmokeJoints(action) {
       })
     );
     return;
-}
+  }
 
-    let body = {
-      contractName: "nft",
-      contractAction: "transfer",
-      contractPayload: {
-        to: "hk-vault",
-        nfts: [{ symbol: "HKFARM", ids: [`${action.join.id}`] }],
-      },
-    };
-let response = yield new Promise((resolve, reject) => {
+  let body = {
+    contractName: "nft",
+    contractAction: "transfer",
+    contractPayload: {
+      to: "hk-vault",
+      nfts: [{ symbol: "HKFARM", ids: [`${action.join.id}`] }],
+    },
+  };
+  let response = yield new Promise((resolve, reject) => {
     window.hive_keychain.requestCustomJson(
       action.username,
       "ssc-mainnet-hive",
@@ -219,11 +228,10 @@ let response = yield new Promise((resolve, reject) => {
       `${JSON.stringify(body)}`,
       "Smoke a " + action.join.properties.NAME,
       (resp) => {
-          resolve(resp);
+        resolve(resp);
       }
     );
- });
-
+  });
 
   if (response.success) {
     yield put(
@@ -250,8 +258,7 @@ let response = yield new Promise((resolve, reject) => {
 function* BuyJoints(action) {
   console.info("BUUUUY JOOOOIN", action, action.username, action.join);
 
-
-  if(!autorizedBuyJoin(camelize(("" + action.join.name)), action.lvl)){
+  if (!autorizedBuyJoin(camelize("" + action.join.name), action.lvl)) {
     yield put(
       userActions.plantError({
         loaderPlant: false,
@@ -261,15 +268,14 @@ function* BuyJoints(action) {
       })
     );
     return;
-}
-
+  }
 
   let response = yield new Promise((resolve, reject) => {
     window.hive_keychain.requestSendToken(
       action.username,
       "hk-vault",
       parseFloat("" + action.join.buds).toFixed(3),
-      camelize(("" + action.join.name)),
+      camelize("" + action.join.name),
       "BUDS",
       (resp) => {
         resolve(resp);
@@ -363,64 +369,62 @@ function* harvestPlot(action) {
   }
 }
 
-function autorizedLVLUp(watertowerLvl , lvl){
+function autorizedLVLUp(watertowerLvl, lvl) {
   let response = false;
-  switch(watertowerLvl+1) {
+  switch (watertowerLvl + 1) {
+    case 2:
+      if (lvl >= 10) {
+        response = true;
+      }
+      break;
 
-    case  2 : 
-    if(lvl >= 10){
-      response = true;
-    }
-    break;
+    case 3:
+      if (lvl >= 20) {
+        response = true;
+      }
+      break;
 
-    case  3 : 
-if(lvl >= 20){
-      response = true;
-    }
-    break;
+    case 4:
+      if (lvl >= 30) {
+        response = true;
+      }
+      break;
 
-    case  4 : 
-if(lvl >= 30){
-      response = true;
-    }
-    break;
+    case 5:
+      if (lvl >= 40) {
+        response = true;
+      }
+      break;
 
-    case  5 : 
-if(lvl >= 40){
-      response = true;
-    }
-    break;
+    case 6:
+      if (lvl >= 50) {
+        response = true;
+      }
+      break;
 
-    case  6 : 
-if(lvl >= 50){
-      response = true;
-    }
-    break;
+    case 7:
+      if (lvl >= 60) {
+        response = true;
+      }
+      break;
 
-    case  7 : 
-if(lvl >= 60){
-      response = true;
-    }
-    break;
+    case 8:
+      if (lvl >= 70) {
+        response = true;
+      }
+      break;
 
-    case  8 : 
-if(lvl >= 70){
-      response = true;
-    }
-    break;
+    case 9:
+      if (lvl >= 80) {
+        response = true;
+      }
+      break;
 
-    case  9 : 
-if(lvl >= 80){
-      response = true;
-    }
-    break;
-
-    case  10 : 
-if(lvl >= 90){
-      response = true;
-    }
-    break;
-
+    case 10:
+      if (lvl >= 90) {
+        response = true;
+      }
+      break;
   }
 
   return response;
@@ -430,27 +434,28 @@ function* upgradeWater(action) {
   let data = action.waterTower.item.split("lvl");
   let lvl = parseInt(data[1]);
 
-
-if(!autorizedLVLUp(lvl,action.lvl)){
-
-  yield put(userActions.plantError({
-      loaderPlant: false,
-      completePlant: true,
-      errorPlant: true,
-      mensajePlant: "Your LVL is not high enough to upgrade this water tower",
-    }) );
+  if (!autorizedLVLUp(lvl, action.lvl)) {
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: "Your LVL is not high enough to upgrade this water tower",
+      })
+    );
 
     return "imposible upgradear";
-}
-
+  }
 
   if (lvl + 1 > 10) {
-    yield put(userActions.plantError({
-      loaderPlant: false,
-      completePlant: true,
-      errorPlant: true,
-      mensajePlant: "water tower is at maximum level",
-    }));
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: "water tower is at maximum level",
+      })
+    );
     return "imposible upgradear";
   }
 
@@ -479,7 +484,7 @@ if(!autorizedLVLUp(lvl,action.lvl)){
         action.username,
         "hashkings",
         response.toFixed(3),
-        "water" + (lvl + 1) +" "+action.waterTower.id,
+        "water" + (lvl + 1) + " " + action.waterTower.id,
         "HIVE",
         (response) => {
           resolve(response);
