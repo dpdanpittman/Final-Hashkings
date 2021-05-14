@@ -431,6 +431,7 @@ function ProfileModal(props) {
         (key) => profile_pictures[key].name == user().avatars[0].properties.NAME
       );
 
+      
       return profile_pictures[pp].image;
     } else {
       return profile_pictures.Tifiko.image;
