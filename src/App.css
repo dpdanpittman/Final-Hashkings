@@ -883,26 +883,28 @@ html body * {
 #profile-image-modal {
   position: absolute;
   top: 2em;
-  left: -5em;
+  
   z-index: 11;
   display: flex;
   flex-direction: row;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.9);
   width: 600px;
   padding: 1em 0.3em;
+  height: 300px;
 }
 #profile-image-modal .presentation {
   max-width: 200px;
   max-height: 200px;
   display: flex;
   flex-direction: column;
+  padding: 35px;
 }
 #profile-image-modal .presentation > .image-wrapper {
   -o-object-fit: contain;
   object-fit: contain;
   text-align: center;
-  height: 90%;
-  width: 90%;
+  height: auto;
+  width: auto;
 }
 #profile-image-modal .presentation > .image-wrapper > img {
   width: 100%;
@@ -910,6 +912,7 @@ html body * {
 }
 #profile-image-modal .presentation > .text {
   text-align: center;
+  font-size: smaller;
 }
 #profile-image-modal .logic {
   width: 400px;
@@ -951,7 +954,8 @@ html body * {
   .image-wrapper
   img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  padding: 10px;
 }
 #profile-image-modal
   .logic

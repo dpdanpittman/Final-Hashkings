@@ -9,6 +9,7 @@ import MotaPNG from '../assets/img/ui/Moneda2.png';
 import XpPNG from '../assets/img/ui/Icono XP.png';
 import LvPNG from '../assets/img/ui/Level.png';
 import FarmerPNG from '../assets/img/profile_pictures/Farmer.png';
+import Profiles from "../assets/img/profile_pictures";
 
 function HeaderTab(props) {
     // console.log(" User Dets :>> ", props.userDets)
@@ -21,11 +22,21 @@ function HeaderTab(props) {
 
     const user = () => props.userDets !== undefined ? props.userDets : {};
 
+    const getActiveImage = () => {
+        for (const key of Object.keys(Profiles)) {
+          if (Profiles[key].name == user().activeAvatar.properties.NAME) {
+            return Profiles[key].image;
+          }
+        }
+    
+        return FarmerPNG;
+      };
+
     return (
         <section id="header-tab" className="bg-bg-transparent col-12 col-md-7 d-flex flex-row justify-content-around">
             <Button variant="link" onClick={ () => props.showProfile() } style={{ padding: '0px' }}>
                 <div className="icon-group">
-                    <img src={ FarmerPNG } alt="My Profile" title="My Profile" />
+                    <img src={ getActiveImage() } alt="My Profile" title="My Profile" />
                     <div className="tag">{ props.user }</div>
                 </div>
             </Button>

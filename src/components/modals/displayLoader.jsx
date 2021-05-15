@@ -35,6 +35,12 @@ class DisplayLoader extends Component {
     if (this.props.displaySmokeJoint) {
       this.renderAlert("Loading");
     }
+
+    if (this.props.displayChangeAvatar) {
+      this.renderAlert("Loading");
+    }
+
+    
   }
 
   renderAlert(tipe) {
@@ -96,7 +102,7 @@ class DisplayLoader extends Component {
         didOpen: () => {
           if (!this.props.plantstatus.errorPlant) {
             Swal.showLoading();
-          }else{
+          } else {
             this.props.restoreLoaders();
             this.props.displayAllModals(false);
           }
@@ -131,6 +137,8 @@ const mapStateToProps = (state) => {
 
   let displayPoolBuds = state.displayPoolBuds;
 
+  let displayChangeAvatar = state.displayChangeAvatar;
+
   return {
     user,
     bucket,
@@ -142,7 +150,8 @@ const mapStateToProps = (state) => {
     displayHarvestModal,
     displayBuyJoint,
     displayPoolBuds,
-    displaySmokeJoint
+    displaySmokeJoint,
+    displayChangeAvatar,
   };
 };
 

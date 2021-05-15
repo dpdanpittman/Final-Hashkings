@@ -37,11 +37,6 @@ export default {
     image: FemeninoPNG,
     gender: "female",
   },
-  Fe: {
-    name: "Magical Female",
-    image: FemeninoPNG,
-    gender: "female",
-  },
   Lady: {
     name: "Lucky Maggi",
     image: LadyPNG,
@@ -49,11 +44,6 @@ export default {
   },
   Masculino: {
     name: "Magical Shaggi",
-    image: MasculinoPNG,
-    gender: "male",
-  },
-  Ma: {
-    name: "Magical Male",
     image: MasculinoPNG,
     gender: "male",
   },

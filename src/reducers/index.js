@@ -87,6 +87,7 @@ const indexReducer = (state = initState, action) => {
         displayBuyJoint: action.payload,
         displaySmokeJoint: action.payload,
         displayPoolBuds: action.payload,
+        displayChangeAvatar : action.payload
       };
 
     case "RESTORELOADER":
@@ -136,7 +137,7 @@ const indexReducer = (state = initState, action) => {
         displayBuyJoint: true,
       };
 
-      case "SMOKE/JOIN":
+    case "SMOKE/JOIN":
       return {
         ...state,
         displaySmokeJoint: true,
@@ -146,6 +147,12 @@ const indexReducer = (state = initState, action) => {
       return {
         ...state,
         displayPoolBuds: true,
+      };
+
+    case "CHANGE/AVATAR":
+      return {
+        ...state,
+        displayChangeAvatar: true,
       };
 
     default:
