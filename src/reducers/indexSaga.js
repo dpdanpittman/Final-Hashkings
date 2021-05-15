@@ -15,6 +15,9 @@ export const waterTowerUpgradeWatches = [
   takeEvery("UPGRADE/WATERPLANT", upgradeWaterTower),
 ];
 
+
+export const changeAvatarWatches = [takeEvery("CHANGE/AVATAR", changeAvatar)]
+
 export const waterTowerWatches = [takeEvery("FARM/REGAR", regar)];
 
 export const harvestPLantWatches = [takeEvery("FARM/HARVEST", harvest)];
@@ -39,6 +42,51 @@ function camelize(str) {
 
 export function* upgradeSubdividePlot(action) {
   yield call(subdividep, action.payload);
+}
+
+export function* changeAvatar(action){
+  yield call(changeA, action.payload);
+}
+
+function* changeA(action){
+
+  let body = { 
+    avatar : action.id
+  }
+  let response = yield new Promise((resolve, reject) => {
+    window.hive_keychain.requestCustomJson(
+      action.owner,
+      "qwoyn_change_avatar",
+      "Posting",
+      `${JSON.stringify(body)}`,
+      "Planting seed",
+      (res) => {
+        resolve(res);
+      },
+      true
+    );
+  });
+
+  if (response.success) {
+    yield put(
+      userActions.plantComplete({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: false,
+        mensajePlant: response.message,
+      })
+    );
+  } else {
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: response.message,
+      })
+    );
+    return;
+  }
 }
 
 function* subdividep({ username, obj }) {
@@ -186,6 +234,7 @@ function autorizedBuyJoin(join, lvl) {
 }
 
 function* SmokeJoints(action) {
+  /*
   console.info("SMOOOKE JOOOOIN", action, action.username, action.join);
 
   yield put(
@@ -196,7 +245,7 @@ function* SmokeJoints(action) {
       mensajePlant: "sorry, smoking is currently disabled",
     })
   );
-  return;
+  return; */
 
   if (
     !autorizedBuyJoin(camelize("" + action.join.properties.NAME), action.lvl)

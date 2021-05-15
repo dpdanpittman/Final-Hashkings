@@ -41,9 +41,8 @@ function ProfileModal(props) {
 
   const [showUpgradeModal, setShowUpgradeModal] = React.useState("none");
 
-  const [showWaterUpgradeModal, setShowWaterUpgradeModal] = React.useState(
-    "none"
-  );
+  const [showWaterUpgradeModal, setShowWaterUpgradeModal] =
+    React.useState("none");
 
   const [UserToTransfer, setUserToTransfer] = React.useState("");
   const [CantidadToTransfer, setCantidadToTransfer] = React.useState("");
@@ -112,7 +111,7 @@ function ProfileModal(props) {
       } else {
         output[current] = 1;
       }
-     // console.log(output);
+      // console.log(output);
 
       return output;
     }, {});
@@ -426,12 +425,12 @@ function ProfileModal(props) {
   };
 
   const getProfilePicture = () => {
-    if (user().avatars && user().avatars.length > 0) {
+    if (user().avatars && user().avatars.length > 0 && user().activeAvatar) {
+      let avatar = user().activeAvatar.properties.NAME;
       let pp = Object.keys(profile_pictures).find(
-        (key) => profile_pictures[key].name == user().avatars[0].properties.NAME
+        (key) => profile_pictures[key].name == avatar
       );
 
-      
       return profile_pictures[pp].image;
     } else {
       return profile_pictures.Tifiko.image;
@@ -456,7 +455,7 @@ function ProfileModal(props) {
           {waterUpgradeModal()}
           <div className="d-flex flex-row justify-content-between">
             <div
-              onClick={(e) => {} /*togglePPModal() */}
+              onClick={(e) =>  togglePPModal() }
               className="profile-image-wrapper highlight-on-hover"
             >
               <img src={getProfilePicture()} alt={props.username} />
@@ -464,6 +463,8 @@ function ProfileModal(props) {
             </div>
             <ProfilePictureModal
               show={showPPModal}
+              avatars={user()}
+              activeAvatar={user().activeAvatar}
               onhide={() => togglePPModal()}
             />
             <div className="stats-wrapper d-flex flex-column justify-content-around">
@@ -485,7 +486,9 @@ function ProfileModal(props) {
                 <h3>Total HKWater</h3>
                 <div className="content">
                   <img src={WaterPNG} alt="Total HkWater" />
-                  <span>{parseFloat(user().tokens.hkwater.balance).toFixed(0)}</span>
+                  <span>
+                    {parseFloat(user().tokens.hkwater.balance).toFixed(0)}
+                  </span>
                 </div>
               </div>
             </div>
@@ -584,9 +587,12 @@ function ProfileModal(props) {
                   src={WaterPNG}
                 />
 
-                <span>total hkwater</span>{/*please change this to available hive*/}
+                <span>total hkwater</span>
+                {/*please change this to available hive*/}
               </div>
-              <div className="figure">{parseFloat(getStat("balance")).toFixed(0)}</div>
+              <div className="figure">
+                {parseFloat(getStat("balance")).toFixed(0)}
+              </div>
             </div>
           </div>
         </div>
