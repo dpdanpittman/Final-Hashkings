@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import Utils from "../utils/index";
 import { isLandscape, isMobile } from "../utils/ui";
-import IsMobileOverlay from "./cores/isMobileOverlay";
+//import IsMobileOverlay from "./cores/isMobileOverlay";
 import logo from "../assets/img/logo.png";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -25,7 +25,7 @@ class GameBoard extends Component {
     super(props);
 
     this.state = {
-      isMobileOverlayClass: "d-none",
+      //isMobileOverlayClass: "d-none",
       showInventory: false,
       showProfile: false,
       showCrafting: false,
@@ -63,7 +63,7 @@ class GameBoard extends Component {
     } else {
       return (
         <div id="game-board" className="container-fluid px-5">
-          <IsMobileOverlay class={this.state.isMobileOverlayClass} />
+          {/*<IsMobileOverlay class={this.state.isMobileOverlayClass} />*/}
           <div className="col-12 d-flex flex-row justify-content-center">
             <HeaderTab showProfile={() => this.showModal("profile")} />
           </div>
@@ -206,9 +206,9 @@ class GameBoard extends Component {
       this.populateStore();
     }, 120000);
 
-    if (isMobile()) {
+    /*if (isMobile()) {
       this.setState({ isMobileOverlayClass: "d-block" });
-    }
+    }*/
   }
 }
 
