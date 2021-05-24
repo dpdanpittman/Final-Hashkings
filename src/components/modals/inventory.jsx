@@ -396,15 +396,7 @@ class InventoryModal extends Component {
       .replace(" ", "")
       .replace("’", "")
       .replace(" ", "");
-    console.log(
-      "imagen",
-      images[
-        Object.keys(images).filter((image) => {
-          //console.log(image,cleanedUpAssetName);
-          return image == cleanedUpAssetName;
-        })[0]
-      ]
-    );
+    
     return images[
       Object.keys(images).filter((image) => image == cleanedUpAssetName)[0]
     ];
@@ -427,11 +419,6 @@ class InventoryModal extends Component {
           imgName = "twax joint";
         }
 
-        console.log(
-          imgName,
-          "COMPARADO CON",
-          cleanedUpAssetName
-        );
         return imgName == cleanedUpAssetName;
       })[0]
     ].image;
@@ -511,7 +498,6 @@ class InventoryModal extends Component {
   renderWaterTowers() {
     const towers = this.user().waterTowers;
 
-    console.log("water towers", towers);
     return Object.keys(towers).map((tower) => (
       <div
         key={tower.id}
@@ -585,7 +571,6 @@ class InventoryModal extends Component {
   renderJoints() {
     const joints = this.user().joints || {};
 
-    console.log("JOints", joints);
 
     //.filter(joint => joints[joint] > 0)
     return joints.map((joint) => (

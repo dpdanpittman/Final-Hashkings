@@ -1,5 +1,4 @@
 import * as userActions from "./index";
-
 import {
   call,
   put,
@@ -9,14 +8,15 @@ import {
   takeEvery,
 } from "redux-saga/effects";
 
+import axios from "axios";
+
 export const plantWatches = [takeEvery("FARM/PLANT", plant)];
 
 export const waterTowerUpgradeWatches = [
   takeEvery("UPGRADE/WATERPLANT", upgradeWaterTower),
 ];
 
-
-export const changeAvatarWatches = [takeEvery("CHANGE/AVATAR", changeAvatar)]
+export const changeAvatarWatches = [takeEvery("CHANGE/AVATAR", changeAvatar)];
 
 export const waterTowerWatches = [takeEvery("FARM/REGAR", regar)];
 
@@ -44,15 +44,14 @@ export function* upgradeSubdividePlot(action) {
   yield call(subdividep, action.payload);
 }
 
-export function* changeAvatar(action){
+export function* changeAvatar(action) {
   yield call(changeA, action.payload);
 }
 
-function* changeA(action){
-
-  let body = { 
-    avatar : action.id
-  }
+function* changeA(action) {
+  let body = {
+    avatar: action.id,
+  };
   let response = yield new Promise((resolve, reject) => {
     window.hive_keychain.requestCustomJson(
       action.owner,
@@ -324,7 +323,7 @@ function* BuyJoints(action) {
       action.username,
       "hk-vault",
       parseFloat("" + action.join.buds).toFixed(3),
-      camelize("" + action.join.name),
+      camelize("" + action.join.name)+" "+( new Date().getTime() ),
       "BUDS",
       (resp) => {
         resolve(resp);
@@ -617,10 +616,57 @@ function* plantSeed(action) {
   }
 }
 
+function* verificarTransaccion(tipo, user, json) {
+  let url = "https://hashkings.xyz/pending";
+
+  if (tipo == "HKWATER") {
+    console.log("pidiendo datos");
+   return yield axios
+      .post(url, { user, json })
+      .then(async (response) => {
+     
+        console.log(response.data);
+        return response.data;
+      })
+      .catch((e) => {
+        console.log("error ", e);
+        return { response : false};
+      });
+  }
+
+  return true;
+}
+
 function* regarPlot(action) {
   console.error("regando", action);
 
   try {
+    let verificacion = yield verificarTransaccion("HKWATER", action.username, {
+      contractName: "tokens",
+      contractAction: "transfer",
+      contractPayload: {
+        symbol: "HKWATER",
+        to: "hk-vault",
+        quantity: parseFloat(
+          "" + action.farm.seedToPlant.properties.WATER
+        ).toFixed(3),
+        memo: action.farm.seedToPlant.id,
+      },
+      transaction_id: "null",
+      block_num: "null",
+    });
+
+    if (verificacion.response) {
+      return yield put(
+        userActions.plantError({
+          loaderPlant: false,
+          completePlant: true,
+          errorPlant: true,
+          mensajePlant: "this transaction have this status: "+verificacion.status + " please wait",
+        })
+      );
+    }
+
     if (action.farm.seedToPlant.properties.WATER) {
     }
     if (action.farm.seedToPlant.properties.WATER <= 0) {
