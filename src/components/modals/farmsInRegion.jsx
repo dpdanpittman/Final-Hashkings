@@ -175,7 +175,7 @@ class FarmsInRegion extends Component {
           )[0];
 
           if (seed) {
-            console.log("semilla plantada", seed);
+            
             if (seed.properties.SPT > 0) {
               return seed.properties.SPT + " Days";
             } else {
@@ -272,7 +272,7 @@ class FarmsInRegion extends Component {
           .toLowerCase();
 
         try {
-          console.log("seedNaMed", seedNameFormated, seed);
+          
           if (seed[seedNameFormated]) {
             //console.log("TESTEANDO SEMILLA PARA VER SI ESTA PLANTADA", e);
             if (!e.properties.hasOwnProperty("PLANTED")) {
@@ -351,7 +351,6 @@ class FarmsInRegion extends Component {
     const buttons = farmingOperationsImgs;
     let farm = this.state.activeFarm.farmid.properties;
 
-    console.log("RENDERIZANDO BOTONES PARA ESTA FARM", farm);
     let Plant = { e: true, c: false };
     let Water = { e: false, c: false };
     let Harvest = { e: false, c: false };
@@ -439,7 +438,7 @@ class FarmsInRegion extends Component {
                 )[0];
 
                 if (seed) {
-                  console.log("regando", seed);
+                 
                   let farm = {
                     name: this.state.activeFarm.name,
                     image: this.state.activeFarm.image,
@@ -488,7 +487,6 @@ class FarmsInRegion extends Component {
       seedToPlant: seedSelected,
     };
 
-    console.log("ACTIVANDO ESTA FARM", farm);
 
     this.setState({ activeFarm: farm });
   }
