@@ -246,6 +246,7 @@ function* SmokeJoints(action) {
   );
   return; */
 
+  /*
   if (
     !autorizedBuyJoin(camelize("" + action.join.properties.NAME), action.lvl)
   ) {
@@ -258,7 +259,8 @@ function* SmokeJoints(action) {
       })
     );
     return;
-  }
+  } */
+  
 
   let body = {
     contractName: "nft",

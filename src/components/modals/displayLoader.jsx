@@ -60,6 +60,7 @@ class DisplayLoader extends Component {
         Swal.fire({
           title: "Shaggi is in the fields...",
           allowOutsideClick: false,
+          showCloseButton: true,
           footer:
             "remember sometimes transactions take up to 5 minutes to confirm. do not send transaction again!!",
           didOpen: () => {
@@ -79,7 +80,7 @@ class DisplayLoader extends Component {
                 .catch(() => {
                   window.location.reload();
                 });
-            }, 4000);
+            }, 3000);
           },
         });
       } else {
