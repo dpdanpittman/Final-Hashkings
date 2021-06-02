@@ -62,7 +62,7 @@ function HeaderTab(props) {
             <div>
                 <div className="icon-group">
                     <img style={{ transform: 'scale(1.2)' }} src={ XpPNG } alt="XP" title="XP" />
-                    <div className="xp-tag">
+                    <div className="tag">
                         <em>{ parseInt(user().xp) }</em>
                     </div>
                 </div>
@@ -70,7 +70,7 @@ function HeaderTab(props) {
             <div>
                 <div className="icon-group">
                     <img style={{ transform: 'scale(1.2)' }} src={ LvPNG } alt="LV" title="LV" />
-                    <div className="lv-tag">
+                    <div className="tag">
                         <em>{ parseInt(user().lvl) }</em>
                     </div>
                 </div>

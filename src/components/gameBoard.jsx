@@ -179,6 +179,9 @@ class GameBoard extends Component {
         this.props.updateStoreFromAPI(res.data);
         console.log(this.props.API_bucket);
         Swal.resumeTimer();
+
+        this.checkLocalstorage(res.data);
+
         this.setState({
           ...this.state,
           loading: false,
@@ -190,6 +193,38 @@ class GameBoard extends Component {
         Swal.resumeTimer();
         //window.location.href ="/login";
       });
+  }
+
+  checkLocalstorage(data) {
+   
+
+    let pendings = localStorage.getItem("pendings");
+    if (!pendings) {
+      localStorage.setItem("pendings", JSON.stringify([]));
+      return;
+    }
+
+    pendings = JSON.parse(pendings);
+
+    for (let index = 0; index < pendings.length; index++) {
+      const element = JSON.parse(pendings[index]);
+      let seed = data.seeds.find((e) => e.id == element.id);
+      if (seed) {
+
+        if(pendings[index]  != JSON.stringify(seed)){
+          this.removeStorage(pendings[index]);
+        }
+
+      }
+    }
+  }
+
+   removeStorage(data) {
+    let datos = JSON.parse(localStorage.getItem("pendings"));
+    localStorage.setItem(
+      "pendings",
+      JSON.stringify(datos.filter((e) => e != data) )
+    );
   }
 
   async auth() {
