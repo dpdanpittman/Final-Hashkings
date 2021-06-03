@@ -58,11 +58,11 @@ class DisplayLoader extends Component {
       if (!this.props.plantstatus.errorPlant) {
         Swal.close();
         Swal.fire({
-          title: "Conecting with Backend Wait please...",
+          title: "Shaggi is in the fields...",
           allowOutsideClick: false,
           showCloseButton: true,
           footer:
-            "remember sometimes transactions take up to 5 minutes to confirm",
+            "remember sometimes transactions take up to 5 minutes to confirm. do not send transaction again!!",
           didOpen: () => {
             Swal.showLoading();
             setTimeout(() => {
