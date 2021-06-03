@@ -260,7 +260,6 @@ function* SmokeJoints(action) {
     );
     return;
   } */
-  
 
   let body = {
     contractName: "nft",
@@ -325,7 +324,7 @@ function* BuyJoints(action) {
       action.username,
       "hk-vault",
       parseFloat("" + action.join.buds).toFixed(3),
-      camelize("" + action.join.name)+" "+( new Date().getTime() ),
+      camelize("" + action.join.name) + " " + new Date().getTime(),
       "BUDS",
       (resp) => {
         resolve(resp);
@@ -372,8 +371,33 @@ export function* upgradeWaterTower(action) {
   yield call(upgradeWater, action.payload);
 }
 
+function checkStorage(data) {
+
+  let dataStorage = JSON.parse(localStorage.getItem("pendings"));
+
+  
+  if (dataStorage.includes(data)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 function* harvestPlot(action) {
   console.log("harvesting....", action);
+
+  if (!checkStorage(JSON.stringify(action.farm.farmid))) {
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: "Please wait for the blockchain to receive the transaction",
+      })
+    );
+    return;
+  }
+
   let body = {
     contractName: "nft",
     contractAction: "transfer",
@@ -398,6 +422,7 @@ function* harvestPlot(action) {
   });
 
   if (response.success) {
+    setLocalStorage(JSON.stringify(action.farm.farmid));
     yield put(
       userActions.plantComplete({
         loaderPlant: false,
@@ -407,6 +432,7 @@ function* harvestPlot(action) {
       })
     );
   } else {
+ removeStorage(JSON.stringify(action.farm.farmid));
     yield put(
       userActions.plantError({
         loaderPlant: false,
@@ -479,12 +505,27 @@ function autorizedLVLUp(watertowerLvl, lvl) {
 
   return response;
 }
+
 function* upgradeWater(action) {
-  console.error("UPGRADE WATER FUNCIONA", action);
+
   let data = action.waterTower.item.split("lvl");
+
   let lvl = parseInt(data[1]);
 
+  if (!checkStorage(JSON.stringify(action.waterTower.upgradeFunction()))) {
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: "Please wait for the blockchain to receive the transaction",
+      })
+    );
+    return;
+  }
+
   if (!autorizedLVLUp(lvl, action.lvl)) {
+    removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
     yield put(
       userActions.plantError({
         loaderPlant: false,
@@ -506,7 +547,9 @@ function* upgradeWater(action) {
         mensajePlant: "water tower is at maximum level",
       })
     );
+    removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
     return "imposible upgradear";
+    
   }
 
   const response = yield new Promise((resolve, reject) => {
@@ -543,6 +586,7 @@ function* upgradeWater(action) {
       );
     });
     if (rkeychain.success) {
+      setLocalStorage(JSON.stringify(action.waterTower.upgradeFunction()));
       yield put(
         userActions.plantComplete({
           loaderPlant: false,
@@ -552,6 +596,7 @@ function* upgradeWater(action) {
         })
       );
     } else {
+      removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
       yield put(
         userActions.plantError({
           loaderPlant: false,
@@ -563,6 +608,7 @@ function* upgradeWater(action) {
       return;
     }
   } else {
+    removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
     yield put(
       userActions.plantError({
         loaderPlant: false,
@@ -623,16 +669,15 @@ function* verificarTransaccion(tipo, user, json) {
 
   if (tipo == "HKWATER") {
     console.log("pidiendo datos");
-   return yield axios
+    return yield axios
       .post(url, { user, json })
       .then(async (response) => {
-     
         console.log(response.data);
         return response.data;
       })
       .catch((e) => {
         console.log("error ", e);
-        return { response : false};
+        return { response: false };
       });
   }
 
@@ -642,7 +687,21 @@ function* verificarTransaccion(tipo, user, json) {
 function* regarPlot(action) {
   console.error("regando", action);
 
+  if (!checkStorage(JSON.stringify( action.farm.seedToPlant ))) {
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: "Please wait for the blockchain to receive the transaction",
+      })
+    );
+    return;
+  }
+
+
   try {
+    
     let verificacion = yield verificarTransaccion("HKWATER", action.username, {
       contractName: "tokens",
       contractAction: "transfer",
@@ -659,12 +718,16 @@ function* regarPlot(action) {
     });
 
     if (verificacion.response) {
+      removeStorage(JSON.stringify( action.farm.seedToPlant ));
       return yield put(
         userActions.plantError({
           loaderPlant: false,
           completePlant: true,
           errorPlant: true,
-          mensajePlant: "this transaction have this status: "+verificacion.status + " please wait",
+          mensajePlant:
+            "this transaction have this status: " +
+            verificacion.status +
+            " please wait",
         })
       );
     }
@@ -672,6 +735,7 @@ function* regarPlot(action) {
     if (action.farm.seedToPlant.properties.WATER) {
     }
     if (action.farm.seedToPlant.properties.WATER <= 0) {
+      removeStorage(JSON.stringify( action.farm.seedToPlant ));
       return yield put(
         userActions.plantError({
           loaderPlant: false,
@@ -682,6 +746,7 @@ function* regarPlot(action) {
       );
     }
   } catch (e) {
+    removeStorage(JSON.stringify( action.farm.seedToPlant ));
     return yield put(
       userActions.plantError({
         loaderPlant: false,
@@ -708,6 +773,7 @@ function* regarPlot(action) {
   });
 
   if (response.success) {
+    setLocalStorage(JSON.stringify( action.farm.seedToPlant ));
     yield put(
       userActions.plantComplete({
         loaderPlant: false,
@@ -717,6 +783,7 @@ function* regarPlot(action) {
       })
     );
   } else {
+    removeStorage(JSON.stringify( action.farm.seedToPlant ));
     yield put(
       userActions.plantError({
         loaderPlant: false,
@@ -726,5 +793,22 @@ function* regarPlot(action) {
       })
     );
     return;
+  }
+}
+
+function removeStorage(data) {
+  let datos = JSON.parse(localStorage.getItem("pendings"));
+  localStorage.setItem(
+    "pendings",
+    JSON.stringify(datos.filter((e) => e != data) )
+  );
+}
+
+function setLocalStorage(data) {
+  let datos = JSON.parse(localStorage.getItem("pendings"));
+  if (datos) {
+    localStorage.setItem("pendings", JSON.stringify([...datos, data]));
+  } else {
+    localStorage.setItem("pendings", JSON.stringify([...data]));
   }
 }

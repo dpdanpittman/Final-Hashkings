@@ -20,7 +20,7 @@ import InventoryPNG from "../assets/img/ui/boton inventario.png";
 import HojaPNG from "../assets/img/ui/Hoja.png";
 import StakeButtonPNG from "../assets/img/ui/boton stake.png";
 import MotaLabPNG from "../assets/img/ui/mota lab.png";
-
+import StorePNG from "../assets/img/ui/store.png";
 import AfghanistanPNG from "../assets/img/continents/Afganistan.png";
 import AfricaPNG from "../assets/img/continents/Africa.png";
 import AsiaPNG from "../assets/img/continents/Asia.png";
@@ -60,15 +60,33 @@ class SideBar extends Component {
             <img src={LogoPNG} alt="Hashkings logo" id="haskings_logo" />
           </div>
           <div className="links-wrapper">
-            <div className="inventory-link-row my-2">
-              <img
-                className="inventory-button"
-                onClick={(e) => this.props.showModals("inventory")}
-                src={InventoryPNG}
-                alt="Your inventory | Hashkings"
-              />
-              <div className="inventory-label small text-center">Inventory</div>
+            <div className="d-flex flex-row justify-content-around regions-row">
+              <div >
+                <img
+                  className="inventory-button"
+                  onClick={(e) => this.props.showModals("inventory")}
+                  src={InventoryPNG}
+                  alt="Your inventory | Hashkings"
+                />
+                <div className="inventory-label small text-center">
+                  Inventory
+                </div>
+              </div>
+
+              <div>
+                <img
+                  onClick={(e) =>
+                    window.open("https://www.hashkings.app/avatars", "_blank")
+                  }
+                  className="inventory-button"
+                  src={StorePNG}
+                  alt="Store"
+                  title="Store"
+                />
+                <div className="inventory-label small text-center">Store</div>
+              </div>
             </div>
+
             <div className="sidebar_regions-links my-2">
               <div className="d-flex flex-row justify-content-around regions-row">
                 <div>
@@ -153,6 +171,7 @@ class SideBar extends Component {
                 />
                 <div className="text-center small">Crafting</div>
               </div>
+
               <div>
                 <img
                   onClick={(e) => this.props.showModals("staking")}
@@ -218,9 +237,7 @@ class SideBar extends Component {
                 </a>
               </div>
               <div style={{ textAlign: "center" }}>
-                <br/>
-                <br/>
-              Hashkings Time:<TimeServer></TimeServer>
+                Hashkings Time:<TimeServer></TimeServer>
               </div>
             </div>
           </div>

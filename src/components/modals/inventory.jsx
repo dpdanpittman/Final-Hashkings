@@ -24,6 +24,7 @@ class InventoryModal extends Component {
         name: "",
         image: "",
         actions: [],
+        upgradeFunction : ()=> { return 0}
       },
       showUpgradeModal: "none",
     };
@@ -51,6 +52,7 @@ class InventoryModal extends Component {
             className="image-wrapper"
             style={{ textAlign: "center !important" }}
           >
+            <span className="title-tag-top">nftid {item.upgradeFunction().id}</span>
             <img src={item.image} />
           </div>
           <div className="title">{item.name}</div>
@@ -70,7 +72,7 @@ class InventoryModal extends Component {
                   Farm.transfer(
                     this.props.username,
                     this.state.selectedForUpgrade.item,
-                    item.name,
+                    item.name
                   )
                 }
                 className="action-btn highlight-on-hover"
@@ -88,7 +90,7 @@ class InventoryModal extends Component {
                   this.props.upgradeWaterTower({
                     username: this.props.username,
                     waterTower: this.state.selectedForUpgrade,
-                    lvl: this.props.user.lvl
+                    lvl: this.props.user.lvl,
                   })
                 }
                 className="action-btn highlight-on-hover"
@@ -130,10 +132,10 @@ class InventoryModal extends Component {
                       );
 
                       let payload = {
-                      username:this.props.username,
-                      join:this.state.selectedForUpgrade.item,
-                      lvl: this.props.user.lvl
-                    }
+                        username: this.props.username,
+                        join: this.state.selectedForUpgrade.item,
+                        lvl: this.props.user.lvl,
+                      };
                       this.props.smoke(payload);
                     }}
                   >
@@ -396,7 +398,7 @@ class InventoryModal extends Component {
       .replace(" ", "")
       .replace("’", "")
       .replace(" ", "");
-    
+
     return images[
       Object.keys(images).filter((image) => image == cleanedUpAssetName)[0]
     ];
@@ -445,7 +447,7 @@ class InventoryModal extends Component {
                 image: this.getImageForAsset(plot.properties.NAME, regionsImgs),
                 id: plot.properties.id,
                 actions: ["subdivide", "transfer"],
-                upgradeFunction: (e) => alert(`Upgrade: ${plot.properties.id}`),
+                upgradeFunction: (e) => { return plot},
               },
               showUpgradeModal: "block",
             })
@@ -478,9 +480,8 @@ class InventoryModal extends Component {
                 id: seed.id,
                 name: seed.properties.NAME,
                 image: this.getImageForAsset(seed.properties.NAME, seedsImgs),
-                id: seed.properties.id,
                 actions: ["transfer", "plant"],
-                upgradeFunction: (e) => alert(`Upgrade: ${seed.properties.id}`),
+                upgradeFunction: (e) => { return seed},
               },
               showUpgradeModal: "block",
             })
@@ -513,12 +514,14 @@ class InventoryModal extends Component {
               ),
               id: towers[tower][0].id,
               actions: ["upgrade"],
-              upgradeFunction: (e) => alert(`Upgrade: ${towers[tower][0]}`),
+              upgradeFunction: (e) => { return towers[tower][0]},
             },
             showUpgradeModal: "block",
           })
         }
       >
+        <span className="title-tag-top">Total {towers[tower].length}</span>
+
         <img
           style={{ width: "80%", height: "100%" }}
           onClick={(e) => {
@@ -571,7 +574,6 @@ class InventoryModal extends Component {
   renderJoints() {
     const joints = this.user().joints || {};
 
-
     //.filter(joint => joints[joint] > 0)
     return joints.map((joint) => (
       <div
@@ -588,7 +590,7 @@ class InventoryModal extends Component {
               ),
               id: joint,
               actions: ["smoke", "transfer"],
-              upgradeFunction: (e) => alert(`Upgrade: ${joint}`),
+              upgradeFunction: (e) => { return joint},
             },
             showUpgradeModal: "block",
           })

@@ -603,7 +603,7 @@ html body * {
 }
 #header-tab .icon-group .xp-tag em {
   position: absolute;
-  right: 3px;
+  
   font-size: 75%;
   top: 1px;
   border-radius: 50%;
@@ -614,7 +614,7 @@ html body * {
 }
 #header-tab .icon-group .lv-tag em {
   position: absolute;
-  right: 3px;
+  
   font-size: 75%;
   top: 1px;
   border-radius: 50%;
@@ -1056,17 +1056,17 @@ html body * {
   align-items: center;
 }
 :is(.crafting-sub-modal.active .item .image-caption span) .buds {
-  width: 60%;
+  width:40%;
 }
 :is(.crafting-sub-modal.active .item .image-caption span) .xp {
-  width: 70%;
+  width: 40%;
   transform: scale(1.4);
 }
 .crafting-sub-modal.active .item .image-caption span b {
   font-size: 90%;
 }
 .crafting-sub-modal.active .item .image-caption .crafting-icon {
-  width: 120%;
+  width: 80%;
   border-radius: 50%;
 }
 #timeboosters > div {
@@ -1513,6 +1513,7 @@ html body * {
   border-right-width: 20px;
   margin-right: 75px;
   margin-left: 75px;
+  padding-bottom: 10px;
 }
 .inventory_asset {
   border-radius: 2px;
@@ -1542,6 +1543,28 @@ html body * {
   font-size: 80%;
   padding: 1px 8px;
 }
+
+
+.inventory_asset .title-tag-top {
+  left: 3.5em;
+  position: absolute;
+  background-color: pink;
+  border-radius: 10px;
+  font-size: 80%;
+  padding: 1px 8px;
+}
+
+.upgrade-modal .title-tag-top {
+  left: 3.5em;
+  background-color: pink;
+  border-radius: 10px;
+  padding: 1px 8px;
+  color: white!important;
+  text-align: center;
+}
+
+
+
 .assets-scroll.items::-webkit-scrollbar {
   width: 8px;
 }
@@ -1595,6 +1618,7 @@ html body * {
   height: 90%;
   -o-object-fit: contain;
   object-fit: contain;
+  display:grid;
 }
 .upgrade-modal .details .image-wrapper img,
 .water-upgrade-modal .details .image-wrapper img {
