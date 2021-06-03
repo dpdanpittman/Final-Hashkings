@@ -379,13 +379,24 @@ function checkStorage(data) {
   if (dataStorage.includes(data)) {
     return false;
   } else {
-    setLocalStorage(data);
     return true;
   }
 }
 
 function* harvestPlot(action) {
   console.log("harvesting....", action);
+
+  if (!checkStorage(JSON.stringify(action.farm.farmid))) {
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: "Please wait for the blockchain to receive the transaction",
+      })
+    );
+    return;
+  }
 
   let body = {
     contractName: "nft",
@@ -411,6 +422,7 @@ function* harvestPlot(action) {
   });
 
   if (response.success) {
+    setLocalStorage(JSON.stringify(action.farm.farmid));
     yield put(
       userActions.plantComplete({
         loaderPlant: false,
@@ -420,7 +432,7 @@ function* harvestPlot(action) {
       })
     );
   } else {
- 
+ removeStorage(JSON.stringify(action.farm.farmid));
     yield put(
       userActions.plantError({
         loaderPlant: false,
@@ -574,6 +586,7 @@ function* upgradeWater(action) {
       );
     });
     if (rkeychain.success) {
+      setLocalStorage(JSON.stringify(action.waterTower.upgradeFunction()));
       yield put(
         userActions.plantComplete({
           loaderPlant: false,
@@ -705,6 +718,7 @@ function* regarPlot(action) {
     });
 
     if (verificacion.response) {
+      removeStorage(JSON.stringify( action.farm.seedToPlant ));
       return yield put(
         userActions.plantError({
           loaderPlant: false,
@@ -721,6 +735,7 @@ function* regarPlot(action) {
     if (action.farm.seedToPlant.properties.WATER) {
     }
     if (action.farm.seedToPlant.properties.WATER <= 0) {
+      removeStorage(JSON.stringify( action.farm.seedToPlant ));
       return yield put(
         userActions.plantError({
           loaderPlant: false,
@@ -731,7 +746,7 @@ function* regarPlot(action) {
       );
     }
   } catch (e) {
-    removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
+    removeStorage(JSON.stringify( action.farm.seedToPlant ));
     return yield put(
       userActions.plantError({
         loaderPlant: false,
@@ -758,6 +773,7 @@ function* regarPlot(action) {
   });
 
   if (response.success) {
+    setLocalStorage(JSON.stringify( action.farm.seedToPlant ));
     yield put(
       userActions.plantComplete({
         loaderPlant: false,
@@ -767,7 +783,7 @@ function* regarPlot(action) {
       })
     );
   } else {
-    removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
+    removeStorage(JSON.stringify( action.farm.seedToPlant ));
     yield put(
       userActions.plantError({
         loaderPlant: false,

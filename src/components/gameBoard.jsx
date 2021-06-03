@@ -4,6 +4,8 @@ import HeaderTab from "./headerTab";
 import Sidebar from "./sidebar";
 import MainArea from "./mainArea";
 
+import NeedAvatar from "./needAvatar";
+
 import InventoryModal from "./modals/inventory";
 import ProfileModal from "./modals/profile";
 import CraftingModal from "./modals/crafting";
@@ -16,6 +18,7 @@ import Utils from "../utils/index";
 import { isLandscape, isMobile } from "../utils/ui";
 import IsMobileOverlay from "./cores/isMobileOverlay";
 import logo from "../assets/img/logo.png";
+import reload from "../assets/img/reload.gif";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
@@ -33,33 +36,40 @@ class GameBoard extends Component {
       activeFarm: "",
       showStaking: false,
       loading: true,
+      needAvatar: false,
     };
   }
 
   render() {
-    let { loading } = this.state;
+    let { loading, needAvatar } = this.state;
 
-    if (loading) {
+    if (loading && !needAvatar) {
       return (
-        <div
-          style={{
-            display: "grid",
-            placeItems: "center",
-            width: "100%",
-            height: "400px",
-            fontSize: "28px",
-          }}
-        >
-          <img
+        <div className="authentication">
+          <div
             style={{
-              width: "900px",
+              display: "grid",
+              placeItems: "center",
+              width: "100%",
+              height: "60%",
+              fontSize: "28px",
             }}
-            src={logo}
-          />
-          <h6 style={{ color: "red !important" }}>Hashkings Alpha</h6>
-          Now Loading ...
+          >
+            <img
+              style={{
+                width: "900px",
+              }}
+              src={logo}
+            />
+            <h6 style={{ color: "red !important" }}>Hashkings Alpha</h6>
+            Now Loading ...
+          </div>
         </div>
       );
+    }
+
+    if (needAvatar && !loading) {
+      return <NeedAvatar />;
     } else {
       return (
         <div id="game-board" className="container-fluid px-5">
@@ -177,15 +187,35 @@ class GameBoard extends Component {
       .get(API)
       .then((res) => {
         this.props.updateStoreFromAPI(res.data);
-        console.log(this.props.API_bucket);
-        Swal.resumeTimer();
 
         this.checkLocalstorage(res.data);
+
+        try {
+          console.error(res.data);
+          if (res.data.activeAvatar.hasOwnProperty("id")) {
+            this.setState({
+              ...this.state,
+              needAvatar: false,
+            });
+          } else {
+            this.setState({
+              ...this.state,
+              needAvatar: true,
+            });
+          }
+        } catch (e) {
+          this.setState({
+            ...this.state,
+            needAvatar: true,
+          });
+        }
 
         this.setState({
           ...this.state,
           loading: false,
         });
+
+        Swal.resumeTimer();
       })
 
       .catch((err) => {
@@ -196,7 +226,14 @@ class GameBoard extends Component {
   }
 
   checkLocalstorage(data) {
-   
+    let WaterTowers = Object.keys(data.waterTowers);
+
+    let waterFinal = [];
+    console.log(WaterTowers);
+    for (let index = 0; index < WaterTowers.length; index++) {
+      const element = WaterTowers[index];
+      waterFinal.concat(data.waterTowers[element]);
+    }
 
     let pendings = localStorage.getItem("pendings");
     if (!pendings) {
@@ -209,21 +246,32 @@ class GameBoard extends Component {
     for (let index = 0; index < pendings.length; index++) {
       const element = JSON.parse(pendings[index]);
       let seed = data.seeds.find((e) => e.id == element.id);
-      if (seed) {
 
-        if(pendings[index]  != JSON.stringify(seed)){
+      let water = waterFinal.find((e) => e.id == element.id);
+
+      if (water) {
+        if (pendings[index] != JSON.stringify(water)) {
           this.removeStorage(pendings[index]);
         }
+      } else {
+        this.removeStorage(pendings[index]);
+      }
 
+      if (seed) {
+        if (pendings[index] != JSON.stringify(seed)) {
+          this.removeStorage(pendings[index]);
+        }
+      } else {
+        this.removeStorage(pendings[index]);
       }
     }
   }
 
-   removeStorage(data) {
+  removeStorage(data) {
     let datos = JSON.parse(localStorage.getItem("pendings"));
     localStorage.setItem(
       "pendings",
-      JSON.stringify(datos.filter((e) => e != data) )
+      JSON.stringify(datos.filter((e) => e != data))
     );
   }
 
