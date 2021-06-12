@@ -476,6 +476,7 @@ html body * {
   height: auto;
   display: inline-block;
   margin: auto;
+  margin-top: 20%;
 }
 #sidebar .inventory-link-row {
   padding: 0;
@@ -767,12 +768,12 @@ html body * {
   position: relative;
 }
 #profile-modal .stats-wrapper > .item > .content img {
-  width: 90px;
+  width: 51px;
   height: auto;
   border-radius: 50%;
   position: absolute;
-  top: -1.5em;
-  left: -1em;
+  top: auto;
+  
 }
 #profile-modal .stats-wrapper > .item > .content span {
   margin: 0;

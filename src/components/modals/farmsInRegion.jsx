@@ -120,6 +120,9 @@ class FarmsInRegion extends Component {
                       <div style={{ fontSize: "small" }}>
                         Water left: {this.getWater()}
                       </div>
+                      <div style={{ fontSize: "small" }}>
+                        PR: {this.getPR()}
+                      </div>
                     </div>
                     <div className="booster-wrapper">
                       <img
@@ -160,6 +163,24 @@ class FarmsInRegion extends Component {
         }
       } else {
         return "place the seed";
+      }
+    }
+  }
+
+  getPR() {
+    let farm = this.state.activeFarm.farmid.properties;
+    if (farm) {
+      if (farm.OCCUPIED) {
+        if (farm.SEEDID) {
+          let seed = jsonQL.query(
+            this.props.user.seeds,
+            `$[?(@.id==${farm.SEEDID})]`
+          )[0];
+
+          if (seed) {
+            return seed.properties.PR;
+          }
+        } 
       }
     }
   }
@@ -515,7 +536,13 @@ class FarmsInRegion extends Component {
           <h3 className="alert">You have no farms in this region.</h3>
         </div>
       );
-    else return this.renderJSXForItems(plots, allSeeds);
+    else return  <> {this.renderFilter()}  {this.renderJSXForItems(plots, allSeeds)} </>;
+  }
+
+  renderFilter() {
+    return (
+     <></>
+    )
   }
 
   selectedSeed(plot, allSeeds) {

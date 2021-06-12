@@ -24,7 +24,9 @@ class InventoryModal extends Component {
         name: "",
         image: "",
         actions: [],
-        upgradeFunction : ()=> { return 0}
+        upgradeFunction: () => {
+          return 0;
+        },
       },
       showUpgradeModal: "none",
     };
@@ -52,7 +54,9 @@ class InventoryModal extends Component {
             className="image-wrapper"
             style={{ textAlign: "center !important" }}
           >
-            <span className="title-tag-top">nftid {item.upgradeFunction().id}</span>
+            <span className="title-tag-top">
+              nftid {item.upgradeFunction().id}
+            </span>
             <img src={item.image} />
           </div>
           <div className="title">{item.name}</div>
@@ -314,7 +318,7 @@ class InventoryModal extends Component {
               <h3 className="text-center">
                 available Seeds
                 <div className="text-center inventory_item-total-count">
-                  Total farmer seeds: {this.user().seeds.length}{" "}
+                  Total farmer seeds: {this.getSeedsDisponibles()}{" "}
                 </div>
               </h3>
               <div className="assets-scroll scrollable">
@@ -447,7 +451,9 @@ class InventoryModal extends Component {
                 image: this.getImageForAsset(plot.properties.NAME, regionsImgs),
                 id: plot.properties.id,
                 actions: ["subdivide", "transfer"],
-                upgradeFunction: (e) => { return plot},
+                upgradeFunction: (e) => {
+                  return plot;
+                },
               },
               showUpgradeModal: "block",
             })
@@ -460,6 +466,15 @@ class InventoryModal extends Component {
         </div>
       );
     });
+  }
+
+  getSeedsDisponibles() {
+    const seeds = this.user().seeds;
+    let seedsDisponibles = seeds.filter((e) => {
+      if (!e.properties.PLANTED) return e;
+    }).length;
+
+    return seedsDisponibles
   }
 
   renderSeeds() {
@@ -481,7 +496,9 @@ class InventoryModal extends Component {
                 name: seed.properties.NAME,
                 image: this.getImageForAsset(seed.properties.NAME, seedsImgs),
                 actions: ["transfer", "plant"],
-                upgradeFunction: (e) => { return seed},
+                upgradeFunction: (e) => {
+                  return seed;
+                },
               },
               showUpgradeModal: "block",
             })
@@ -514,7 +531,9 @@ class InventoryModal extends Component {
               ),
               id: towers[tower][0].id,
               actions: ["upgrade"],
-              upgradeFunction: (e) => { return towers[tower][0]},
+              upgradeFunction: (e) => {
+                return towers[tower][0];
+              },
             },
             showUpgradeModal: "block",
           })
@@ -590,7 +609,9 @@ class InventoryModal extends Component {
               ),
               id: joint,
               actions: ["smoke", "transfer"],
-              upgradeFunction: (e) => { return joint},
+              upgradeFunction: (e) => {
+                return joint;
+              },
             },
             showUpgradeModal: "block",
           })
