@@ -103,7 +103,11 @@ function ProfileModal(props) {
 
   const totalSeedsByType = (user) => {
     const seedsArray = user.seeds;
-    let plotsObj = seedsArray.map((e) => e.properties.NAME);
+    let plotsObj = seedsArray
+      .filter((e) => {
+        if (!e.properties.PLANTED) return e.properties.NAME;
+      })
+      .map((e) => e.properties.NAME);
 
     let plots = plotsObj.reduce((output, current) => {
       if (output[current]) {
@@ -344,7 +348,7 @@ function ProfileModal(props) {
             style={{ maxHeight: "900px", overflowY: "scroll" }}
           >
             <h5 className="text-center">Active Plots</h5>
-            {activePlots(user().plots).map((plot) => (
+            {activePlots(user().plots, user().seeds).map((plot) => (
               <div
                 key={plot.id}
                 className="active-plot mb-2"
@@ -366,24 +370,34 @@ function ProfileModal(props) {
                     alt={plot.properties.NAME}
                   />
                 </div>
-                <div className="small">
-                  <div>
-                    Requirement:{" "}
-                    {getPlantedSeed(plot, user().seeds).properties.WATER} water
+
+                {getPlantedSeed(plot, user().seeds) != null && (
+                  <div className="small">
+                    <div>
+                      Requirement:{" "}
+                      {getPlantedSeed(plot, user().seeds).properties.WATER}{" "}
+                      water
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        let farm = {
+                          name: "this.state.activeFarm.name",
+                          image: "this.state.activeFarm.image",
+                          farmid: plot.id,
+                          seedToPlant: getPlantedSeed(plot, user().seeds),
+                        };
+
+                        props.regar({
+                          username: props.username,
+                          farm: farm,
+                        });
+                      }}
+                      className="btn btn-primary small py-0 px-1 btn-block"
+                    >
+                      Water
+                    </button>
                   </div>
-                  <button
-                    onClick={(e) =>
-                      Farm.water(
-                        props.username,
-                        plot.id,
-                        getPlantedSeed(plot, user().seeds).id
-                      )
-                    }
-                    className="btn btn-primary small py-0 px-1 btn-block"
-                  >
-                    Water
-                  </button>
-                </div>
+                )}
               </div>
             ))}
           </div>
@@ -455,7 +469,7 @@ function ProfileModal(props) {
           {waterUpgradeModal()}
           <div className="d-flex flex-row justify-content-between">
             <div
-              onClick={(e) =>  togglePPModal() }
+              onClick={(e) => togglePPModal()}
               className="profile-image-wrapper highlight-on-hover"
             >
               <img src={getProfilePicture()} alt={props.username} />
@@ -483,11 +497,15 @@ function ProfileModal(props) {
                 </div>
               </div>
               <div className="item">
-                <h3>Total HKWater</h3>
+                <h3>Total MOTA STACKED</h3>
                 <div className="content">
-                  <img src={WaterPNG} alt="Total HkWater" />
-                  <span>
-                    {parseFloat(user().tokens.hkwater.balance).toFixed(0)}
+                  <img
+                    src={MotaPNG}
+                    alt="Total motaStacked"
+                    style={{ width: "59px", height: "auto", top: "auto" }}
+                  />
+                  <span style={{ textAlign: "center" }}>
+                    {parseFloat(user().tokens.mota.stake).toFixed(0)}
                   </span>
                 </div>
               </div>
@@ -611,4 +629,13 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(ProfileModal);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    plantSeed: (payload) => dispatch({ type: "FARM/PLANT", payload }),
+    displayPlanting: (payload) =>
+      dispatch({ type: "FARM/DISPLAYPLANTMODAL", payload }),
+    regar: (payload) => dispatch({ type: "FARM/REGAR", payload }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileModal);

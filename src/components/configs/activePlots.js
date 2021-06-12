@@ -1,8 +1,12 @@
-const activePlots = (plots) => {
+const activePlots = (plots, seeds) => {
   let active = [];
 
   plots.forEach((plot) => {
-    if (plot.properties && plot.properties.OCCUPIED) active.push(plot);
+    if (plot.properties && plot.properties.OCCUPIED) {
+      if (getPlantedSeed(plot, seeds)) {
+        active.push(plot);
+      }
+    }
   });
 
   return active;
@@ -13,14 +17,15 @@ export const getPlantedSeed = (plot, seeds) => {
   try {
     const seedID = plot.properties ? plot.properties.SEEDID : 1;
     const seed = seeds.filter((seed) => seed.id == seedID)[0];
-    if(seed.properties.WATER){
-
+    if (seed.properties.WATER > 0) {
+      return seed;
+    } else {
+      return null;
     }
-    return seed;
   } catch (e) {
     return {
-        properties: {
-        WATER: "NA",
+      properties: {
+        WATER: "SEED NEED REPAIR",
       },
     };
   }
