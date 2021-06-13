@@ -286,7 +286,7 @@ class FarmsInRegion extends Component {
 
     try {
       let seed = SEEDS[this.props.activeFarm];
-      boosters = boosters.filter((e) => {
+      boosters = boosters.sort(function(a, b){return b.properties.PR - a.properties.PR}).filter((e) => {
         let seedNameFormated = e.properties.NAME.replace(" ", "")
           .replace(" ", "")
           .replace("’", "")
@@ -327,6 +327,8 @@ class FarmsInRegion extends Component {
           style={{ height: "50px" }}
         >
           <span>{booster.properties.NAME}</span>
+          <span style={{    backgroundColor: "white",
+    padding: "2px"}}>{booster.properties.PR}</span>
           <img
             onClick={(e) => {
               e.preventDefault();
