@@ -155,7 +155,7 @@ class FarmsInRegion extends Component {
 
           if (seed) {
             return seed.properties.WATER;
-          }else{
+          } else {
             return "Shaggi is Harvesting";
           }
         } else {
@@ -180,7 +180,7 @@ class FarmsInRegion extends Component {
           if (seed) {
             return seed.properties.PR;
           }
-        } 
+        }
       }
     }
   }
@@ -196,7 +196,6 @@ class FarmsInRegion extends Component {
           )[0];
 
           if (seed) {
-            
             if (seed.properties.SPT > 0) {
               return seed.properties.SPT + " Days";
             } else {
@@ -286,35 +285,38 @@ class FarmsInRegion extends Component {
 
     try {
       let seed = SEEDS[this.props.activeFarm];
-      boosters = boosters.filter((e) => {
-        let seedNameFormated = e.properties.NAME.replace(" ", "")
-          .replace(" ", "")
-          .replace("’", "")
-          .toLowerCase();
+      boosters = boosters
+        .sort(function (a, b) {
+          return b.properties.PR - a.properties.PR;
+        })
+        .filter((e) => {
+          let seedNameFormated = e.properties.NAME.replace(" ", "")
+            .replace(" ", "")
+            .replace("’", "")
+            .toLowerCase();
 
-        try {
-          
-          if (seed[seedNameFormated]) {
-            //console.log("TESTEANDO SEMILLA PARA VER SI ESTA PLANTADA", e);
-            if (!e.properties.hasOwnProperty("PLANTED")) {
-              return e;
-            } else {
-              if (e?.properties?.PLANTED) {
-              } else {
+          try {
+            if (seed[seedNameFormated]) {
+              //console.log("TESTEANDO SEMILLA PARA VER SI ESTA PLANTADA", e);
+              if (!e.properties.hasOwnProperty("PLANTED")) {
                 return e;
+              } else {
+                if (e?.properties?.PLANTED) {
+                } else {
+                  return e;
+                }
               }
             }
-          }
-        } catch (err) {
-          /*console.log(
+          } catch (err) {
+            /*console.log(
             "buscando -->" + seedNameFormated,
             "en",
             boosters,
             "i semillas activas en la marm",
             seed
           );*/
-        }
-      });
+          }
+        });
     } catch (e) {
       console.error("ERROR AL RENDERIZAR", e);
       boosters = [];
@@ -327,6 +329,9 @@ class FarmsInRegion extends Component {
           style={{ height: "50px" }}
         >
           <span>{booster.properties.NAME}</span>
+          <span style={{ backgroundColor: "white", padding: "2px" }}>
+            {booster.properties.PR}
+          </span>
           <img
             onClick={(e) => {
               e.preventDefault();
@@ -459,7 +464,6 @@ class FarmsInRegion extends Component {
                 )[0];
 
                 if (seed) {
-                 
                   let farm = {
                     name: this.state.activeFarm.name,
                     image: this.state.activeFarm.image,
@@ -508,7 +512,6 @@ class FarmsInRegion extends Component {
       seedToPlant: seedSelected,
     };
 
-
     this.setState({ activeFarm: farm });
   }
 
@@ -536,13 +539,17 @@ class FarmsInRegion extends Component {
           <h3 className="alert">You have no farms in this region.</h3>
         </div>
       );
-    else return  <> {this.renderFilter()}  {this.renderJSXForItems(plots, allSeeds)} </>;
+    else
+      return (
+        <>
+          {" "}
+          {this.renderFilter()} {this.renderJSXForItems(plots, allSeeds)}{" "}
+        </>
+      );
   }
 
   renderFilter() {
-    return (
-     <></>
-    )
+    return <></>;
   }
 
   selectedSeed(plot, allSeeds) {
