@@ -5,7 +5,7 @@ import Sidebar from "./sidebar";
 import MainArea from "./mainArea";
 
 import NeedAvatar from "./needAvatar";
-
+import Modal from "react-bootstrap/Modal";
 import InventoryModal from "./modals/inventory";
 import ProfileModal from "./modals/profile";
 import CraftingModal from "./modals/crafting";
@@ -21,6 +21,16 @@ import logo from "../assets/img/logo.png";
 import reload from "../assets/img/reload.gif";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+
+import ClosePNG from "../assets/img/ui/x close.png";
+
+import diseno from "../assets/img/ui/diseno_2-01.png";
+
+import disenocartelera from "../assets/img/ui/diseno_cartelera-01_1.png";
+import diseno_carteleraTwp from "../assets/img/ui/Disenos_cartelera_5.png";
+
+import disenocarteleraOne from "../assets/img/ui/diseno_cartelera4.1-01.png";
+
 const MySwal = withReactContent(Swal);
 
 class GameBoard extends Component {
@@ -37,6 +47,8 @@ class GameBoard extends Component {
       showStaking: false,
       loading: true,
       needAvatar: false,
+      showWater: false,
+      showBuds: false,
     };
   }
 
@@ -75,7 +87,11 @@ class GameBoard extends Component {
         <div id="game-board" className="container-fluid px-5">
           <IsMobileOverlay class={this.state.isMobileOverlayClass} />
           <div className="col-12 d-flex flex-row justify-content-center">
-            <HeaderTab showProfile={() => this.showModal("profile")} />
+            <HeaderTab
+              showProfile={() => this.showModal("profile")}
+              showWater={() => this.showModal("water")}
+              showBuds={() => this.showModal("buds")}
+            />
           </div>
           <div className="row mt-2 p-0">
             <Sidebar
@@ -118,6 +134,44 @@ class GameBoard extends Component {
               hideModal={(modal) => this.hideModal(modal)}
               size="lg"
             />
+
+            <Modal
+              show={this.state.showWater}
+              onHide={() => this.hideModal("water")}
+              size={"lg"}
+              centered
+            >
+              <div id="profile-modal" className="base-modal">
+                <img
+                  onClick={() => this.hideModal("water")}
+                  className="close-btn highlight-on-hover"
+                  src={ClosePNG}
+                />
+
+                <img style={{ width: "100%" }} src={diseno} />
+
+                <img style={{ width: "100%" }} src={disenocarteleraOne} />
+              </div>
+            </Modal>
+
+            <Modal
+              show={this.state.showBuds}
+              onHide={() => this.hideModal("buds")}
+              size={"lg"}
+              centered
+            >
+              <div id="profile-modal" className="base-modal">
+                <img
+                  onClick={() => this.hideModal("buds")}
+                  className="close-btn highlight-on-hover"
+                  src={ClosePNG}
+                />
+
+                <img style={{ width: "100%" }} src={diseno_carteleraTwp} />
+
+                <img style={{ width: "100%" }} src={disenocartelera} />
+              </div>
+            </Modal>
           </div>
         </div>
       );
@@ -141,6 +195,14 @@ class GameBoard extends Component {
       case "staking":
         this.setState({ showStaking: true });
         break;
+
+      case "water":
+        this.setState({ showWater: true });
+        break;
+
+      case "buds":
+        this.setState({ showBuds: true });
+        break;
     }
   }
 
@@ -160,6 +222,14 @@ class GameBoard extends Component {
         break;
       case "staking":
         this.setState({ showStaking: false });
+        break;
+
+      case "water":
+        this.setState({ showWater: false });
+        break;
+
+      case "buds":
+        this.setState({ showBuds: false });
         break;
     }
   }
@@ -285,9 +355,6 @@ class GameBoard extends Component {
     // enable these in production
     // this.auth();
     this.populateStore();
-    setInterval(() => {
-      this.populateStore();
-    }, 120000);
 
     if (isMobile()) {
       this.setState({ isMobileOverlayClass: "d-block" });
