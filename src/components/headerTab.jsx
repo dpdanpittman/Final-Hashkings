@@ -58,14 +58,20 @@ function HeaderTab(props) {
           <div className="tag">{props.user}</div>
         </div>
       </Button>
-      <div>
+      <Button
+      variant="link"
+      onClick={() => props.showWater()}
+      style={{ padding: "0px" }}>
         <div className="icon-group">
           <img src={H2OPNG} alt="WATER" title="WATER" />
           <div className="tag">{getStat("balance")}</div>
         </div>
-      </div>
+      </Button>
 
-      <div>
+      <Button
+      variant="link"
+      onClick={() => props.showBuds()}
+      style={{ padding: "0px" }}>
         <div className="icon-group">
           <img src={MotaPNG} alt="MOTA" title="MOTA" />
           <div className="tag">
@@ -73,7 +79,7 @@ function HeaderTab(props) {
               parseInt(user().tokens.mota.balance)}
           </div>
         </div>
-      </div>
+      </Button>
       <div>
         <div className="icon-group">
           <img src={BudsPNG} alt="BUDS" title="BUDS" />

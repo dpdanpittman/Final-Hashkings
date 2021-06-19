@@ -497,7 +497,7 @@ function ProfileModal(props) {
                 </div>
               </div>
               <div className="item">
-                <h3>Total MOTA STACKED</h3>
+                <h3>Total MOTA staked</h3>
                 <div className="content">
                   <img
                     src={MotaPNG}

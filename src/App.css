@@ -441,15 +441,16 @@ html body * {
   background-color: transparent !important;
   height: 95vh;
   position: relative;
-  top: -4em;
+  top: -3em;
   font-size: 80%;
   padding-top: 10px !important;
+  overflow:auto
 }
 #sidebar .background {
   position: absolute;
-  left: -2em;
+  left: -3em;
   z-index: 1;
-  width: 120%;
+  width: 130%;
   border-top: 4px solid black !important;
 }
 #sidebar .links-wrapper {
@@ -556,7 +557,7 @@ html body * {
 #header-tab {
   width: 100%;
   position: relative;
-  left: 7em;
+  left: 8em;
   padding: 6px;
 }
 #header-tab > * {
@@ -1111,12 +1112,12 @@ html body * {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-height: 600px;
+
   max-width: 320px;
   overflow-y: scroll;
   overflow-x: hidden;
   background-color: transparent;
-  background-image: url(./assets/img/ui/Fondo\ y\ marco.png);
+
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1126,7 +1127,6 @@ html body * {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  max-height: 230px;
   background: transparent;
   cursor: pointer;
   margin-bottom: 1.3em;
@@ -1140,7 +1140,9 @@ html body * {
   background: transparent;
 }
 :is(#farms-in-region .items .item) .image img {
-  height: 100%;
+ 
+  width: 100%;
+  object-fit: cover;
 }
 #farms-in-region .items::-webkit-scrollbar {
   width: 13px;
@@ -1193,11 +1195,8 @@ html body * {
 .farms-in-region-wrapper .popup {
   height: 420px;
   width: 34%;
-  background-color: burlywood;
-  margin: 10% 0 0 10em;
   position: relative;
   z-index: 3;
-  background-image: url(./assets/img/ui/marco.png);
   background-position: left;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1206,29 +1205,24 @@ html body * {
 }
 .farms-in-region-wrapper .popup.active {
   display: block;
-  margin-left: 45%;
+  margin-left: 25%;
+  position: fixed;
 }
 .farms-in-region-wrapper .popup > .background {
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  width: 105%;
-  height: 105%;
+  position: fixed;
+  width: 25%;
   z-index: 1;
+  object-fit: cover;
 }
 .farms-in-region-wrapper .popup .content {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: fixed;
   z-index: 3;
-  width: 100%;
-  height: 100%;
 }
 .farms-in-region-wrapper .popup .content .active-farm-image {
-  width: 96%;
+  width: 50%;
   min-height: 220px;
   display: block;
-  margin: auto auto 1.5em;
+  margin-left: 5%;
 }
 .farms-in-region-wrapper .popup .content .active-farm-image:hover {
   cursor: auto;
@@ -1236,8 +1230,9 @@ html body * {
 .farms-in-region-wrapper .popup .content .farm-operations {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   height: 52px;
+  margin-top: 5%;
+  margin-left: 10%;
 }
 .farms-in-region-wrapper .popup .content .farm-operations .harvest {
   /* transform: scale(1.2); */

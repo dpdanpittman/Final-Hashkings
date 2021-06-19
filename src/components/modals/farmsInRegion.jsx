@@ -5,6 +5,11 @@ import { regionsImgs } from "../../assets/img/regions";
 import HojaPNG from "../../assets/img/ui/Hoja.png";
 import PopupBackgroundPNG from "../../assets/img/ui/Madera para info.png";
 import TimeboosterPNG from "../../assets/img/ui/button timebooster.png";
+
+
+import Miniature1 from "../../assets/img/miniatures/Miniatura1.png";
+
+
 import {
   regions,
   regionsToMiniatures,
@@ -16,8 +21,12 @@ import { seedsImgs } from "../../assets/img/seeds";
 import ClosePNG from "../../assets/img/ui/x close.png";
 import jsonQL from "jsonpath";
 
+import Brotecito from "../../assets/img/miniatures/Brotecito.png";
+import PlantaConCogollos from "../../assets/img/miniatures/PlantaConCogollos.png";
 import DisplayLoader from "./displayLoader";
 
+import PBSC from "../../assets/img/miniatures/PBSC.png";
+import PlantaChica from "../../assets/img/miniatures/PlantaChica.png";
 const SEEDS = {
   asia: {
     aceh: "Aceh",
@@ -47,6 +56,25 @@ const SEEDS = {
     colombiangold: "Colombian Gold",
     panamared: "Panama Red",
   },
+};
+
+const dspTime = {
+  Aceh: 1,
+  Thai: 2,
+  "Chocolate Thai": 2,
+  "Lamb’s Bread": 2,
+  "King’s Bread": 3,
+  "Swazi Gold": 3,
+  Kilimanjaro: 3,
+  "Durban Poison": 4,
+  Malawi: 4,
+  "Hindu Kush": 4,
+  Afghani: 5,
+  "Lashkar Gah": 5,
+  "Mazar I Sharif": 6,
+  "Acapulco Gold": 6,
+  "Colombian Gold": 7,
+  "Panama Red": 7,
 };
 
 class FarmsInRegion extends Component {
@@ -114,22 +142,15 @@ class FarmsInRegion extends Component {
                     </div>
                     <div className="slider-wrapper">
                       <br />
-                      <div style={{ fontSize: "small" }}>
+                      <div style={{ fontSize: "small", marginLeft: "5%" }}>
                         Time left: {this.getTime()}
                       </div>
-                      <div style={{ fontSize: "small" }}>
+                      <div style={{ fontSize: "small", marginLeft: "5%" }}>
                         Water left: {this.getWater()}
                       </div>
-                      <div style={{ fontSize: "small" }}>
+                      <div style={{ fontSize: "small", marginLeft: "5%" }}>
                         PR: {this.getPR()}
                       </div>
-                    </div>
-                    <div className="booster-wrapper">
-                      <img
-                        onClick={(e) => this.activateTimeboosterPopup()}
-                        className="highlight-on-hover"
-                        src={TimeboosterPNG}
-                      />
                     </div>
                   </div>
                 </div>
@@ -622,55 +643,101 @@ class FarmsInRegion extends Component {
   }
 
   renderJSXForItems(plots, allSeeds) {
-    return plots.map((plot) => {
-      // aqui ta
-      const plotName = plot.properties.NAME;
-      const cleanedUpAssetName = plotName.toLowerCase().replace(" ", "");
+    return plots
+      .sort(function (a, b) {
+        let abool = a.properties.hasOwnProperty("OCCUPIED")
+          ? a.properties.OCCUPIED
+          : false;
+        let bbool = b.properties.hasOwnProperty("OCCUPIED")
+          ? b.properties.OCCUPIED
+          : false;
 
-      let seedSelected = this.selectedSeed(cleanedUpAssetName, allSeeds);
+        return Number(abool) - Number(bbool);
+      })
+      .map((plot) => {
+        // aqui ta
+        const plotName = plot.properties.NAME;
+        const cleanedUpAssetName = plotName.toLowerCase().replace(" ", "");
 
-      const image = Object.keys(regionsToMiniatures).filter(
-        (img) => cleanedUpAssetName.toLowerCase() === img
-      )[0];
+        let seedSelected = this.selectedSeed(cleanedUpAssetName, allSeeds);
 
-      if (plot.properties.hasOwnProperty("OCCUPIED")) {
-        if (plot.properties.OCCUPIED) {
-          return (
-            <div
-              key={plot.id}
-              onClick={(e) =>
-                this.selectActiveFarm(cleanedUpAssetName, plot, seedSelected)
-              }
-              className="item highlight-on-hover"
-            >
-              <div className="image">
-                <h6 style={{ marginBottom: "2px", marginTop: "7px" }}>
-                  ocuppied
-                </h6>
-                <img src={regionsToMiniatures[image]} alt={plotName} />
+        const image = Object.keys(regionsToMiniatures).filter(
+          (img) => cleanedUpAssetName.toLowerCase() === img
+        )[0];
+
+        if (plot.properties.hasOwnProperty("OCCUPIED")) {
+          if (plot.properties.OCCUPIED) {
+            return (
+              <div
+                key={plot.id}
+                onClick={(e) =>
+                  this.selectActiveFarm(cleanedUpAssetName, plot, seedSelected)
+                }
+                className="item highlight-on-hover"
+              >
+                <div className="image">
+                  <h6 style={{ marginBottom: "2px", marginTop: "7px" }}>
+                    ocuppied
+                  </h6>
+                  {getImageStatus(plot, allSeeds, regionsToMiniatures)}
+                </div>
               </div>
-            </div>
-          );
-        }
-      }
-
-      return (
-        <div
-          key={plot.id}
-          onClick={(e) =>
-            this.selectActiveFarm(cleanedUpAssetName, plot, seedSelected)
+            );
           }
-          className="item highlight-on-hover"
-        >
-          <div className="image">
-            <h6 style={{ marginBottom: "2px", marginTop: "7px" }}>Available</h6>
-            <img src={regionsToMiniatures[image]} alt={plotName} />
+        }
+
+        return (
+          <div
+            key={plot.id}
+            onClick={(e) =>
+              this.selectActiveFarm(cleanedUpAssetName, plot, seedSelected)
+            }
+            className="item highlight-on-hover"
+          >
+            <div className="image">
+              <h6 style={{ marginBottom: "2px", marginTop: "7px" }}>
+                Available
+              </h6>
+
+              <img src={regionsToMiniatures[image]} alt={plotName} />
+            </div>
           </div>
-        </div>
-      );
-    });
+        );
+      });
   }
 }
+
+const getImageStatus = (plot, allSeeds, regionsToMiniatures) => {
+  const plotName = plot.properties.NAME;
+
+  let seed = allSeeds.find((s) => {
+    if (plot.id == s.properties.PLOTID) {
+      return s;
+    }
+  });
+
+  if(!seed){
+    return <img src={Miniature1} alt={plotName} />;
+  } 
+
+
+  let dps = dspTime[seed.properties.NAME];
+
+  let img = Brotecito;
+  if (seed.properties.SPT < dps / 2 && seed.properties.SPT > 0) {
+    img = PBSC;
+  }
+
+  if (seed.properties.SPT > dps / 2 && seed.properties.SPT < dps) {
+    img = PlantaChica;
+  }
+
+  if (seed.properties.SPT == 0 && seed.properties.WATER == 0) {
+    img = PlantaConCogollos;
+  }
+
+  return <img src={img} alt={plotName} />;
+};
 
 const mapStateToProps = (state) => {
   const bucket = state.API_bucket;
