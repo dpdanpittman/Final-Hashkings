@@ -1114,7 +1114,6 @@ html body * {
   justify-content: space-between;
 
   max-width: 320px;
-  overflow-y: scroll;
   overflow-x: hidden;
   background-color: transparent;
 
@@ -1294,12 +1293,13 @@ html body * {
 
 .seeds-popup {
   background: rgba(0, 0, 0, 0.6) !important;
-  width: 300px;
-  min-height: 400px;
-  max-height: 400px;
-  position: absolute;
-  top: 1em;
-  right: -10em;
+  width: 25%;
+  min-height: 50%;
+  max-height: 50%;
+  position: fixed;
+  /* top: 1em; */
+  /* right: 0em; */
+  margin-left: 40%;
   z-index: 8;
   padding-top: 1em;
   display: none;
