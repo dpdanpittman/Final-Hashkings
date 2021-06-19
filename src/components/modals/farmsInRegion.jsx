@@ -6,9 +6,7 @@ import HojaPNG from "../../assets/img/ui/Hoja.png";
 import PopupBackgroundPNG from "../../assets/img/ui/Madera para info.png";
 import TimeboosterPNG from "../../assets/img/ui/button timebooster.png";
 
-
 import Miniature1 from "../../assets/img/miniatures/Miniatura1.png";
-
 
 import {
   regions,
@@ -114,7 +112,7 @@ class FarmsInRegion extends Component {
           <Modal
             dialogClassName="border-0"
             show={this.props.show}
-            onHide={() => this.props.hideModal("farms")}
+            onHide={() => {this.props.hideModal("farms"); } }
             size={this.props.size || null}
           >
             <div className="farms-in-region-wrapper">
@@ -374,23 +372,23 @@ class FarmsInRegion extends Component {
     ));
 
     return (
-      <div
-        className="seeds-popup"
-        style={{
-          overflowY: "scroll",
-          overflowX: "hidden",
-        }}
-      >
-        <img
-          onClick={(e) =>
-            document.querySelector(`.seeds-popup`).classList.remove("active")
-          }
-          className="highlight-on-hover close-btn"
-          src={ClosePNG}
-        />
-        <h6 className="text-center">Available Seeds</h6>
-        {boosters}
-      </div>
+        <div
+          className="seeds-popup"
+          style={{
+            overflowY: "scroll",
+            overflowX: "hidden",
+          }}
+        >
+          <img
+            onClick={(e) =>
+              document.querySelector(`.seeds-popup`).classList.remove("active")
+            }
+            className="highlight-on-hover close-btn"
+            src={ClosePNG}
+          />
+          <h6 className="text-center">Available Seeds</h6>
+          {boosters}
+        </div>
     );
   }
 
@@ -516,10 +514,15 @@ class FarmsInRegion extends Component {
       .querySelector(".farms-in-region-wrapper .popup")
       .classList.remove("active");
 
+
+      document.querySelector(`.seeds-popup`).classList.remove("active")
+
     setTimeout(function () {
       document
         .querySelector(".farms-in-region-wrapper .popup")
         .classList.add("active");
+
+        document.querySelector(`.seeds-popup`).classList.remove("active")
     }, 200);
     const image =
       regionsToMiniatures[
@@ -716,10 +719,9 @@ const getImageStatus = (plot, allSeeds, regionsToMiniatures) => {
     }
   });
 
-  if(!seed){
+  if (!seed) {
     return <img src={Miniature1} alt={plotName} />;
-  } 
-
+  }
 
   let dps = dspTime[seed.properties.NAME];
 
