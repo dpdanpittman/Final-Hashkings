@@ -1574,7 +1574,7 @@ html body * {
 }
 .upgrade-modal,
 .water-upgrade-modal {
-  position: absolute;
+  position: fixed;
   top: 1em;
   left: 75%;
   z-index: 13;
