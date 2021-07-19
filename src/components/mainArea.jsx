@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Card from './cores/card';
+import Map from '../assets/img/Map.gif';
 
-import Map from '../assets/img/Map.png';
 import ImageMapper from 'react-image-mapper';
 import MapModal, { mapAreas, showModal, hover, clicked } from './configs/map';
 import SidebarLinks from './configs/sidebarLinks';
