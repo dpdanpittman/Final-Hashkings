@@ -32,7 +32,7 @@ class MainArea extends Component {
         return (
             <Card id="main-area" class={ this.props.class }>
                 <MapModal username={ this.props.username } area={ this.state.area } shouldModalShow={ () => this.shouldModalShow() } />
-                <div id="mapa-termindo" className="scrollable">
+                <div id="mapa-termindo" >
                     <ImageMapper
                         src={ Map }
                         map={ this.map_x }

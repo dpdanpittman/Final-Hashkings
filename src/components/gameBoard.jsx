@@ -357,7 +357,7 @@ class GameBoard extends Component {
     this.populateStore();
 
     if (isMobile()) {
-      this.setState({ isMobileOverlayClass: "d-block" });
+      window.location.href = "https://mobile.hashkings.app/";
     }
   }
 }
