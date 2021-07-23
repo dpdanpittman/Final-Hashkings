@@ -10,7 +10,7 @@
 
 @font-face {
   src: url(./assets/fonts/meonk_regular.ttf);
-  font-family: 'Meonk Regular';
+  font-family: "Meonk Regular";
 }
 .App {
   text-align: center;
@@ -26,7 +26,7 @@ body {
   width: 100vw;
 }
 html body * {
-  font-family: 'Meonk Regular', sans-serif !important;
+  font-family: "Meonk Regular", sans-serif !important;
   color: white !important;
   -webkit-text-stroke: 1px black;
 }
@@ -209,7 +209,7 @@ html body * {
 
 /* Main Area */
 .main-area-modal {
- /* position: absolute;*/
+  /* position: absolute;*/
   left: 600px;
   top: -2em;
   z-index: 8;
@@ -439,12 +439,12 @@ html body * {
 
 #sidebar {
   background-color: transparent !important;
-  height: 95vh;
+  height: calc(100% -54px );
   position: relative;
   top: -3em;
   font-size: 80%;
   padding-top: 10px !important;
-  overflow:auto
+  overflow: auto;
 }
 #sidebar .background {
   position: absolute;
@@ -605,7 +605,7 @@ html body * {
 }
 #header-tab .icon-group .xp-tag em {
   position: absolute;
-  
+
   font-size: 75%;
   top: 1px;
   border-radius: 50%;
@@ -616,7 +616,7 @@ html body * {
 }
 #header-tab .icon-group .lv-tag em {
   position: absolute;
-  
+
   font-size: 75%;
   top: 1px;
   border-radius: 50%;
@@ -774,7 +774,6 @@ html body * {
   border-radius: 50%;
   position: absolute;
   top: auto;
-  
 }
 #profile-modal .stats-wrapper > .item > .content span {
   margin: 0;
@@ -885,7 +884,7 @@ html body * {
 #profile-image-modal {
   position: absolute;
   top: 2em;
-  
+
   z-index: 11;
   display: flex;
   flex-direction: row;
@@ -1058,7 +1057,7 @@ html body * {
   align-items: center;
 }
 :is(.crafting-sub-modal.active .item .image-caption span) .buds {
-  width:40%;
+  width: 40%;
 }
 :is(.crafting-sub-modal.active .item .image-caption span) .xp {
   width: 40%;
@@ -1139,7 +1138,6 @@ html body * {
   background: transparent;
 }
 :is(#farms-in-region .items .item) .image img {
- 
   width: 100%;
   object-fit: cover;
 }
@@ -1189,7 +1187,6 @@ html body * {
 .farms-in-region-wrapper {
   display: flex;
   flex-direction: row;
-  
 }
 .farms-in-region-wrapper .popup {
   height: 420px;
@@ -1288,9 +1285,6 @@ html body * {
   height: auto;
 }
 
-
-
-
 .seeds-popup {
   background: rgba(0, 0, 0, 0.6) !important;
   width: 25%;
@@ -1317,7 +1311,6 @@ html body * {
   z-index: 11;
 }
 .seeds-popup .inventory_asset {
-  
   margin-bottom: 30px;
   height: 70px;
   width: 100%;
@@ -1326,8 +1319,6 @@ html body * {
   width: 38px;
   height: auto;
 }
-
-
 
 .no-farms-notice {
   height: 420px;
@@ -1398,10 +1389,7 @@ html body * {
   width: 100%;
   display: none;
 }
-  .staking_modal
-  .sub-modal-wrapper
-  .submodal
-  .header {
+.staking_modal .sub-modal-wrapper .submodal .header {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -1526,7 +1514,7 @@ html body * {
 
 .inventory_asset_joint img {
   width: 60%;
- 
+
   cursor: pointer;
 }
 
@@ -1539,7 +1527,6 @@ html body * {
   font-size: 80%;
   padding: 1px 8px;
 }
-
 
 .inventory_asset .title-tag-top {
   left: 3.5em;
@@ -1555,11 +1542,9 @@ html body * {
   background-color: pink;
   border-radius: 10px;
   padding: 1px 8px;
-  color: white!important;
+  color: white !important;
   text-align: center;
 }
-
-
 
 .assets-scroll.items::-webkit-scrollbar {
   width: 8px;
@@ -1614,7 +1599,7 @@ html body * {
   height: 90%;
   -o-object-fit: contain;
   object-fit: contain;
-  display:grid;
+  display: grid;
 }
 .upgrade-modal .details .image-wrapper img,
 .water-upgrade-modal .details .image-wrapper img {
@@ -1758,4 +1743,61 @@ SMALL DEVICES BREAKPOINT
   height: 100%;
   width: 100%;
   display: none;
+}
+
+.rentsBackground {
+  background-image: url(./assets/img/FondoRenta.png);
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+
+.opBlack {
+  color: black !important;
+}
+
+.base-modal-rent {
+  background-image: url(./assets/img/windown\ rents.png);
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#profile-modal-rent {
+  position: relative;
+  background: url(./assets/img/FondoRenta.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+#profile-modal-rent .close-btn {
+  border-radius: 50%;
+  width: 50px;
+  position: absolute;
+  top: -0.85em;
+  right: -0.85em;
+}
+
+.inputC {
+  background: url(./assets/img/InputPrice.png) no-repeat;
+  width:315px;
+  height:117px;
+}
+
+
+
+.rent-now {
+  color: white;
+  background-color: rgb(144, 230, 17);
+  border: 2px solid white;
+  border-radius: 8px;
+  height: 3em;
+  width: 140px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+
 }
