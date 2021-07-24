@@ -396,7 +396,7 @@ class Rentals extends Component {
 
       window.hive_keychain.requestCustomJson(
         localStorage.getItem("username"),
-        "qwoyn_rent",
+        "qwoyn_set_rent",
         "Posting",
         `${JSON.stringify(body)}`,
         "Renting Plot",
