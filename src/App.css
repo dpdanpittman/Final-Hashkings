@@ -439,13 +439,14 @@ html body * {
 
 #sidebar {
   background-color: transparent !important;
-  height: calc(100% -54px );
+  height: 100%;
   position: relative;
   top: -3em;
   font-size: 80%;
   padding-top: 10px !important;
   overflow: auto;
 }
+
 #sidebar .background {
   position: absolute;
   left: -3em;
@@ -1799,5 +1800,21 @@ SMALL DEVICES BREAKPOINT
   right: 0;
   margin: auto;
   text-align: center;
+
+}
+
+
+@media (min-width: 1920px) {
+
+  #sidebar {
+
+    background-color: transparent !important;
+    height: 100%;
+    position: relative;
+    top: -3em;
+    font-size:101%;
+    padding-top: 10px !important;
+    overflow: unset;
+  }
 
 }
