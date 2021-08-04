@@ -411,7 +411,7 @@ class Rentals extends Component {
         (res) => {
           console.log("posted");
         },
-        true
+        null
       );
     }
   }
@@ -430,7 +430,7 @@ class Rentals extends Component {
       (res) => {
         console.log("posted");
       },
-      true
+      null
     );
   }
 

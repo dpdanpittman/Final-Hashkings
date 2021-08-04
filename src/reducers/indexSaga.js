@@ -62,7 +62,7 @@ function* changeA(action) {
       (res) => {
         resolve(res);
       },
-      true
+      null
     );
   });
 
