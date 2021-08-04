@@ -216,7 +216,7 @@ const setrentar = (paddress) => {
       (res) => {
         console.log("posted");
       },
-      true
+      null
     );
   } else {
     alert("Invalid address");
