@@ -112,8 +112,11 @@ class FarmsInRegion extends Component {
           <Modal
             dialogClassName="border-0"
             show={this.props.show}
-            onHide={() => {this.props.hideModal("farms"); } }
+            onHide={() => {
+              this.props.hideModal("farms");
+            }}
             size={this.props.size || null}
+            style={{ zIndex: "99999" }}
           >
             <div className="farms-in-region-wrapper">
               <div id="farms-in-region">
@@ -372,23 +375,23 @@ class FarmsInRegion extends Component {
     ));
 
     return (
-        <div
-          className="seeds-popup"
-          style={{
-            overflowY: "scroll",
-            overflowX: "hidden",
-          }}
-        >
-          <img
-            onClick={(e) =>
-              document.querySelector(`.seeds-popup`).classList.remove("active")
-            }
-            className="highlight-on-hover close-btn"
-            src={ClosePNG}
-          />
-          <h6 className="text-center">Available Seeds</h6>
-          {boosters}
-        </div>
+      <div
+        className="seeds-popup"
+        style={{
+          overflowY: "scroll",
+          overflowX: "hidden",
+        }}
+      >
+        <img
+          onClick={(e) =>
+            document.querySelector(`.seeds-popup`).classList.remove("active")
+          }
+          className="highlight-on-hover close-btn"
+          src={ClosePNG}
+        />
+        <h6 className="text-center">Available Seeds</h6>
+        {boosters}
+      </div>
     );
   }
 
@@ -514,15 +517,14 @@ class FarmsInRegion extends Component {
       .querySelector(".farms-in-region-wrapper .popup")
       .classList.remove("active");
 
-
-      document.querySelector(`.seeds-popup`).classList.remove("active")
+    document.querySelector(`.seeds-popup`).classList.remove("active");
 
     setTimeout(function () {
       document
         .querySelector(".farms-in-region-wrapper .popup")
         .classList.add("active");
 
-        document.querySelector(`.seeds-popup`).classList.remove("active")
+      document.querySelector(`.seeds-popup`).classList.remove("active");
     }, 200);
     const image =
       regionsToMiniatures[
@@ -646,8 +648,8 @@ class FarmsInRegion extends Component {
   }
 
   renderJSXForItems(plots, allSeeds) {
-    return plots
-      .sort(function (a, b) {
+    /*
+     * .sort(function (a, b) {
         let abool = a.properties.hasOwnProperty("OCCUPIED")
           ? a.properties.OCCUPIED
           : false;
@@ -656,57 +658,55 @@ class FarmsInRegion extends Component {
           : false;
 
         return Number(abool) - Number(bbool);
-      })
-      .map((plot) => {
-        // aqui ta
-        const plotName = plot.properties.NAME;
-        const cleanedUpAssetName = plotName.toLowerCase().replace(" ", "");
+      }) */
+    return plots.map((plot) => {
+      // aqui ta
+      const plotName = plot.properties.NAME;
+      const cleanedUpAssetName = plotName.toLowerCase().replace(" ", "");
 
-        let seedSelected = this.selectedSeed(cleanedUpAssetName, allSeeds);
+      let seedSelected = this.selectedSeed(cleanedUpAssetName, allSeeds);
 
-        const image = Object.keys(regionsToMiniatures).filter(
-          (img) => cleanedUpAssetName.toLowerCase() === img
-        )[0];
+      const image = Object.keys(regionsToMiniatures).filter(
+        (img) => cleanedUpAssetName.toLowerCase() === img
+      )[0];
 
-        if (plot.properties.hasOwnProperty("OCCUPIED")) {
-          if (plot.properties.OCCUPIED) {
-            return (
-              <div
-                key={plot.id}
-                onClick={(e) =>
-                  this.selectActiveFarm(cleanedUpAssetName, plot, seedSelected)
-                }
-                className="item highlight-on-hover"
-              >
-                <div className="image">
-                  <h6 style={{ marginBottom: "2px", marginTop: "7px" }}>
-                    ocuppied
-                  </h6>
-                  {getImageStatus(plot, allSeeds, regionsToMiniatures)}
-                </div>
+      if (plot.properties.hasOwnProperty("OCCUPIED")) {
+        if (plot.properties.OCCUPIED) {
+          return (
+            <div
+              key={plot.id}
+              onClick={(e) =>
+                this.selectActiveFarm(cleanedUpAssetName, plot, seedSelected)
+              }
+              className="item highlight-on-hover"
+            >
+              <div className="image">
+                <h6 style={{ marginBottom: "2px", marginTop: "7px" }}>
+                  ocuppied
+                </h6>
+                {getImageStatus(plot, allSeeds, regionsToMiniatures)}
               </div>
-            );
-          }
-        }
-
-        return (
-          <div
-            key={plot.id}
-            onClick={(e) =>
-              this.selectActiveFarm(cleanedUpAssetName, plot, seedSelected)
-            }
-            className="item highlight-on-hover"
-          >
-            <div className="image">
-              <h6 style={{ marginBottom: "2px", marginTop: "7px" }}>
-                Available
-              </h6>
-
-              <img src={regionsToMiniatures[image]} alt={plotName} />
             </div>
+          );
+        }
+      }
+
+      return (
+        <div
+          key={plot.id}
+          onClick={(e) =>
+            this.selectActiveFarm(cleanedUpAssetName, plot, seedSelected)
+          }
+          className="item highlight-on-hover"
+        >
+          <div className="image">
+            <h6 style={{ marginBottom: "2px", marginTop: "7px" }}>Available</h6>
+
+            <img src={regionsToMiniatures[image]} alt={plotName} />
           </div>
-        );
-      });
+        </div>
+      );
+    });
   }
 }
 

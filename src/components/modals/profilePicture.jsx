@@ -281,7 +281,7 @@ const ProfilePictureModal = (props) => {
   };
 
   return (
-    <Modal show={props.show} onHide={() => props.onhide()}>
+    <Modal show={props.show} onHide={() => props.onhide()} style={{ zIndex: "99999"}}>
       <div id="profile-image-modal">
         <div className="presentation">
           <div className="image-wrapper">

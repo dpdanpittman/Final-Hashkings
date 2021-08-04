@@ -293,6 +293,7 @@ class InventoryModal extends Component {
           onHide={() => this.props.hideModal("inventory")}
           size={this.props.size || null}
           centered
+          style={{ zIndex: "99999"}}
         >
           <div id="inventory-modal" className="base-modal">
             {this.upgradeModal()}

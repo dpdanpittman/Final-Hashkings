@@ -145,6 +145,7 @@ function CraftingModal(props) {
         onHide={() => props.hideModal("crafting")}
         size={props.size || null}
         centered
+        style={{ zIndex: "99999"}}
       >
         <div id="crafting-modal" className="base-modal pb-5">
           <div

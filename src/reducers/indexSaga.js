@@ -638,9 +638,11 @@ function* plantSeed(action) {
       (res) => {
         resolve(res);
       },
-      true
+      null
     );
   });
+
+  console.log("plantar dice",response);
 
   if (response.success) {
     yield put(

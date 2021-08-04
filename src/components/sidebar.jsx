@@ -27,6 +27,11 @@ import AsiaPNG from "../assets/img/continents/Asia.png";
 import JamaicaPNG from "../assets/img/continents/Jamaica.png";
 import MexicoPNG from "../assets/img/continents/Mexico.png";
 import SouthAmericaPNG from "../assets/img/continents/Sudamerica.png";
+import fantomPNG from "../assets/img/spiritswap_logo.png";
+
+
+import DepositButton from "../assets/img/staking_modal/Deposit.png";
+
 
 const TimeServer = () => {
   let [time, setTime] = useState(
@@ -170,6 +175,17 @@ class SideBar extends Component {
                   title="Craft Items"
                 />
                 <div className="text-center small">Crafting</div>
+              </div>
+
+              <div style={{display:"none"}}>
+                <img
+                  onClick={(e) => this.props.showModals("fantom")}
+                  className="highlight-on-hover stake-button"
+                  src={fantomPNG}
+                  alt="fantom send"
+                  title="fantom send"
+                />
+                <div className="text-center small">Spirit</div>
               </div>
 
               <div>

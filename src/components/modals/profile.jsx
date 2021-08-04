@@ -457,6 +457,7 @@ function ProfileModal(props) {
       onHide={() => props.hideModal("profile")}
       size={props.size || null}
       centered
+      style={{ zIndex: "99999"}}
     >
       <div id="profile-modal" className="base-modal">
         <img
