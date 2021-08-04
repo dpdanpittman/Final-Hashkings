@@ -22,21 +22,15 @@ const StakingModal = (props) => {
   const [Cantidad, setstakePool] = React.useState(0);
 
   const getStat = (stat) => {
-
     try {
-
       return props.user !== undefined ? (
         props.user.tokens[stat]
       ) : (
         <i className="fa fa-circle-o-notch fa-spin text-danger"></i>
       );
-
-    }catch(e){
+    } catch (e) {
       return <i className="fa fa-circle-o-notch fa-spin text-danger"></i>;
     }
-
-    
-
   };
 
   const user = () => (props.user !== undefined ? props.user : {});
@@ -223,6 +217,7 @@ const StakingModal = (props) => {
     <>
       <DisplayLoader></DisplayLoader>
       <Modal
+        style={{ zIndex: "99999" }}
         centered
         dialogClassName="staking_modal"
         show={props.show}

@@ -251,8 +251,15 @@ class Rentals extends Component {
                           <strong>{rentedData.price}</strong>
                         </td>
                         <td>
-                          {plot.account == localStorage.getItem("username") ? (
-                            <Button>Cancel</Button>
+                          {plot.account == localStorage.getItem("username") &&
+                          !plot.properties.RENTED ? (
+                            <Button
+                              onClick={(e) => {
+                                this.cancelRental(plot._id);
+                              }}
+                            >
+                              Cancel
+                            </Button>
                           ) : (
                             <Button variant="success">RENT</Button>
                           )}
@@ -271,6 +278,7 @@ class Rentals extends Component {
                 this.setState({ ...this.state, showModalFarm: false })
               }
               centered
+              style={{ zIndex: "99999" }}
             >
               <div
                 id="profile-modal-rent"
@@ -406,6 +414,24 @@ class Rentals extends Component {
         true
       );
     }
+  }
+
+  cancelRental(id) {
+    let body = {
+      id: id,
+    };
+
+    window.hive_keychain.requestCustomJson(
+      localStorage.getItem("username"),
+      "qwoyn_cancel_rent",
+      "Posting",
+      `${JSON.stringify(body)}`,
+      "Cancel Renting Plot",
+      (res) => {
+        console.log("posted");
+      },
+      true
+    );
   }
 
   componentDidMount() {

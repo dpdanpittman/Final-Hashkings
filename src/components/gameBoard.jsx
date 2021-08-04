@@ -4,6 +4,8 @@ import HeaderTab from "./headerTab";
 import Sidebar from "./sidebar";
 import MainArea from "./mainArea";
 
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+
 import NeedAvatar from "./needAvatar";
 import Modal from "react-bootstrap/Modal";
 import InventoryModal from "./modals/inventory";
@@ -29,6 +31,7 @@ import diseno from "../assets/img/ui/diseno_2-01.png";
 import disenocartelera from "../assets/img/ui/diseno_cartelera-01_1.png";
 import diseno_carteleraTwp from "../assets/img/ui/Disenos_cartelera_5.png";
 
+import DepositButton from "../assets/img/staking_modal/Deposit.png";
 import disenocarteleraOne from "../assets/img/ui/diseno_cartelera4.1-01.png";
 
 const MySwal = withReactContent(Swal);
@@ -49,6 +52,8 @@ class GameBoard extends Component {
       needAvatar: false,
       showWater: false,
       showBuds: false,
+      fantom: false,
+      fantonValue: 0,
     };
   }
 
@@ -140,6 +145,7 @@ class GameBoard extends Component {
               onHide={() => this.hideModal("water")}
               size={"lg"}
               centered
+              style={{ zIndex: "99999" }}
             >
               <div id="profile-modal" className="base-modal">
                 <img
@@ -172,10 +178,114 @@ class GameBoard extends Component {
                 <img style={{ width: "100%" }} src={disenocartelera} />
               </div>
             </Modal>
+
+            <Modal
+              show={this.state.fantom}
+              onHide={() => this.hideModal("fantom")}
+              size={"lg"}
+              centered
+            >
+              <div
+                id="profile-modal"
+                className="base-modal"
+                style={{ textAlign: "center" }}
+              >
+                <img
+                  onClick={() => this.hideModal("fantom")}
+                  className="close-btn highlight-on-hover"
+                  src={ClosePNG}
+                />
+
+                <h1 style={{ textAlign: "center" }}>
+                  convert your hive buds to fantom buds
+                </h1>
+
+                <div>
+                  <p>
+                    {" "}
+                    in order for your conversion to be success you must send a
+                    minimum of <strong>1000 BUDS</strong>
+                  </p>
+
+                  <div className="span">
+                    <div>
+                      <strong>
+
+                        {this.props.API_bucket.fantomadrs
+                          ? ""
+                          : "Please set a fantom address"}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div className="value">
+                    <input
+                      onChange={(e) => {
+                        this.onchange(e);
+                      }}
+                      type="number"
+                      step="1"
+                      min="1"
+                    />
+                    <img
+                      onClick={(e) => {
+                        this.depositfantom();
+                      }}
+                      style={{ width: "5%" }}
+                      src={DepositButton}
+                    />
+                  </div>
+
+                  <p>
+                    Fees <strong>3.3%</strong>
+                    <OverlayTrigger
+                      placement="right"
+                      delay={{ show: 250, hide: 400 }}
+                      overlay={this.renderTooltip}
+                    >
+                      <Button variant="success" style={{ borderRadius: "50%" }}>
+                        ?
+                      </Button>
+                    </OverlayTrigger>
+                    ,
+                  </p>
+                </div>
+              </div>
+            </Modal>
           </div>
         </div>
       );
     }
+  }
+
+  renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      Our fee covers the gas fee required by the fantom Network and will be put
+      into a FTM/SPIRIT pool
+    </Tooltip>
+  );
+
+  onchange = (e) => {
+    this.setState({
+      ...this.state,
+      fantomvalue: e.target.value,
+    });
+  };
+
+  depositfantom() {
+    console.log(this.props.API_bucket);
+
+    window.hive_keychain.requestSendToken(
+      localStorage.getItem("username"),
+      "hk-fantom",
+      parseFloat("" + this.state.fantomvalue).toFixed(3),
+      this.props.API_bucket.fantomadrs,
+      "BUDS",
+      (resp) => {
+        console.log("transfer complete");
+      },
+      null
+    );
   }
 
   showModal(modal, farm) {
@@ -202,6 +312,10 @@ class GameBoard extends Component {
 
       case "buds":
         this.setState({ showBuds: true });
+        break;
+
+      case "fantom":
+        this.setState({ fantom: true });
         break;
     }
   }
@@ -231,6 +345,10 @@ class GameBoard extends Component {
       case "buds":
         this.setState({ showBuds: false });
         break;
+
+      case "fantom":
+        this.setState({ fantom: false });
+        break;
     }
   }
 
@@ -249,6 +367,7 @@ class GameBoard extends Component {
     Toast.fire({
       icon: "success",
       title: "syncing",
+      position: "bottom",
     });
 
     const API =

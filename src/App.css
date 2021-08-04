@@ -1767,7 +1767,7 @@ SMALL DEVICES BREAKPOINT
 
 #profile-modal-rent {
   position: relative;
-  background: url(./assets/img/FondoRenta.png) no-repeat center center fixed; 
+  background: url(./assets/img/FondoRenta.png) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -1783,11 +1783,9 @@ SMALL DEVICES BREAKPOINT
 
 .inputC {
   background: url(./assets/img/InputPrice.png) no-repeat;
-  width:315px;
-  height:117px;
+  width: 315px;
+  height: 117px;
 }
-
-
 
 .rent-now {
   color: white;
@@ -1800,21 +1798,37 @@ SMALL DEVICES BREAKPOINT
   right: 0;
   margin: auto;
   text-align: center;
-
 }
 
-
 @media (min-width: 1920px) {
-
   #sidebar {
-
     background-color: transparent !important;
     height: 100%;
     position: relative;
     top: -3em;
-    font-size:101%;
+    font-size: 101%;
     padding-top: 10px !important;
     overflow: unset;
   }
+}
 
+.overlayheader {
+  height: 80px;
+  z-index: 9999;
+  position: fixed;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: none;
+  transition: width 200ms cubic-bezier(0.25, 0.25, 0.5, 1) 0s,
+    height 200ms cubic-bezier(0.25, 0.25, 0.5, 1) 0s;
+  width: 211px;
+}
+
+.toast-custom {
+  z-index: 99999;
+}
+
+.swal2-container.swal2-center {
+  z-index: 999999;
 }
