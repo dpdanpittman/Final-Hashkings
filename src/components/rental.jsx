@@ -13,11 +13,22 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import logo from "../assets/img/logo.png";
 
-import btnmarron from "../assets/img/botonMarron.png";
-import btnverde from "../assets/img/BotonVerde.png";
+import btnmarron1 from "../assets/img/botonMarron.png";
+import btnverde1 from "../assets/img/BotonVerde.png";
+
+
+import btnmarron2 from "../assets/img/botonMarron.png";
+import btnverde2 from "../assets/img/BotonVerde.png";
+
+
+
+import btnmarron3 from "../assets/img/botonMarron.png";
+import btnverde3 from "../assets/img/BotonVerde.png";
 
 import terms from "../assets/img/ChooseTerms.png";
+import termsTower from "../assets/img/ChooseTerms.png";
 import farmRental from "../assets/img/FarmRentals.png";
+
 const URL = "https://rpc.hashkings.xyz/contracts";
 const CONTRACT = "nft"; // Should be nft
 const TABLE_POSTFIX = "instances"; // ShoAuld be the same
@@ -125,7 +136,7 @@ class Rentals extends Component {
     super(props);
     this.state = {
       showModalWater: false,
-      showModalFarm: true,
+      showModalFarm: false,
       loading: true,
       rentData: [],
       rentalLoading: true,
@@ -156,6 +167,30 @@ class Rentals extends Component {
       this.setState({ showModalFarm: true });
       console.log("mostrando", this.state.showModalFarm);
     }
+
+    if (modal == "water") {
+      this.setState({ showModalWater: true });
+      console.log("mostrando", this.state.showModalWater);
+    }
+  }
+
+  getWaterTowerList(waterObject) {
+    
+    console.log("mostrandio" , waterObject , this.props.API_bucket);
+    if (!waterObject.hasOwnProperty("waterlvl10")) {
+      return [];
+    }
+
+    return waterObject.waterlvl10
+      .concat(waterObject.waterlvl9)
+      .concat(waterObject.waterlvl8)
+      .concat(waterObject.waterlvl7)
+      .concat(waterObject.waterlvl6)
+      .concat(waterObject.waterlvl5)
+      .concat(waterObject.waterlvl4)
+      .concat(waterObject.waterlvl3)
+      .concat(waterObject.waterlvl2)
+      .concat(waterObject.waterlvl1);
   }
 
   render() {
@@ -206,6 +241,25 @@ class Rentals extends Component {
           }
         }
       });
+
+      let water = this.getWaterTowerList(this.props.API_bucket.waterTowers);
+      let waterOptions = water.map((water, index) => {
+        if (!water.properties.RENTED) {
+          if (water.properties.RENTEDINFO != "available") {
+            return (
+              <option
+                index={index}
+                key={index}
+                value={water.id}
+                className="opBlack"
+              >
+                {water.properties.NAME} {" "} {water.properties.LVL} - {water.id}
+              </option>
+            );
+          }
+        }
+      });
+
       return (
         <div className="authentication">
           <div
@@ -219,9 +273,19 @@ class Rentals extends Component {
                 onClick={(e) => this.displayModal("farm")}
                 src={rentFarm}
               />
-              <img style={{ cursor: "pointer" }} src={rentWaterTower} />
+              <img
+                style={{ cursor: "pointer" }}
+                onClick={(e) => this.displayModal("water")}
+                src={rentWaterTower}
+              />
 
-              <Table striped bordered hover responsive>
+              <Table
+                style={{ overflow: "auto" }}
+                striped
+                bordered
+                hover
+                responsive
+              >
                 <thead>
                   <tr style={{ textAlign: "center" }}>
                     <th>Id</th>
@@ -261,7 +325,14 @@ class Rentals extends Component {
                               Cancel
                             </Button>
                           ) : (
-                            <Button variant="success">RENT</Button>
+                            <Button
+                              variant="success"
+                              onClick={(e) => {
+                                this.rent(plot._id, rentedData.price);
+                              }}
+                            >
+                              RENT
+                            </Button>
                           )}
                         </td>
                       </tr>
@@ -320,9 +391,9 @@ class Rentals extends Component {
                   <div className="mb-3" style={{ textAlign: "center" }}>
                     <label htmlFor="moth1" style={{ width: "100px" }}>
                       {this.state.term != 0 && this.state.term == 1 ? (
-                        <img src={btnverde} style={{ width: "inherit" }} />
+                        <img src={btnverde1} style={{ width: "inherit" }} />
                       ) : (
-                        <img src={btnmarron} style={{ width: "inherit" }} />
+                        <img src={btnmarron1} style={{ width: "inherit" }} />
                       )}
                     </label>
                     <input
@@ -336,9 +407,9 @@ class Rentals extends Component {
 
                     <label htmlFor="moth2" style={{ width: "100px" }}>
                       {this.state.term != 0 && this.state.term == 3 ? (
-                        <img src={btnverde} style={{ width: "inherit" }} />
+                        <img src={btnverde2} style={{ width: "inherit" }} />
                       ) : (
-                        <img src={btnmarron} style={{ width: "inherit" }} />
+                        <img src={btnmarron2} style={{ width: "inherit" }} />
                       )}
                     </label>
                     <input
@@ -351,9 +422,127 @@ class Rentals extends Component {
                     />
                     <label htmlFor="moth3" style={{ width: "100px" }}>
                       {this.state.term != 0 && this.state.term == 6 ? (
-                        <img src={btnverde} style={{ width: "inherit" }} />
+                        <img src={btnverde3} style={{ width: "inherit" }} />
                       ) : (
-                        <img src={btnmarron} style={{ width: "inherit" }} />
+                        <img src={btnmarron3} style={{ width: "inherit" }} />
+                      )}
+                    </label>
+                    <input
+                      style={{ visibility: "hidden", position: "absolute" }}
+                      onChange={this.handleChange}
+                      type="radio"
+                      value={6}
+                      name="group1"
+                      id="moth3"
+                    />
+                  </div>
+
+                  <div className="mb-3 inputC" style={{ textAlign: "center" }}>
+                    <input
+                      onChange={this.onChangePrice}
+                      type="number"
+                      style={{
+                        marginTop: "23%",
+                        marginLeft: "10%",
+                        padding: "2%",
+                        background: "transparent",
+                        border: "0",
+                      }}
+                    />
+                  </div>
+
+                  <div className="mb-3" style={{ textAlign: "center" }}>
+                    <button className="rent-now px-1" onClick={this.setrentar}>
+                      Set Rent
+                    </button>
+                  </div>
+                </Modal.Body>
+              </div>
+            </Modal>
+
+            <Modal
+              size="lg"
+              show={this.state.showModalWater}
+              onHide={() =>
+                this.setState({ ...this.state, showModalWater: false })
+              }
+              centered
+              style={{ zIndex: "99999" }}
+            >
+              <div
+                id="profile-modal-rent"
+                className="modal-transparent-overlay"
+                className="base-modal"
+              >
+                <img
+                  onClick={() =>
+                    this.setState({ ...this.state, showModalWater: false })
+                  }
+                  className="close-btn highlight-on-hover"
+                  src={ClosePNG}
+                />
+                <Modal.Body>
+                  <br />
+                  <br />
+                  <div className="mb-3" style={{ textAlign: "center" }}>
+                    <img
+                      src={farmRental}
+                      style={{
+                        maxWidth: "300px",
+                        position: "absolute",
+                        top: "-6%",
+                        right: "31%",
+                      }}
+                    />
+                  </div>
+                  <div className="mb-3" style={{ textAlign: "center" }}>
+                    <select onChange={this.onSelectPlot}>
+                      <option disabled defaultValue>
+                        Choose WaterTower
+                      </option>
+                      {waterOptions}
+                    </select>
+                  </div>
+                  <div className="mb-3" style={{ textAlign: "center" }}>
+                    <img src={terms} style={{ width: "inherit" }} />
+                  </div>
+                  <div className="mb-3" style={{ textAlign: "center" }}>
+                    <label htmlFor="moth1" style={{ width: "100px" }}>
+                      {this.state.term != 0 && this.state.term == 1 ? (
+                        <img src={btnverde1} style={{ width: "inherit" }} />
+                      ) : (
+                        <img src={btnmarron1} style={{ width: "inherit" }} />
+                      )}
+                    </label>
+                    <input
+                      style={{ visibility: "hidden", position: "absolute" }}
+                      onChange={this.handleChange}
+                      type="radio"
+                      value={1}
+                      name="group1"
+                      id="moth1"
+                    />
+
+                    <label htmlFor="moth2" style={{ width: "100px" }}>
+                      {this.state.term != 0 && this.state.term == 3 ? (
+                        <img src={btnverde2} style={{ width: "inherit" }} />
+                      ) : (
+                        <img src={btnmarron2} style={{ width: "inherit" }} />
+                      )}
+                    </label>
+                    <input
+                      style={{ visibility: "hidden", position: "absolute" }}
+                      onChange={this.handleChange}
+                      type="radio"
+                      value={3}
+                      name="group1"
+                      id="moth2"
+                    />
+                    <label htmlFor="moth3" style={{ width: "100px" }}>
+                      {this.state.term != 0 && this.state.term == 6 ? (
+                        <img src={btnverde3} style={{ width: "inherit" }} />
+                      ) : (
+                        <img src={btnmarron3} style={{ width: "inherit" }} />
                       )}
                     </label>
                     <input
@@ -392,6 +581,20 @@ class Rentals extends Component {
         </div>
       );
     }
+  }
+
+  rent(idplot, price) {
+    window.hive_keychain.requestTransfer(
+      localStorage.getItem("username"),
+      "hashkings",
+      price.toFixed(3),
+      "rent " + idplot,
+      "HIVE",
+      (response) => {
+        console.log(response);
+      },
+      true
+    );
   }
 
   setrentar() {
