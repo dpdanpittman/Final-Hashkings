@@ -152,6 +152,9 @@ class FarmsInRegion extends Component {
                       <div style={{ fontSize: "small", marginLeft: "5%" }}>
                         PR: {this.getPR()}
                       </div>
+                      <div style={{ fontSize: "small", marginLeft: "5%" }}>
+                        time rente end: {this.getTimeRentedEnd()}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -163,6 +166,32 @@ class FarmsInRegion extends Component {
         </div>
       </>
     );
+  }
+
+  //transform utc date to locale date time
+  transformDate(date) {
+    const dateObj = new Date(date);
+    const dateStr = dateObj.toLocaleDateString();
+    const timeStr = dateObj.toLocaleTimeString();
+    return dateStr + " " + timeStr;
+  }
+
+  getTimeRentedEnd() {
+    if (this.state.activeFarm.farmid) {
+      if (this.state.activeFarm.farmid.properties.RENTED) {
+        let properties = JSON.parse(
+          this.state.activeFarm.farmid.properties.RENTEDSTATUS
+        );
+
+        console.log("RENTEDSTATUS", properties);
+
+        return this.transformDate(properties.time);
+      } else {
+        return "N/A";
+      }
+    } else {
+      return "N/A";
+    }
   }
 
   getWater() {
@@ -531,6 +560,10 @@ class FarmsInRegion extends Component {
         Object.keys(regionsToMiniatures).filter((img) => img == farm)[0]
       ];
 
+    if (plot._id) {
+      plot.id = plot._id;
+    }
+
     farm = {
       name: farm,
       image,
@@ -542,11 +575,17 @@ class FarmsInRegion extends Component {
   }
 
   extractUsedPlots(farm) {
-    const allPlots = this.props.user !== undefined ? this.props.user.plots : [];
+    let allPlots = this.props.user !== undefined ? this.props.user.plots : [];
 
-    const allSeeds = this.props.user !== undefined ? this.props.user.seeds : [];
+    let allRents = this.props.user !== undefined ? this.props.user.rents : [];
+
+    let allSeeds = this.props.user !== undefined ? this.props.user.seeds : [];
 
     // console.log("seeds", allSeeds);
+
+    console.log("allRents", allRents);
+
+    allPlots = allPlots.concat(allRents);
 
     if (allPlots == [])
       return (
@@ -691,6 +730,28 @@ class FarmsInRegion extends Component {
         }
       }
 
+      if (plot.properties.hasOwnProperty("RENTED")) {
+        if (plot.properties.RENTED) {
+          plot.id = plot._id;
+          return (
+            <div
+              key={plot._id}
+              onClick={(e) =>
+                this.selectActiveFarm(cleanedUpAssetName, plot, seedSelected)
+              }
+              className="item highlight-on-hover"
+            >
+              <div className="image">
+                <h6 style={{ marginBottom: "2px", marginTop: "7px" }}>
+                  RENTED
+                </h6>
+                {getImageStatusRENTED(plot, allSeeds, regionsToMiniatures)}
+              </div>
+            </div>
+          );
+        }
+      }
+
       return (
         <div
           key={plot.id}
@@ -715,6 +776,37 @@ const getImageStatus = (plot, allSeeds, regionsToMiniatures) => {
 
   let seed = allSeeds.find((s) => {
     if (plot.id == s.properties.PLOTID) {
+      return s;
+    }
+  });
+
+  if (!seed) {
+    return <img src={Miniature1} alt={plotName} />;
+  }
+
+  let dps = dspTime[seed.properties.NAME];
+
+  let img = Brotecito;
+  if (seed.properties.SPT < dps / 2 && seed.properties.SPT > 0) {
+    img = PBSC;
+  }
+
+  if (seed.properties.SPT > dps / 2 && seed.properties.SPT < dps) {
+    img = PlantaChica;
+  }
+
+  if (seed.properties.SPT == 0 && seed.properties.WATER == 0) {
+    img = PlantaConCogollos;
+  }
+
+  return <img src={img} alt={plotName} />;
+};
+
+const getImageStatusRENTED = (plot, allSeeds, regionsToMiniatures) => {
+  const plotName = plot.properties.NAME;
+
+  let seed = allSeeds.find((s) => {
+    if (plot._id == s.properties.PLOTID) {
       return s;
     }
   });
