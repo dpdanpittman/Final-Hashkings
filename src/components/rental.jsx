@@ -16,11 +16,8 @@ import logo from "../assets/img/logo.png";
 import btnmarron1 from "../assets/img/botonMarron.png";
 import btnverde1 from "../assets/img/BotonVerde.png";
 
-
 import btnmarron2 from "../assets/img/botonMarron.png";
 import btnverde2 from "../assets/img/BotonVerde.png";
-
-
 
 import btnmarron3 from "../assets/img/botonMarron.png";
 import btnverde3 from "../assets/img/BotonVerde.png";
@@ -175,10 +172,47 @@ class Rentals extends Component {
   }
 
   getWaterTowerList(waterObject) {
-    
-    console.log("mostrandio" , waterObject , this.props.API_bucket);
+    console.log("mostrandio", waterObject, this.props.API_bucket);
     if (!waterObject.hasOwnProperty("waterlvl10")) {
-      return [];
+      waterObject.waterlvl10 = [];
+    }
+
+    if (!waterObject.hasOwnProperty("waterlvl9")) {
+      waterObject.waterlvl9 = [];
+    }
+
+
+    if (!waterObject.hasOwnProperty("waterlvl8")) {
+      waterObject.waterlvl8 = [];
+    }
+
+
+    if (!waterObject.hasOwnProperty("waterlvl7")) {
+      waterObject.waterlvl7 = [];
+    }
+
+    if (!waterObject.hasOwnProperty("waterlvl6")) {
+      waterObject.waterlvl6 = [];
+    }
+
+    if (!waterObject.hasOwnProperty("waterlvl5")) {
+      waterObject.waterlvl5 = [];
+    }
+
+    if (!waterObject.hasOwnProperty("waterlvl4")) {
+      waterObject.waterlvl4 = [];
+    }
+
+    if (!waterObject.hasOwnProperty("waterlvl3")) {
+      waterObject.waterlvl3 = [];
+    }
+
+    if (!waterObject.hasOwnProperty("waterlvl2")) {
+      waterObject.waterlvl2 = [];
+    }
+
+    if (!waterObject.hasOwnProperty("waterlvl1")) {
+      waterObject.waterlvl1 = [];
     }
 
     return waterObject.waterlvl10
@@ -253,7 +287,7 @@ class Rentals extends Component {
                 value={water.id}
                 className="opBlack"
               >
-                {water.properties.NAME} {" "} {water.properties.LVL} - {water.id}
+                {water.properties.NAME} {water.properties.LVL} - {water.id}
               </option>
             );
           }
