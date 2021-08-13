@@ -151,13 +151,22 @@ class Rentals extends Component {
     this.onSelectPlot = this.onSelectPlot.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
     this.changeDisplay = this.changeDisplay.bind(this);
+    this.displayMyRented = this.displayMyRented.bind(this);
   }
 
   changeDisplay(e) {
     if (this.state.changeMyRent) {
-      this.setState({ ...this.state, changeMyRent: false });
+      this.setState({ ...this.state, changeMyRent: false , displayMyRented: false});
     } else {
-      this.setState({ ...this.state, changeMyRent: true });
+      this.setState({ ...this.state, changeMyRent: true, displayMyRented: false });
+    }
+  }
+
+  displayMyRented(e) {
+    if (this.state.displayMyRented) {
+      this.setState({ ...this.state, displayMyRented: false});
+    } else {
+      this.setState({ ...this.state, displayMyRented: true });
     }
   }
 
@@ -341,7 +350,7 @@ class Rentals extends Component {
               <input
                 type="checkbox"
                 id="rented"
-                onChange={this.changeDisplay}
+                onChange={this.displayMyRented}
               />
               <label htmlFor="rented"> Rented </label>
 
@@ -479,38 +488,10 @@ class Rentals extends Component {
                     {this.state.myrentData.map((plot, index) => {
                       let rentedData = JSON.parse(plot.properties.RENTEDSTATUS);
 
-                      if (this.state.changeMyRent) {
-                        if (plot.account == localStorage.getItem("username")) {
-                          return (
-                            <tr key={index} style={{ textAlign: "center" }}>
-                              <td>
-                                <strong>{plot._id}</strong>
-                              </td>
-                              <td>{plot.properties.NAME}</td>
-                              <td>
-                                <strong>{rentedData.term}</strong> MTH
-                              </td>
-                              <td>
-                                <strong>{plot.properties.LVL}</strong>
-                              </td>
-                              <td>
-                                <strong>{rentedData.price}</strong>
-                              </td>
-                              <td>
-                                <strong>
-                                  {new Date(
-                                    rentedData.time
-                                  ).toLocaleDateString()}
-                                </strong>
-                              </td>
-                            </tr>
-                          );
-                        }
-                      } else {
                         return (
                           <tr key={index} style={{ textAlign: "center" }}>
                             <td>
-                              <strong>{plot._id}</strong>
+                              <strong>{plot.id}</strong>
                             </td>
                             <td>{plot.properties.NAME}</td>
                             <td>
@@ -523,31 +504,15 @@ class Rentals extends Component {
                               <strong>{rentedData.price}</strong>
                             </td>
                             <td>
-                              {plot.account ==
-                                localStorage.getItem("username") &&
-                              !plot.properties.RENTED ? (
-                                <Button
-                                  variant="danger"
-                                  onClick={(e) => {
-                                    this.cancelRental(plot._id);
-                                  }}
-                                >
-                                  Cancel
-                                </Button>
-                              ) : (
-                                <Button
-                                  variant="success"
-                                  onClick={(e) => {
-                                    this.rent(plot._id, rentedData.price);
-                                  }}
-                                >
-                                  Choose
-                                </Button>
-                              )}
+                            <strong>
+                                  {new Date(
+                                    rentedData.time
+                                  ).toLocaleDateString()}
+                                </strong>
                             </td>
                           </tr>
                         );
-                      }
+                      
                     })}
                   </tbody>
                 </Table>
