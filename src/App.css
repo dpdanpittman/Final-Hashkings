@@ -1782,8 +1782,8 @@ SMALL DEVICES BREAKPOINT
 }
 
 .inputC {
-  background: url(./assets/img/InputPrice.png) no-repeat;
-  width: 315px;
+  background: url(./assets/img/InputPrice.png) no-repeat center;
+ 
   height: 117px;
 }
 

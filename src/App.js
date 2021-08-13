@@ -26,7 +26,7 @@ function App() {
           <Route path="/callback">
             <AuthenticationView mode="callback" />
           </Route>
-          <ShopGuardRoute path="/rents" component={Rentals} />
+          <ShopGuardRoute path="/rentals" component={Rentals} />
           <Route exact path="/auth" component={AuthenticationView} />
           <ShopGuardRoute exact path="/play" component={GameBoard} />
           <Route exact component={four_oh_four} />
