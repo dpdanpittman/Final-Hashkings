@@ -4,6 +4,8 @@ import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
 import rentFarm from "../assets/img/RentFarm.png";
 import rentWaterTower from "../assets/img/RentTower.png";
+import rentBundle from "../assets/img/Rent bundle.png";
+
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
 import ClosePNG from "../assets/img/ui/x close.png";
@@ -13,14 +15,14 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import logo from "../assets/img/logo.png";
 
-import btnmarron1 from "../assets/img/botonMarron.png";
-import btnverde1 from "../assets/img/BotonVerde.png";
+import btnmarron1 from "../assets/img/BOTON-01.png";
+import btnverde1 from "../assets/img/BOTON-05.png";
 
-import btnmarron2 from "../assets/img/botonMarron.png";
-import btnverde2 from "../assets/img/BotonVerde.png";
+import btnmarron2 from "../assets/img/BOTON-04.png";
+import btnverde2 from "../assets/img/BOTON-08.png";
 
-import btnmarron3 from "../assets/img/botonMarron.png";
-import btnverde3 from "../assets/img/BotonVerde.png";
+import btnmarron3 from "../assets/img/BOTON-02.png";
+import btnverde3 from "../assets/img/BOTON-06.png";
 
 import terms from "../assets/img/ChooseTerms.png";
 import termsTower from "../assets/img/ChooseTerms.png";
@@ -136,15 +138,27 @@ class Rentals extends Component {
       showModalFarm: false,
       loading: true,
       rentData: [],
+      myrentData: [],
       rentalLoading: true,
       term: 0,
       plot: 0,
       price: 0,
+      changeMyRent: false,
+      displayMyRented: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.setrentar = this.setrentar.bind(this);
     this.onSelectPlot = this.onSelectPlot.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
+    this.changeDisplay = this.changeDisplay.bind(this);
+  }
+
+  changeDisplay(e) {
+    if (this.state.changeMyRent) {
+      this.setState({ ...this.state, changeMyRent: false });
+    } else {
+      this.setState({ ...this.state, changeMyRent: true });
+    }
   }
 
   handleChange(e) {
@@ -181,11 +195,9 @@ class Rentals extends Component {
       waterObject.waterlvl9 = [];
     }
 
-
     if (!waterObject.hasOwnProperty("waterlvl8")) {
       waterObject.waterlvl8 = [];
     }
-
 
     if (!waterObject.hasOwnProperty("waterlvl7")) {
       waterObject.waterlvl7 = [];
@@ -303,7 +315,7 @@ class Rentals extends Component {
           <div className="rentsBackground">
             <div className="container">
               <img
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", maxWidth: "354px" }}
                 onClick={(e) => this.displayModal("farm")}
                 src={rentFarm}
               />
@@ -313,67 +325,233 @@ class Rentals extends Component {
                 src={rentWaterTower}
               />
 
-              <Table
-                style={{ overflow: "auto" }}
-                striped
-                bordered
-                hover
-                responsive
-              >
-                <thead>
-                  <tr style={{ textAlign: "center" }}>
-                    <th>Id</th>
-                    <th>region</th>
-                    <th>terms</th>
-                    <th>tower lvl</th>
-                    <th>price</th>
-                    <th>op</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.state.rentData.map((plot, index) => {
-                    let rentedData = JSON.parse(plot.properties.RENTEDSTATUS);
-                    return (
-                      <tr key={index} style={{ textAlign: "center" }}>
-                        <td>
-                          <strong>{plot._id}</strong>
-                        </td>
-                        <td>{plot.properties.NAME}</td>
-                        <td>
-                          <strong>{rentedData.term}</strong> MTH
-                        </td>
-                        <td>
-                          <strong>{plot.properties.LVL}</strong>
-                        </td>
-                        <td>
-                          <strong>{rentedData.price}</strong>
-                        </td>
-                        <td>
-                          {plot.account == localStorage.getItem("username") &&
-                          !plot.properties.RENTED ? (
-                            <Button
-                              onClick={(e) => {
-                                this.cancelRental(plot._id);
-                              }}
-                            >
-                              Cancel
-                            </Button>
-                          ) : (
-                            <Button
-                              variant="success"
-                              onClick={(e) => {
-                                this.rent(plot._id, rentedData.price);
-                              }}
-                            >
-                              RENT
-                            </Button>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
+              <img
+                style={{ cursor: "pointer", filter: "grayscale(100%)" }}
+                onClick={(e) => {}}
+                src={rentBundle}
+              />
+
+              <input
+                type="checkbox"
+                id="checkbox"
+                onChange={this.changeDisplay}
+              />
+              <label htmlFor="checkbox"> My Rents </label>
+
+              <input
+                type="checkbox"
+                id="rented"
+                onChange={this.changeDisplay}
+              />
+              <label htmlFor="rented"> Rented </label>
+
+              {!this.state.displayMyRented && (
+                <Table
+                  style={{ overflow: "auto" }}
+                  striped
+                  bordered
+                  hover
+                  responsive
+                >
+                  <thead>
+                    <tr style={{ textAlign: "center" }}>
+                      <th>Id</th>
+                      <th>region</th>
+                      <th>terms</th>
+                      <th>tower lvl</th>
+                      <th>price</th>
+                      <th>op</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.rentData.map((plot, index) => {
+                      let rentedData = JSON.parse(plot.properties.RENTEDSTATUS);
+
+                      if (this.state.changeMyRent) {
+                        if (plot.account == localStorage.getItem("username")) {
+                          return (
+                            <tr key={index} style={{ textAlign: "center" }}>
+                              <td>
+                                <strong>{plot._id}</strong>
+                              </td>
+                              <td>{plot.properties.NAME}</td>
+                              <td>
+                                <strong>{rentedData.term}</strong> MTH
+                              </td>
+                              <td>
+                                <strong>{plot.properties.LVL}</strong>
+                              </td>
+                              <td>
+                                <strong>{rentedData.price}</strong>
+                              </td>
+                              <td>
+                                {plot.account ==
+                                  localStorage.getItem("username") &&
+                                !plot.properties.RENTED ? (
+                                  <Button
+                                    variant="danger"
+                                    onClick={(e) => {
+                                      this.cancelRental(plot._id);
+                                    }}
+                                  >
+                                    Cancel
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    variant="success"
+                                    onClick={(e) => {
+                                      this.rent(plot._id, rentedData.price);
+                                    }}
+                                  >
+                                    Choose
+                                  </Button>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        }
+                      } else {
+                        return (
+                          <tr key={index} style={{ textAlign: "center" }}>
+                            <td>
+                              <strong>{plot._id}</strong>
+                            </td>
+                            <td>{plot.properties.NAME}</td>
+                            <td>
+                              <strong>{rentedData.term}</strong> MTH
+                            </td>
+                            <td>
+                              <strong>{plot.properties.LVL}</strong>
+                            </td>
+                            <td>
+                              <strong>{rentedData.price}</strong>
+                            </td>
+                            <td>
+                              {plot.account ==
+                                localStorage.getItem("username") &&
+                              !plot.properties.RENTED ? (
+                                <Button
+                                  variant="danger"
+                                  onClick={(e) => {
+                                    this.cancelRental(plot._id);
+                                  }}
+                                >
+                                  Cancel
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="success"
+                                  onClick={(e) => {
+                                    this.rent(plot._id, rentedData.price);
+                                  }}
+                                >
+                                  Choose
+                                </Button>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      }
+                    })}
+                  </tbody>
+                </Table>
+              )}
+
+              {this.state.displayMyRented && (
+                <Table
+                  style={{ overflow: "auto" }}
+                  striped
+                  bordered
+                  hover
+                  responsive
+                >
+                  <thead>
+                    <tr style={{ textAlign: "center" }}>
+                      <th>Id</th>
+                      <th>region</th>
+                      <th>terms</th>
+                      <th>tower lvl</th>
+                      <th>price</th>
+                      <th>Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.myrentData.map((plot, index) => {
+                      let rentedData = JSON.parse(plot.properties.RENTEDSTATUS);
+
+                      if (this.state.changeMyRent) {
+                        if (plot.account == localStorage.getItem("username")) {
+                          return (
+                            <tr key={index} style={{ textAlign: "center" }}>
+                              <td>
+                                <strong>{plot._id}</strong>
+                              </td>
+                              <td>{plot.properties.NAME}</td>
+                              <td>
+                                <strong>{rentedData.term}</strong> MTH
+                              </td>
+                              <td>
+                                <strong>{plot.properties.LVL}</strong>
+                              </td>
+                              <td>
+                                <strong>{rentedData.price}</strong>
+                              </td>
+                              <td>
+                                <strong>
+                                  {new Date(
+                                    rentedData.time
+                                  ).toLocaleDateString()}
+                                </strong>
+                              </td>
+                            </tr>
+                          );
+                        }
+                      } else {
+                        return (
+                          <tr key={index} style={{ textAlign: "center" }}>
+                            <td>
+                              <strong>{plot._id}</strong>
+                            </td>
+                            <td>{plot.properties.NAME}</td>
+                            <td>
+                              <strong>{rentedData.term}</strong> MTH
+                            </td>
+                            <td>
+                              <strong>{plot.properties.LVL}</strong>
+                            </td>
+                            <td>
+                              <strong>{rentedData.price}</strong>
+                            </td>
+                            <td>
+                              {plot.account ==
+                                localStorage.getItem("username") &&
+                              !plot.properties.RENTED ? (
+                                <Button
+                                  variant="danger"
+                                  onClick={(e) => {
+                                    this.cancelRental(plot._id);
+                                  }}
+                                >
+                                  Cancel
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="success"
+                                  onClick={(e) => {
+                                    this.rent(plot._id, rentedData.price);
+                                  }}
+                                >
+                                  Choose
+                                </Button>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      }
+                    })}
+                  </tbody>
+                </Table>
+              )}
             </div>
 
             <Modal
@@ -412,7 +590,11 @@ class Rentals extends Component {
                     />
                   </div>
                   <div className="mb-3" style={{ textAlign: "center" }}>
-                    <select onChange={this.onSelectPlot}>
+                    <select
+                      className="form-select"
+                      aria-label="Default select example"
+                      onChange={this.onSelectPlot}
+                    >
                       <option disabled defaultValue>
                         Choose plot
                       </option>
@@ -476,8 +658,8 @@ class Rentals extends Component {
                       onChange={this.onChangePrice}
                       type="number"
                       style={{
-                        marginTop: "23%",
-                        marginLeft: "10%",
+                        marginTop: "7%",
+                        marginLeft: "-11%",
                         padding: "2%",
                         background: "transparent",
                         border: "0",
@@ -594,8 +776,8 @@ class Rentals extends Component {
                       onChange={this.onChangePrice}
                       type="number"
                       style={{
-                        marginTop: "23%",
-                        marginLeft: "10%",
+                        marginTop: "7%",
+                        marginLeft: "-11%",
                         padding: "2%",
                         background: "transparent",
                         border: "0",
@@ -706,6 +888,7 @@ class Rentals extends Component {
         this.setState({
           ...this.state,
           loading: false,
+          myrentData: res.data.rented,
         });
 
         Swal.resumeTimer();
