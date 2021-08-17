@@ -164,9 +164,9 @@ class AuthenticationView extends Component {
                     <h5 align="center">Don't have a Hive account?</h5>
                     <div className="d-flex flex-row justify-content-center">
                       <Button
-                        onClick={(e) => this.props.history.push("/signup")}
+                        onClick={(e) => window.location.href = "https://signup.hive.io/"}
                       >
-                        Sign up with Hive Onboard
+                        Sign up with Hive
                       </Button>
                     </div>
                   </div>
@@ -183,8 +183,8 @@ class AuthenticationView extends Component {
                 <Modal.Body>
                   <div className="mt-4 mb-3">
                     <div className="d-flex flex-row justify-content-center">
-                      <Button>Sign up with Hive Onboard</Button>
-                    </div>
+                      <Button   onClick={(e) => window.location.href = "https://signup.hive.io/" } >Sign up with Hive</Button>
+                    </div> 
                   </div>
                   <div className="mt-5 mb-3">
                     <h5 align="center">Already have a Hive account?</h5>

@@ -136,6 +136,7 @@ class Rentals extends Component {
     this.state = {
       showModalWater: false,
       showModalFarm: false,
+      showModalBundle: false,
       loading: true,
       rentData: [],
       myrentData: [],
@@ -143,30 +144,60 @@ class Rentals extends Component {
       term: 0,
       plot: 0,
       price: 0,
+      water: 0,
+      bundle: 0,
       changeMyRent: false,
       displayMyRented: false,
+      changecreateBundle: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.setrentar = this.setrentar.bind(this);
+    this.createBundle = this.createBundle.bind(this);
     this.onSelectPlot = this.onSelectPlot.bind(this);
+    this.onSelectWater = this.onSelectWater.bind(this);
+    this.onSelectBundle = this.onSelectBundle.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
     this.changeDisplay = this.changeDisplay.bind(this);
     this.displayMyRented = this.displayMyRented.bind(this);
+    this.changecreateBundle = this.changecreateBundle.bind(this);
+    this.setrentarBundle = this.setrentarBundle.bind(this);
   }
 
   changeDisplay(e) {
     if (this.state.changeMyRent) {
-      this.setState({ ...this.state, changeMyRent: false , displayMyRented: false});
+      this.setState({
+        ...this.state,
+        changeMyRent: false,
+        displayMyRented: false,
+      });
     } else {
-      this.setState({ ...this.state, changeMyRent: true, displayMyRented: false });
+      this.setState({
+        ...this.state,
+        changeMyRent: true,
+        displayMyRented: false,
+      });
     }
   }
 
   displayMyRented(e) {
     if (this.state.displayMyRented) {
-      this.setState({ ...this.state, displayMyRented: false});
+      this.setState({ ...this.state, displayMyRented: false });
     } else {
       this.setState({ ...this.state, displayMyRented: true });
+    }
+  }
+
+  changecreateBundle(e) {
+    if (this.state.changecreateBundle) {
+      this.setState({
+        ...this.state,
+        changecreateBundle: false,
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        changecreateBundle: true,
+      });
     }
   }
 
@@ -176,6 +207,14 @@ class Rentals extends Component {
 
   onSelectPlot(e) {
     this.setState({ ...this.state, plot: e.target.value });
+  }
+
+  onSelectWater(e) {
+    this.setState({ ...this.state, water: e.target.value });
+  }
+
+  onSelectBundle(e) {
+    this.setState({ ...this.state, bundle: e.target.value });
   }
 
   onChangePrice(e) {
@@ -191,6 +230,11 @@ class Rentals extends Component {
     if (modal == "water") {
       this.setState({ showModalWater: true });
       console.log("mostrando", this.state.showModalWater);
+    }
+
+    if (modal == "bundle") {
+      this.setState({ showModalBundle: true });
+      console.log("mostrando", this.state.showModalBundle);
     }
   }
 
@@ -315,13 +359,31 @@ class Rentals extends Component {
         }
       });
 
+      let bundle = this.props.API_bucket.bundles || [];
+      let bundleOptions = bundle.map((bundle, index) => {
+        if (!bundle.properties.RENTED) {
+          if (bundle.properties.RENTEDINFO != "available") {
+            return (
+              <option
+                index={index}
+                key={index}
+                value={bundle.id}
+                className="opBlack"
+              >
+                {bundle.properties.NAME}
+              </option>
+            );
+          }
+        }
+      });
+
       return (
         <div className="authentication">
           <div
             className="overlay"
             style={{ display: this.state.showModalFarm ? "unset" : "none" }}
           ></div>
-          <div className="rentsBackground">
+          <div className="rentsBackground" style={{ overflow: "auto" }}>
             <div className="container">
               <img
                 style={{ cursor: "pointer", maxWidth: "354px" }}
@@ -335,14 +397,15 @@ class Rentals extends Component {
               />
 
               <img
-                style={{ cursor: "pointer", filter: "grayscale(100%)" }}
-                onClick={(e) => {}}
+                style={{ cursor: "pointer" }}
+                onClick={(e) => this.displayModal("bundle")}
                 src={rentBundle}
               />
 
               <input
                 type="checkbox"
                 id="checkbox"
+                style={{ marginLeft: "15px" }}
                 onChange={this.changeDisplay}
               />
               <label htmlFor="checkbox"> My Rents </label>
@@ -350,6 +413,7 @@ class Rentals extends Component {
               <input
                 type="checkbox"
                 id="rented"
+                style={{ marginLeft: "10px" }}
                 onChange={this.displayMyRented}
               />
               <label htmlFor="rented"> Rented </label>
@@ -373,11 +437,68 @@ class Rentals extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.rentData.map((plot, index) => {
-                      let rentedData = JSON.parse(plot.properties.RENTEDSTATUS);
+                    {this.state.rentData
+                      .sort(function (a, b) {
+                        let rentdataA = JSON.parse(a.properties.RENTEDSTATUS);
 
-                      if (this.state.changeMyRent) {
-                        if (plot.account == localStorage.getItem("username")) {
+                        let rentDataB = JSON.parse(b.properties.RENTEDSTATUS);
+
+                        return (
+                          parseFloat(rentdataA.price) -
+                          parseFloat(rentDataB.price)
+                        );
+                      })
+                      .map((plot, index) => {
+                        let rentedData = JSON.parse(
+                          plot.properties.RENTEDSTATUS
+                        );
+
+                        if (this.state.changeMyRent) {
+                          if (
+                            plot.account == localStorage.getItem("username")
+                          ) {
+                            return (
+                              <tr key={index} style={{ textAlign: "center" }}>
+                                <td>
+                                  <strong>{plot._id}</strong>
+                                </td>
+                                <td>{plot.properties.NAME}</td>
+                                <td>
+                                  <strong>{rentedData.term}</strong> MTH
+                                </td>
+                                <td>
+                                  <strong>{plot.properties.LVL}</strong>
+                                </td>
+                                <td>
+                                  <strong>{rentedData.price}</strong>
+                                </td>
+                                <td>
+                                  {plot.account ==
+                                    localStorage.getItem("username") &&
+                                  !plot.properties.RENTED ? (
+                                    <Button
+                                      variant="danger"
+                                      onClick={(e) => {
+                                        this.cancelRental(plot._id);
+                                      }}
+                                    >
+                                      Cancel
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      variant="success"
+                                      onClick={(e) => {
+                                        this.rent(plot._id, rentedData.price);
+                                      }}
+                                    >
+                                      Choose
+                                    </Button>
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          }
+                        } else {
                           return (
                             <tr key={index} style={{ textAlign: "center" }}>
                               <td>
@@ -419,49 +540,7 @@ class Rentals extends Component {
                             </tr>
                           );
                         }
-                      } else {
-                        return (
-                          <tr key={index} style={{ textAlign: "center" }}>
-                            <td>
-                              <strong>{plot._id}</strong>
-                            </td>
-                            <td>{plot.properties.NAME}</td>
-                            <td>
-                              <strong>{rentedData.term}</strong> MTH
-                            </td>
-                            <td>
-                              <strong>{plot.properties.LVL}</strong>
-                            </td>
-                            <td>
-                              <strong>{rentedData.price}</strong>
-                            </td>
-                            <td>
-                              {plot.account ==
-                                localStorage.getItem("username") &&
-                              !plot.properties.RENTED ? (
-                                <Button
-                                  variant="danger"
-                                  onClick={(e) => {
-                                    this.cancelRental(plot._id);
-                                  }}
-                                >
-                                  Cancel
-                                </Button>
-                              ) : (
-                                <Button
-                                  variant="success"
-                                  onClick={(e) => {
-                                    this.rent(plot._id, rentedData.price);
-                                  }}
-                                >
-                                  Choose
-                                </Button>
-                              )}
-                            </td>
-                          </tr>
-                        );
-                      }
-                    })}
+                      })}
                   </tbody>
                 </Table>
               )}
@@ -488,31 +567,28 @@ class Rentals extends Component {
                     {this.state.myrentData.map((plot, index) => {
                       let rentedData = JSON.parse(plot.properties.RENTEDSTATUS);
 
-                        return (
-                          <tr key={index} style={{ textAlign: "center" }}>
-                            <td>
-                              <strong>{plot.id}</strong>
-                            </td>
-                            <td>{plot.properties.NAME}</td>
-                            <td>
-                              <strong>{rentedData.term}</strong> MTH
-                            </td>
-                            <td>
-                              <strong>{plot.properties.LVL}</strong>
-                            </td>
-                            <td>
-                              <strong>{rentedData.price}</strong>
-                            </td>
-                            <td>
+                      return (
+                        <tr key={index} style={{ textAlign: "center" }}>
+                          <td>
+                            <strong>{plot.id}</strong>
+                          </td>
+                          <td>{plot.properties.NAME}</td>
+                          <td>
+                            <strong>{rentedData.term}</strong> MTH
+                          </td>
+                          <td>
+                            <strong>{plot.properties.LVL}</strong>
+                          </td>
+                          <td>
+                            <strong>{rentedData.price}</strong>
+                          </td>
+                          <td>
                             <strong>
-                                  {new Date(
-                                    rentedData.time
-                                  ).toLocaleDateString()}
-                                </strong>
-                            </td>
-                          </tr>
-                        );
-                      
+                              {new Date(rentedData.time).toLocaleDateString()}
+                            </strong>
+                          </td>
+                        </tr>
+                      );
                     })}
                   </tbody>
                 </Table>
@@ -758,6 +834,195 @@ class Rentals extends Component {
                 </Modal.Body>
               </div>
             </Modal>
+
+            <Modal
+              size="lg"
+              show={this.state.showModalBundle}
+              onHide={() =>
+                this.setState({ ...this.state, showModalBundle: false })
+              }
+              centered
+              style={{ zIndex: "99999" }}
+            >
+              <div
+                id="profile-modal-rent"
+                className="modal-transparent-overlay"
+                className="base-modal"
+              >
+                <img
+                  onClick={() =>
+                    this.setState({ ...this.state, showModalBundle: false })
+                  }
+                  className="close-btn highlight-on-hover"
+                  src={ClosePNG}
+                />
+                <Modal.Body>
+                  <br />
+                  <br />
+                  <div className="mb-3" style={{ textAlign: "center" }}>
+                    <img
+                      src={farmRental}
+                      style={{
+                        maxWidth: "300px",
+                        position: "absolute",
+                        top: "-6%",
+                        right: "31%",
+                      }}
+                    />
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-6">
+                      <input
+                        type="checkbox"
+                        id="createBundle"
+                        onChange={this.changecreateBundle}
+                      />
+                      <label htmlFor="createBundle"> create bundle </label>
+                    </div>
+                  </div>
+
+                  {this.state.changecreateBundle && (
+                    <div>
+                      <div className="mb-3" style={{ textAlign: "center" }}>
+                        <select
+                          className="form-select"
+                          aria-label="Default select example"
+                          onChange={this.onSelectPlot}
+                        >
+                          <option disabled defaultValue>
+                            Choose plot
+                          </option>
+                          {plotOptions}
+                        </select>
+                      </div>
+
+                      <div className="mb-3" style={{ textAlign: "center" }}>
+                        <select onChange={this.onSelectWater}>
+                          <option disabled defaultValue>
+                            Choose WaterTower
+                          </option>
+                          {waterOptions}
+                        </select>
+                      </div>
+
+                      <div className="mb-3" style={{ textAlign: "center" }}>
+                        <button
+                          className="rent-now px-1"
+                          onClick={this.createBundle}
+                        >
+                          Create Bundle
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {!this.state.changecreateBundle && (
+                    <div>
+                      <div className="mb-3" style={{ textAlign: "center" }}>
+                        <select
+                          className="form-select"
+                          aria-label="Default select example"
+                          onChange={this.onSelectBundle}
+                        >
+                          <option defaultValue value="">
+                            Choose bundle
+                          </option>
+                          {bundleOptions}
+                        </select>
+                      </div>
+
+                      <div className="mb-3" style={{ textAlign: "center" }}>
+                        <img src={terms} style={{ width: "inherit" }} />
+                      </div>
+                      <div className="mb-3" style={{ textAlign: "center" }}>
+                        <label htmlFor="moth1" style={{ width: "100px" }}>
+                          {this.state.term != 0 && this.state.term == 1 ? (
+                            <img src={btnverde1} style={{ width: "inherit" }} />
+                          ) : (
+                            <img
+                              src={btnmarron1}
+                              style={{ width: "inherit" }}
+                            />
+                          )}
+                        </label>
+                        <input
+                          style={{ visibility: "hidden", position: "absolute" }}
+                          onChange={this.handleChange}
+                          type="radio"
+                          value={1}
+                          name="group1"
+                          id="moth1"
+                        />
+
+                        <label htmlFor="moth2" style={{ width: "100px" }}>
+                          {this.state.term != 0 && this.state.term == 3 ? (
+                            <img src={btnverde2} style={{ width: "inherit" }} />
+                          ) : (
+                            <img
+                              src={btnmarron2}
+                              style={{ width: "inherit" }}
+                            />
+                          )}
+                        </label>
+                        <input
+                          style={{ visibility: "hidden", position: "absolute" }}
+                          onChange={this.handleChange}
+                          type="radio"
+                          value={3}
+                          name="group1"
+                          id="moth2"
+                        />
+                        <label htmlFor="moth3" style={{ width: "100px" }}>
+                          {this.state.term != 0 && this.state.term == 6 ? (
+                            <img src={btnverde3} style={{ width: "inherit" }} />
+                          ) : (
+                            <img
+                              src={btnmarron3}
+                              style={{ width: "inherit" }}
+                            />
+                          )}
+                        </label>
+                        <input
+                          style={{ visibility: "hidden", position: "absolute" }}
+                          onChange={this.handleChange}
+                          type="radio"
+                          value={6}
+                          name="group1"
+                          id="moth3"
+                        />
+                      </div>
+
+                      <div
+                        className="mb-3 inputC"
+                        style={{ textAlign: "center" }}
+                      >
+                        <input
+                          onChange={this.onChangePrice}
+                          type="number"
+                          style={{
+                            marginTop: "7%",
+                            marginLeft: "-11%",
+                            padding: "2%",
+                            background: "transparent",
+                            border: "0",
+                          }}
+                        />
+                      </div>
+
+                      <div className="mb-3" style={{ textAlign: "center" }}>
+                        <button
+                          className="rent-now px-1"
+                          onClick={this.setrentarBundle}
+                        >
+                          Set Rent
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </Modal.Body>
+              </div>
+            </Modal>
           </div>
         </div>
       );
@@ -778,6 +1043,29 @@ class Rentals extends Component {
     );
   }
 
+  createBundle() {
+    if (this.state.plot != 0 && this.state.water != 0) {
+      let body = {
+        waterTower: this.state.water,
+        plot: this.state.plot,
+      };
+
+      window.hive_keychain.requestCustomJson(
+        localStorage.getItem("username"),
+        "qwoyn_create_bundle",
+        "Posting",
+        `${JSON.stringify(body)}`,
+        "Renting Plot",
+        (res) => {
+          console.log("posted");
+        },
+        null
+      );
+    } else {
+      alert("please select plot and water tower");
+    }
+  }
+
   setrentar() {
     if (this.state.term && this.state.price && this.state.plot) {
       let body = {
@@ -792,6 +1080,28 @@ class Rentals extends Component {
         "Posting",
         `${JSON.stringify(body)}`,
         "Renting Plot",
+        (res) => {
+          console.log("posted");
+        },
+        null
+      );
+    }
+  }
+
+  setrentarBundle() {
+    if (this.state.term && this.state.price && this.state.bundle) {
+      let body = {
+        term: this.state.term,
+        price: this.state.price,
+        bundle: this.state.bundle,
+      };
+
+      window.hive_keychain.requestCustomJson(
+        localStorage.getItem("username"),
+        "qwoyn_set_rent_bundle",
+        "Posting",
+        `${JSON.stringify(body)}`,
+        "Renting Bundle",
         (res) => {
           console.log("posted");
         },
