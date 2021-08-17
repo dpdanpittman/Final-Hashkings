@@ -155,6 +155,9 @@ class FarmsInRegion extends Component {
                       <div style={{ fontSize: "small", marginLeft: "5%" }}>
                         time rente end: {this.getTimeRentedEnd()}
                       </div>
+                      <div style={{ fontSize: "small", marginLeft: "5%" }}>
+                        seed death time: {this.getSeedEnd()}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -193,6 +196,11 @@ class FarmsInRegion extends Component {
       return "N/A";
     }
   }
+
+  getSeedEnd() {
+    return "N/A"
+  }
+
 
   getWater() {
     let farm = this.state.activeFarm.farmid.properties;

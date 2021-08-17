@@ -139,7 +139,7 @@ function HeaderTab(props) {
             </div>
           </div>
         </Button>
-        <Button style={{display: "none"}} variant="link" onClick={() => setshowModal(true)}>
+        <Button style={{display: "contents"}} variant="link" onClick={() => setshowModal(true)}>
           <div className="icon-group">
             <img
               style={{ transform: "scale(1.2)" }}
