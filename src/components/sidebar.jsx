@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-
+import Modal from "react-bootstrap/Modal";
 import { showModal } from "./configs/map";
 import { hover } from "./configs/map";
 
@@ -29,9 +29,13 @@ import MexicoPNG from "../assets/img/continents/Mexico.png";
 import SouthAmericaPNG from "../assets/img/continents/Sudamerica.png";
 import fantomPNG from "../assets/img/spiritswap_logo.png";
 
-
 import DepositButton from "../assets/img/staking_modal/Deposit.png";
+import ClosePNG from "../assets/img/ui/x close.png";
 
+import Avatar1PNG from "../assets/img/profile_pictures/Farmer.png";
+import Avatar2PNG from "../assets/img/profile_pictures/Terrateniente.png";
+import Avatar3PNG from "../assets/img/profile_pictures/Farmer lady.png";
+import Avatar4PNG from "../assets/img/profile_pictures/Lady of 20s.png";
 
 const TimeServer = () => {
   let [time, setTime] = useState(
@@ -50,6 +54,7 @@ class SideBar extends Component {
 
     this.state = {
       showModal: false,
+      showModalStore: false,
       area: {},
     };
   }
@@ -66,7 +71,7 @@ class SideBar extends Component {
           </div>
           <div className="links-wrapper">
             <div className="d-flex flex-row justify-content-around regions-row">
-              <div >
+              <div>
                 <img
                   className="inventory-button"
                   onClick={(e) => this.props.showModals("inventory")}
@@ -81,7 +86,7 @@ class SideBar extends Component {
               <div>
                 <img
                   onClick={(e) =>
-                    window.open("https://www.hashkings.app/avatars", "_blank")
+                    this.setState({ ...this.state, showModalStore: true })
                   }
                   className="inventory-button"
                   src={StorePNG}
@@ -177,7 +182,7 @@ class SideBar extends Component {
                 <div className="text-center small">Crafting</div>
               </div>
 
-              <div style={{display:"none"}}>
+              <div style={{}}>
                 <img
                   onClick={(e) => this.props.showModals("fantom")}
                   className="highlight-on-hover stake-button"
@@ -252,14 +257,114 @@ class SideBar extends Component {
                   />
                 </a>
               </div>
-              <div style={{ textAlign: "center", marginTop:"10px" }}>
+              <div style={{ textAlign: "center", marginTop: "10px" }}>
                 Hashkings Time:<TimeServer></TimeServer>
               </div>
             </div>
           </div>
         </div>
+
+        <Modal
+          size="lg"
+          show={this.state.showModalStore}
+          onHide={() => this.setState({ ...this.state, showModalStore: false })}
+          centered
+          style={{ zIndex: "99999" }}
+        >
+          <div
+            id="profile-modal-rent"
+            className="modal-transparent-overlay"
+            className="base-modal"
+          >
+            <img
+              onClick={() =>
+                this.setState({ ...this.state, showModalStore: false })
+              }
+              className="close-btn highlight-on-hover"
+              src={ClosePNG}
+            />
+            <Modal.Body>
+              <h1 style={{ textAlign: "center" }}>Buy your avatar</h1>
+              <div className="row">
+                <div className="col">
+                  <label>Farmer Shaggi</label>
+                  <img
+                    onClick={(e) => this.comprarAvatar("avatar3")}
+                    style={{ width: "200px", cursor: "pointer" }}
+                    src={Avatar1PNG}
+                    alt="Avatar 1"
+                  />
+                </div>
+                <div className="col">
+                  <label>Lucky Shaggi</label>
+                  <img
+                    onClick={(e) => this.comprarAvatar("avatar5")}
+                    style={{ width: "200px", cursor: "pointer" }}
+                    src={Avatar2PNG}
+                    alt="Avatar 2"
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col">
+                  <label>Farmer Maggi</label>
+                  <img
+                    onClick={(e) => this.comprarAvatar("avatar4")}
+                    style={{ width: "200px", cursor: "pointer" }}
+                    src={Avatar3PNG}
+                    alt="Avatar 3"
+                  />
+                </div>
+                <div className="col">
+                  <label>Lucky Maggi</label>
+                  <img
+                    onClick={(e) => this.comprarAvatar("avatar6")}
+                    style={{ width: "200px", cursor: "pointer" }}
+                    src={Avatar4PNG}
+                    alt="Avatar 4"
+                  />
+                </div>
+              </div>
+            </Modal.Body>
+          </div>
+        </Modal>
       </Card>
     );
+  }
+
+  comprarAvatar(avatar) {
+    fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=hive&vs_currencies=usd&include_24hr_change=true",
+      {
+        headers: {
+          accept: "application/json, text/plain, ",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((res) => {
+        const hiveValue = (0.5)/res.hive.usd ;
+
+        window.hive_keychain.requestSendToken(
+          localStorage.getItem("username"),
+          "hashkings",
+          hiveValue.toFixed(3),
+          avatar,
+          "HIVE",
+          (response) => {
+            if (response.success) {
+              console.log("COMPRANOS CORRECTAMENTE REDIGIR");
+              alert("buy success");
+            } else {
+              alert(response.message);
+            }
+          }
+        );
+      })
+      .catch((e) => {
+        alert("error on fetch hive usd value, try again");
+      });
   }
 
   areasLinksOnClick(linkKey, linksObj) {
