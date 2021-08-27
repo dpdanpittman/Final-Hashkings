@@ -1751,7 +1751,16 @@ SMALL DEVICES BREAKPOINT
   width: 100%;
   background-position: center;
   background-repeat: no-repeat;
+  height: 95%;
+}
+
+.raidsBackground {
+  background-image: url(./assets/img/Boss\ info/Fondo.png);
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
   height: 100%;
+  background-size: auto 100%;
 }
 
 .opBlack {
@@ -1783,7 +1792,7 @@ SMALL DEVICES BREAKPOINT
 
 .inputC {
   background: url(./assets/img/InputPrice.png) no-repeat center;
- 
+
   height: 117px;
 }
 
@@ -1831,4 +1840,23 @@ SMALL DEVICES BREAKPOINT
 
 .swal2-container.swal2-center {
   z-index: 999999;
+}
+
+.rentalLabel {
+  height: 175%;
+  overflow-y: scroll;
+}
+
+.rentalLabel::-webkit-scrollbar {
+  width: 12px;
+}
+
+.rentalLabel::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+  border-radius: 10px;
+}
+
+.rentalLabel::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }

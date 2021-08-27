@@ -27,7 +27,7 @@ import AsiaPNG from "../assets/img/continents/Asia.png";
 import JamaicaPNG from "../assets/img/continents/Jamaica.png";
 import MexicoPNG from "../assets/img/continents/Mexico.png";
 import SouthAmericaPNG from "../assets/img/continents/Sudamerica.png";
-import fantomPNG from "../assets/img/spiritswap_logo.png";
+import fantomPNG from "../assets/img/Fantom_round.png";
 
 import DepositButton from "../assets/img/staking_modal/Deposit.png";
 import ClosePNG from "../assets/img/ui/x close.png";
@@ -189,8 +189,9 @@ class SideBar extends Component {
                   src={fantomPNG}
                   alt="fantom send"
                   title="fantom send"
+                  style={{marginLeft: "0em"}}
                 />
-                <div className="text-center small">Spirit</div>
+                <div className="text-center small">Fantom</div>
               </div>
 
               <div>
