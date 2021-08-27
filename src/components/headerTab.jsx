@@ -11,7 +11,7 @@ import XpPNG from "../assets/img/ui/Icono XP.png";
 import LvPNG from "../assets/img/ui/Level.png";
 import FarmerPNG from "../assets/img/profile_pictures/Farmer.png";
 import Profiles from "../assets/img/profile_pictures";
-import Spirit from "../assets/img/Fantom_round.png";
+import Spirit from "../assets/img/spiritswap_logo.png";
 import ClosePNG from "../assets/img/ui/x close.png";
 
 import Web3 from "web3";
@@ -140,7 +140,7 @@ function HeaderTab(props) {
           </div>
         </Button>
         <Button style={{display: "contents"}} variant="link" onClick={() => setshowModal(true)}>
-          <div className="icon-group" style={{ display: "block"}}>
+          <div className="icon-group">
             <img
               style={{ transform: "scale(1.2)" }}
               src={Spirit}
