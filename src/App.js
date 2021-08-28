@@ -10,6 +10,7 @@ import four_oh_four from "./components/_404";
 import Rentals from "./components/rental";
 
 import Raids from  "./components/raids";
+import Forge from  "./components/forge";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           </Route>
           <ShopGuardRoute path="/rentals" component={Rentals} />
           <ShopGuardRoute path="/raids" component={Raids} />
+          <ShopGuardRoute path="/forge" component={Forge} />
           <Route exact path="/auth" component={AuthenticationView} />
           <ShopGuardRoute exact path="/play" component={GameBoard} />
           <Route exact component={four_oh_four} />

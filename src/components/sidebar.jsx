@@ -37,6 +37,8 @@ import Avatar2PNG from "../assets/img/profile_pictures/Terrateniente.png";
 import Avatar3PNG from "../assets/img/profile_pictures/Farmer lady.png";
 import Avatar4PNG from "../assets/img/profile_pictures/Lady of 20s.png";
 
+import rentalsPNG from "../assets/img/ui/Boton cash.png"
+
 const TimeServer = () => {
   let [time, setTime] = useState(
     new Date().toISOString().split("T")[1].split("Z")[0].split(".")[0]
@@ -80,6 +82,25 @@ class SideBar extends Component {
                 />
                 <div className="inventory-label small text-center">
                   Inventory
+                </div>
+              </div>
+
+              <div>
+                <img
+                  className="inventory-button"
+                  onClick={(e) => window.location.href = "https://farm.hashkings.app/rentals"}
+                  src={rentalsPNG}
+                  alt="Rentals | Hashkings"
+                  style={{
+                    maxWidth: "54px",
+                    top: "-12px"
+                }}
+                />
+                <div className="inventory-label small text-center" style={{
+                    maxWidth: "54px",
+                    top: "-12px"
+                }}>
+                  Rents
                 </div>
               </div>
 
