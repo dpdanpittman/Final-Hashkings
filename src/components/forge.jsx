@@ -15,38 +15,72 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import logo from "../assets/img/logo.png";
 
-import shaggi from "../assets/img/Boss info/Shaggi.png";
-import info from "../assets/img/Boss info/Info.png";
-import ranking from "../assets/img/Boss info/Ranking.png";
+import forge from "../assets/img/Forge/Fondo.png";
 
-import zeus from "../assets/img/NFTs/Zeus/Legendaria.gif";
+import LogoForge from "../assets/img/Forge/Logo.png";
 
-import ana from "../assets/img/NFTs/Anna Kournikova/Legendaria.gif";
-import * as qs from "query-string";
-
-const Info = {
-  zeus: {
-    description: "bla bla bla bla bla",
-    image: zeus,
-  },
-};
-
-class Raids extends Component {
+class Forge extends Component {
   constructor(props) {
     super(props);
     this.state = {
       info: {},
+      loading: true,
+      avone: 0,
+      avtwo: 0,
     };
+    this.onSelectavone = this.onSelectavone.bind(this);
+    this.onSelectavtwo = this.onSelectavtwo.bind(this);
+    this.forjar = this.forjar.bind(this);
+  }
+
+  onSelectavone(e) {
+    this.setState({ ...this.state, avone: e.target.value });
+  }
+  onSelectavtwo(e) {
+    this.setState({ ...this.state, avtwo: e.target.value });
+  }
+
+  forjar() {
+    if (
+      this.state.avone != 0 &&
+      this.state.avtwo != 0 &&
+      this.state.avone != this.state.avtwo
+    ) {
+      let body = [
+        {
+          contractName: "nft",
+          contractAction: "transfer",
+          contractPayload: {
+            nfts: [
+              {
+                symbol: "HKFARM",
+                ids: [this.state.avone, this.state.avtwo],
+              },
+            ],
+            to: "hashkings",
+            memo: "forge",
+          },
+        },
+      ];
+
+      window.hive_keychain.requestCustomJson(
+        localStorage.getItem("username"),
+        "ssc-mainnet-hive",
+        "Active",
+        `${JSON.stringify(body)}`,
+        "Forge",
+        (res) => {
+          console.log("posted");
+        },
+        null
+      );
+    } else {
+      alert("please select two avatars");
+    }
   }
 
   render() {
     let { loading, rentalLoading } = this.state;
-
-    let temp = {};
-
-    if (qs.parse(window.location.search).info) {
-      temp = Info[qs.parse(window.location.search).info];
-    }
 
     if (loading || rentalLoading) {
       return (
@@ -72,67 +106,93 @@ class Raids extends Component {
         </div>
       );
     } else {
+      let avatares = this.props.API_bucket.avatars || [];
+      let avatarsOptions = avatares.map((avatar, index) => {
+        if (avatar.properties.RENTEDINFO != "available") {
+          return (
+            <option
+              index={index}
+              key={index}
+              value={avatar.id}
+              className="opBlack"
+            >
+              {avatar.properties.NAME} - {avatar.id}
+            </option>
+          );
+        }
+      });
+
       return (
         <div className="authentication">
           <div
             className="overlay"
             style={{ display: this.state.showModalFarm ? "unset" : "none" }}
           ></div>
-          <div className="raidsBackground" style={{ overflow: "auto" }}>
+          <div className="ForgeBackground" style={{ overflow: "auto" }}>
             <div className="container">
               <img
-                src={temp.image}
+                src={forge}
                 style={{
-                  width: "15%",
+                  width: "48%",
                   position: "fixed",
-                  inset: "21% 55% auto auto",
-                }}
-              />
-              <img
-                src={info}
-                style={{
-                  width: "30%",
-                  position: "fixed",
-                  inset: "20% 28% auto auto",
-                }}
-              />
-              <img
-                src={ranking}
-                style={{
-                  width: "25%",
-                  position: "fixed",
-                  inset: "60% 27% auto auto",
-                }}
-              />
-              <img
-                src={shaggi}
-                style={{
-                  width: "20%",
-                  position: "fixed",
-                  inset: "58% 49% auto auto",
+                  inset: "2% 27% auto auto",
                 }}
               />
 
-              <div
+              <img
+                src={LogoForge}
                 style={{
-                  width: "21%",
+                  width: "11%",
                   position: "fixed",
-                  height: "16%",
-                  inset: "29% 33% auto auto",
+                  inset: "54% 39% auto auto",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  this.forjar();
+                }}
+              />
+
+              <label
+                style={{
+                  width: "27%",
+                  position: "fixed",
+                  inset: "10% 37% auto auto",
                 }}
               >
-                <label className="rentalLabel">
-                  {temp.description}
-                </label>
-              </div>
+                Select your avatars for forge
+              </label>
 
-              <table
+              <select
+                className="form-select"
+                aria-label="Default select example"
                 style={{
-                  width: "25%",
+                  width: "18%",
                   position: "fixed",
-                  inset: "60% 27% auto auto",
+                  inset: "26% 53% auto auto",
                 }}
-              ></table>
+                onChange={this.onSelectavone}
+              >
+                <option disabled defaultValue>
+                  Choose Avatar
+                </option>
+                {avatarsOptions}
+              </select>
+
+              <select
+                className="form-select"
+                aria-label="Default select example"
+                style={{
+                  width: "18%",
+                  position: "fixed",
+                  inset: "26% 31% auto auto",
+                }}
+                onChange={this.onSelectavtwo}
+              >
+                <option disabled defaultValue>
+                  Choose Avatar
+                </option>
+                {avatarsOptions}
+              </select>
             </div>
           </div>
         </div>
@@ -174,7 +234,6 @@ class Raids extends Component {
         this.setState({
           ...this.state,
           loading: false,
-          myrentData: res.data.rented,
         });
 
         Swal.resumeTimer();
@@ -202,4 +261,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Raids);
+export default connect(mapStateToProps, mapDispatchToProps)(Forge);
