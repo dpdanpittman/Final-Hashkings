@@ -1037,7 +1037,7 @@ class Rentals extends Component {
       "rent " + idplot,
       "HIVE",
       (response) => {
-        console.log(response);
+        alert(response);
       },
       true
     );
@@ -1081,7 +1081,7 @@ class Rentals extends Component {
         `${JSON.stringify(body)}`,
         "Renting Plot",
         (res) => {
-          console.log("posted");
+          alert("rent success");
         },
         null
       );
