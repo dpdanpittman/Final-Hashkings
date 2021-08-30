@@ -34,6 +34,8 @@ import diseno_carteleraTwp from "../assets/img/ui/Disenos_cartelera_5.png";
 import DepositButton from "../assets/img/staking_modal/Deposit.png";
 import disenocarteleraOne from "../assets/img/ui/diseno_cartelera4.1-01.png";
 
+import { preguntarPermisos } from "../utils/firebaseConfig";
+
 const MySwal = withReactContent(Swal);
 
 class GameBoard extends Component {
@@ -207,10 +209,17 @@ class GameBoard extends Component {
                     minimum of <strong>1000 BUDS</strong>
                   </p>
 
+                  <p>
+                    {" "}
+                    <strong>
+                      IMPORTANT: Make sure you have added your fantom address to
+                      Hashkings or we cannot process your request.{" "}
+                    </strong>
+                  </p>
+
                   <div className="span">
                     <div>
                       <strong>
-
                         {this.props.API_bucket.fantomadrs
                           ? ""
                           : "Please set a fantom address"}
@@ -274,6 +283,11 @@ class GameBoard extends Component {
 
   depositfantom() {
     console.log(this.props.API_bucket);
+
+    if (this.state.fantomvalue == "none") {
+      alert("Please set a valid fantom address");
+      return
+    }
 
     window.hive_keychain.requestSendToken(
       localStorage.getItem("username"),
@@ -474,6 +488,10 @@ class GameBoard extends Component {
     // enable these in production
     // this.auth();
     this.populateStore();
+
+    preguntarPermisos(this.props.firebaseConfig).then((res) => {
+      console.log(res);
+    });
 
     if (isMobile()) {
       window.location.href = "https://mobile.hashkings.app/";
