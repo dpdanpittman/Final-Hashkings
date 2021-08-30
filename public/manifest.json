@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Hashkings",
+  "name": "Hashkings is a Cannabis Farming Simulator on the Hive Blockchain",
   "icons": [
     {
       "src": "favicon.ico",
@@ -19,6 +19,7 @@
     }
   ],
   "start_url": ".",
+  "gcm_sender_id": "226906687091",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
