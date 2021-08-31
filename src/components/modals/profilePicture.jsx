@@ -25,7 +25,10 @@ const ProfilePictureModal = (props) => {
       for (const key of Object.keys(Profiles)) {
         if (Profiles[key].name == element.properties.NAME) {
           if (Profiles[key].gender == "male") {
-            avatarsMale.push({ ...element, image: Profiles[key].image });
+            if (Profiles[key].id == 185934) {
+            } else {
+              avatarsMale.push({ ...element, image: Profiles[key].image });
+            }
           } else {
             avatarsFemale.push({ ...element, image: Profiles[key].image });
           }
@@ -35,13 +38,21 @@ const ProfilePictureModal = (props) => {
 
     if (gender == "male") {
       for (let index = 0; index < avatarsMale.length; index++) {
+
+         console.log(avatarsMale[index])
+
+        if (avatarsMale[index].id != 185934) {
+
         Objects.push(
           <div
             key={avatarsMale[index].properties.NAME + index + Math.random(13)}
             onClick={(e) => handleClick(e, avatarsMale[index])}
             className="profile-image-thumbnail-wrapper"
           >
-             <div className="name" style={{backgroundColor:"white"}}>{avatarsMale[index].properties.XP } | {getLVL(avatarsMale[index].properties.XP)}</div>
+            <div className="name" style={{ backgroundColor: "white" }}>
+              {avatarsMale[index].properties.XP} |{" "}
+              {getLVL(avatarsMale[index].properties.XP)}
+            </div>
             <div className="image-wrapper">
               <img
                 className="highlight-on-hover"
@@ -52,6 +63,8 @@ const ProfilePictureModal = (props) => {
             <div className="name">{avatarsMale[index].properties.NAME}</div>
           </div>
         );
+
+        }
       }
     } else {
       for (let index = 0; index < avatarsFemale.length; index++) {
@@ -61,8 +74,11 @@ const ProfilePictureModal = (props) => {
             onClick={(e) => handleClick(e, avatarsFemale[index])}
             className="profile-image-thumbnail-wrapper"
           >
-              <div className="name" style={{backgroundColor:"white"}}>{avatarsFemale[index].properties.XP } | {getLVL(avatarsFemale[index].properties.XP)}</div>
-          
+            <div className="name" style={{ backgroundColor: "white" }}>
+              {avatarsFemale[index].properties.XP} |{" "}
+              {getLVL(avatarsFemale[index].properties.XP)}
+            </div>
+
             <div className="image-wrapper">
               <img
                 className="highlight-on-hover"
@@ -82,8 +98,7 @@ const ProfilePictureModal = (props) => {
     props.changeAvatar(avatarExist);
   };
 
-  const getLVL= (xp) =>{
-   
+  const getLVL = (xp) => {
     if (xp >= 45 && xp <= 93) {
       return 1;
     } else if (xp >= 94 && xp <= 146) {
@@ -268,8 +283,8 @@ const ProfilePictureModal = (props) => {
       return 91;
     }
 
-    return "91+"
-  }
+    return "91+";
+  };
   const getActiveImage = () => {
     for (const key of Object.keys(Profiles)) {
       if (Profiles[key].name == props.activeAvatar.properties.NAME) {
@@ -281,7 +296,11 @@ const ProfilePictureModal = (props) => {
   };
 
   return (
-    <Modal show={props.show} onHide={() => props.onhide()} style={{ zIndex: "99999"}}>
+    <Modal
+      show={props.show}
+      onHide={() => props.onhide()}
+      style={{ zIndex: "99999" }}
+    >
       <div id="profile-image-modal">
         <div className="presentation">
           <div className="image-wrapper">
