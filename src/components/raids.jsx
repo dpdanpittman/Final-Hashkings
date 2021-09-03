@@ -14,7 +14,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import logo from "../assets/img/logo.png";
-
+import triangle from "../assets/img/triangleselection.png";
 import shaggi from "../assets/img/Boss info/Shaggi.png";
 import info from "../assets/img/Boss info/Info.png";
 import ranking from "../assets/img/Boss info/Ranking.png";
@@ -36,7 +36,13 @@ class Raids extends Component {
     super(props);
     this.state = {
       info: {},
+      loading: true,
+      avatar: 0,
     };
+  }
+
+  onSelectavone(e) {
+    this.setState({ ...this.state, avatar: e.target.value });
   }
 
   render() {
@@ -72,71 +78,197 @@ class Raids extends Component {
         </div>
       );
     } else {
-      return (
-        <div className="authentication">
-          <div
-            className="overlay"
-            style={{ display: this.state.showModalFarm ? "unset" : "none" }}
-          ></div>
-          <div className="raidsBackground" style={{ overflow: "auto" }}>
-            <div className="container">
-              <img
-                src={temp.image}
-                style={{
-                  width: "15%",
-                  position: "fixed",
-                  inset: "21% 55% auto auto",
-                }}
-              />
-              <img
-                src={info}
-                style={{
-                  width: "30%",
-                  position: "fixed",
-                  inset: "20% 28% auto auto",
-                }}
-              />
-              <img
-                src={ranking}
-                style={{
-                  width: "25%",
-                  position: "fixed",
-                  inset: "60% 27% auto auto",
-                }}
-              />
-              <img
-                src={shaggi}
-                style={{
-                  width: "20%",
-                  position: "fixed",
-                  inset: "58% 49% auto auto",
-                }}
-              />
+      if (temp.description) {
+        return (
+          <div className="authentication">
+            <div
+              className="overlay"
+              style={{ display: this.state.showModalFarm ? "unset" : "none" }}
+            ></div>
+            <div className="raidsBackground" style={{ overflow: "auto" }}>
+              <div className="container">
+                <img
+                  src={temp.image}
+                  style={{
+                    width: "15%",
+                    position: "fixed",
+                    inset: "21% 55% auto auto",
+                  }}
+                />
+                <img
+                  src={info}
+                  style={{
+                    width: "30%",
+                    position: "fixed",
+                    inset: "20% 28% auto auto",
+                  }}
+                />
+                <img
+                  src={ranking}
+                  style={{
+                    width: "25%",
+                    position: "fixed",
+                    inset: "60% 27% auto auto",
+                  }}
+                />
+                <img
+                  src={shaggi}
+                  style={{
+                    width: "20%",
+                    position: "fixed",
+                    inset: "58% 49% auto auto",
+                  }}
+                />
 
-              <div
-                style={{
-                  width: "21%",
-                  position: "fixed",
-                  height: "16%",
-                  inset: "29% 33% auto auto",
-                }}
-              >
-                <label className="rentalLabel">
-                  {temp.description}
-                </label>
+                <div
+                  style={{
+                    width: "21%",
+                    position: "fixed",
+                    height: "16%",
+                    inset: "29% 33% auto auto",
+                  }}
+                >
+                  <label className="rentalLabel">{temp.description}</label>
+                </div>
+
+                <table
+                  style={{
+                    width: "25%",
+                    position: "fixed",
+                    inset: "60% 27% auto auto",
+                  }}
+                ></table>
               </div>
-
-              <table
-                style={{
-                  width: "25%",
-                  position: "fixed",
-                  inset: "60% 27% auto auto",
-                }}
-              ></table>
             </div>
           </div>
-        </div>
-      );
+        );
+      } else {
+        let avatares = this.props.API_bucket.avatars || [];
+        let avatarsOptions = avatares.map((avatar, index) => {
+          if (avatar.properties.RENTEDINFO != "available") {
+            return (
+              <option
+                index={index}
+                key={index}
+                value={avatar.id}
+                className="opBlack"
+              >
+                {avatar.properties.NAME} - {avatar.POWER}
+              </option>
+            );
+          }
+        });
+        return (
+          <div className="authentication">
+            <div
+              className="overlay"
+              style={{ display: this.state.showModalFarm ? "unset" : "none" }}
+            ></div>
+            <div className="raidsBackground" style={{ overflow: "auto" }}>
+              <div className="container">
+                <label
+                  style={{
+                    width: "24%",
+                    position: "fixed",
+                    inset: "10% 38% auto auto",
+                    fontSize: "113%",
+                  }}
+                >
+                  Boss: Lord comander zeus
+                </label>
+
+                <img
+                  src={triangle}
+                  style={{
+                    width: "4%",
+                    position: "fixed",
+                    inset: "40% 58% auto auto",
+                    transform: "rotate( -29deg )",
+                    cursor: "pointer",
+                  }}
+                />
+
+                <img
+                  src={zeus}
+                  style={{
+                    width: "15%",
+                    position: "fixed",
+                    inset: "23% 42% auto auto",
+                  }}
+                />
+
+                <img
+                  src={triangle}
+                  style={{
+                    width: "4%",
+                    position: "fixed",
+                    inset: "40% 38% auto auto",
+                    transform: "rotate( 29deg )",
+                    cursor: "pointer",
+                  }}
+                />
+
+                <img
+                  src={shaggi}
+                  style={{
+                    width: "20%",
+                    position: "fixed",
+                    inset: "58% 49% auto auto",
+                  }}
+                />
+
+                <label
+                  style={{
+                    width: "20%",
+                    position: "fixed",
+                    inset: "66% 38% auto auto",
+                    fontSize: "77%",
+                  }}
+                >
+                  Raid lvl:
+                </label>
+
+                <select
+                  style={{
+                    width: "15%",
+                    position: "fixed",
+                    inset: "66% 33% auto auto",
+                  }}
+                >
+                  <option value={0} disabled defaultValue>
+                    Choose Avatar
+                  </option>
+                  {avatarsOptions}
+                </select>
+
+                <label
+                  style={{
+                    width: "20%",
+                    position: "fixed",
+                    inset: "75% 28% auto auto",
+                    fontSize: "77%",
+                    cursor: "pointer",
+                  }}
+                >
+                  more info
+                </label>
+
+                <label
+                  style={{
+                    width: "20%",
+                    position: "fixed",
+                    inset: "75% 20% auto auto",
+                    fontSize: "77%",
+                    cursor: "pointer",
+                  }}
+                >
+                  set avatar
+                </label>
+              </div>
+            </div>
+          </div>
+        );
+      }
     }
   }
 
@@ -174,7 +306,6 @@ class Raids extends Component {
         this.setState({
           ...this.state,
           loading: false,
-          myrentData: res.data.rented,
         });
 
         Swal.resumeTimer();

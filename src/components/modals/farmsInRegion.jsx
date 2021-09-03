@@ -198,9 +198,16 @@ class FarmsInRegion extends Component {
   }
 
   getSeedEnd() {
-    return "N/A"
+    if (this.state.activeFarm.farmid) {
+      if (this.state.activeFarm.farmid.properties.DT) {
+        return this.state.activeFarm.farmid.properties.DT;
+      } else {
+        return "N/A";
+      }
+    } else {
+      return "N/A";
+    }
   }
-
 
   getWater() {
     let farm = this.state.activeFarm.farmid.properties;

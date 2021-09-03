@@ -16,6 +16,9 @@ import DisplayLoader from "./displayLoader";
 
 import { Farm } from "../configs/farming";
 
+import mota from "../../assets/img/ui/Moneda2.png";
+import hive from "../../assets/img/socialmedia/Hive.png";
+
 class InventoryModal extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +32,7 @@ class InventoryModal extends Component {
         },
       },
       showUpgradeModal: "none",
+      showSelectCoin: false,
     };
   }
 
@@ -90,13 +94,15 @@ class InventoryModal extends Component {
             <div className="text-center">
               {/* upgrade tower plant */}
               <img
-                onClick={(e) =>
-                  this.props.upgradeWaterTower({
+                onClick={(e) => {
+                  /*  this.props.upgradeWaterTower({
                     username: this.props.username,
                     waterTower: this.state.selectedForUpgrade,
                     lvl: this.props.user.lvl,
-                  })
-                }
+                  }); */
+
+                  this.setState({ ...this.state, showSelectCoin: true });
+                }}
                 className="action-btn highlight-on-hover"
                 src={UpgradeButton}
               />
@@ -293,7 +299,7 @@ class InventoryModal extends Component {
           onHide={() => this.props.hideModal("inventory")}
           size={this.props.size || null}
           centered
-          style={{ zIndex: "99999"}}
+          style={{ zIndex: "99999" }}
         >
           <div id="inventory-modal" className="base-modal">
             {this.upgradeModal()}
@@ -370,6 +376,58 @@ class InventoryModal extends Component {
                 {this.renderJoints()}
               </div>
             </div>
+          </div>
+        </Modal>
+
+        <Modal
+          size="lg"
+          show={this.state.showSelectCoin}
+          onHide={() => this.setState({ ...this.state, showSelectCoin: false })}
+          centered
+          backdrop="static"
+          style={{ zIndex: "999999" }}
+        >
+          <div
+            id="inventory-modal"
+            className="modal-transparent-overlay"
+            className="base-modal"
+          >
+            <img
+              onClick={() =>
+                this.setState({ ...this.state, showSelectCoin: false })
+              }
+              className="close-btn highlight-on-hover"
+              src={ClosePNG}
+            />
+            <Modal.Body>
+              <h3 className="text-center font-weight-bold mb-2">Select coin</h3>
+              <div className="mb-0" style={{ textAlign: "center" }}>
+                <img
+                  style={{ cursor: "pointer", width: "200px", margin: "5%" }}
+                  src={mota}
+                  onClick={() => {
+                    this.props.upgradeWaterTower({
+                      username: this.props.username,
+                      waterTower: this.state.selectedForUpgrade,
+                      lvl: this.props.user.lvl,
+                      token: "mota"
+                    });
+                  }}
+                />
+                <img
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    this.props.upgradeWaterTower({
+                      username: this.props.username,
+                      waterTower: this.state.selectedForUpgrade,
+                      lvl: this.props.user.lvl,
+                      token: "hive"
+                    });
+                  }}
+                  src={hive}
+                />
+              </div>
+            </Modal.Body>
           </div>
         </Modal>
       </>
@@ -475,7 +533,7 @@ class InventoryModal extends Component {
       if (!e.properties.PLANTED) return e;
     }).length;
 
-    return seedsDisponibles
+    return seedsDisponibles;
   }
 
   renderSeeds() {

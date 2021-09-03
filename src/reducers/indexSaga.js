@@ -372,10 +372,8 @@ export function* upgradeWaterTower(action) {
 }
 
 function checkStorage(data) {
-
   let dataStorage = JSON.parse(localStorage.getItem("pendings"));
 
-  
   if (dataStorage.includes(data)) {
     return false;
   } else {
@@ -392,7 +390,8 @@ function* harvestPlot(action) {
         loaderPlant: false,
         completePlant: true,
         errorPlant: true,
-        mensajePlant: "Please wait for the blockchain to receive the transaction",
+        mensajePlant:
+          "Please wait for the blockchain to receive the transaction",
       })
     );
     return;
@@ -432,7 +431,7 @@ function* harvestPlot(action) {
       })
     );
   } else {
- removeStorage(JSON.stringify(action.farm.farmid));
+    removeStorage(JSON.stringify(action.farm.farmid));
     yield put(
       userActions.plantError({
         loaderPlant: false,
@@ -507,7 +506,6 @@ function autorizedLVLUp(watertowerLvl, lvl) {
 }
 
 function* upgradeWater(action) {
-
   let data = action.waterTower.item.split("lvl");
 
   let lvl = parseInt(data[1]);
@@ -518,7 +516,8 @@ function* upgradeWater(action) {
         loaderPlant: false,
         completePlant: true,
         errorPlant: true,
-        mensajePlant: "Please wait for the blockchain to receive the transaction",
+        mensajePlant:
+          "Please wait for the blockchain to receive the transaction",
       })
     );
     return;
@@ -549,7 +548,6 @@ function* upgradeWater(action) {
     );
     removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
     return "imposible upgradear";
-    
   }
 
   const response = yield new Promise((resolve, reject) => {
@@ -571,30 +569,43 @@ function* upgradeWater(action) {
       });
   });
 
-  if (response) {
-    let rkeychain = yield new Promise((resolve, reject) => {
-      window.hive_keychain.requestTransfer(
-        action.username,
-        "hashkings",
-        response.toFixed(3),
-        "water" + (lvl + 1) + " " + action.waterTower.id,
-        "HIVE",
-        (response) => {
-          resolve(response);
-        },
-        true
-      );
-    });
-    if (rkeychain.success) {
-      setLocalStorage(JSON.stringify(action.waterTower.upgradeFunction()));
-      yield put(
-        userActions.plantComplete({
-          loaderPlant: false,
-          completePlant: true,
-          errorPlant: false,
-          mensajePlant: rkeychain.message,
-        })
-      );
+  if (action.token === "hive") {
+    if (response) {
+      let rkeychain = yield new Promise((resolve, reject) => {
+        window.hive_keychain.requestTransfer(
+          action.username,
+          "hashkings",
+          response.toFixed(3),
+          "water" + (lvl + 1) + " " + action.waterTower.id,
+          "HIVE",
+          (response) => {
+            resolve(response);
+          },
+          true
+        );
+      });
+      if (rkeychain.success) {
+        setLocalStorage(JSON.stringify(action.waterTower.upgradeFunction()));
+        yield put(
+          userActions.plantComplete({
+            loaderPlant: false,
+            completePlant: true,
+            errorPlant: false,
+            mensajePlant: rkeychain.message,
+          })
+        );
+      } else {
+        removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
+        yield put(
+          userActions.plantError({
+            loaderPlant: false,
+            completePlant: true,
+            errorPlant: true,
+            mensajePlant: rkeychain.message,
+          })
+        );
+        return;
+      }
     } else {
       removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
       yield put(
@@ -602,22 +613,101 @@ function* upgradeWater(action) {
           loaderPlant: false,
           completePlant: true,
           errorPlant: true,
-          mensajePlant: rkeychain.message,
+          mensajePlant: "Please try again",
         })
       );
       return;
     }
-  } else {
-    removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
-    yield put(
-      userActions.plantError({
-        loaderPlant: false,
-        completePlant: true,
-        errorPlant: true,
-        mensajePlant: "Please try again",
-      })
-    );
-    return;
+  } else if (action.token === "mota") {
+    if (response) {
+      let motavalue = yield new Promise((resolve, reject) => {
+        axios
+          .post("https://us.engine.ryamer.com/contracts", {
+            jsonrpc: "2.0",
+            id: 12,
+            method: "find",
+            params: {
+              contract: "market",
+              table: "metrics",
+              query: { symbol: { $in: ["MOTA"] } },
+              limit: 1000,
+              offset: 0,
+              indexes: [],
+            },
+          })
+          .then((result) => {
+         
+            const lasPrice = result.data.result[0].lastPrice;
+            const valueInHive = response * lasPrice;
+            console.info("valores", response, lasPrice);
+            resolve(valueInHive);
+          })
+          .catch(async (err) => {
+            console.log("error al traer valor de la mota", err)
+            resolve(0);
+          });
+      });
+
+      if (motavalue) {
+        let rkeychain = yield new Promise((resolve, reject) => {
+          window.hive_keychain.requestSendToken(
+            action.username,
+            "hk-vault",
+            motavalue.toFixed(3),
+            "water" + (lvl + 1) + " " + action.waterTower.id,
+            "MOTA",
+            (resp) => {
+              resolve(resp);
+            },
+            null
+          );
+        });
+        if (rkeychain.success) {
+          setLocalStorage(JSON.stringify(action.waterTower.upgradeFunction()));
+          yield put(
+            userActions.plantComplete({
+              loaderPlant: false,
+              completePlant: true,
+              errorPlant: false,
+              mensajePlant: rkeychain.message,
+            })
+          );
+        } else {
+          removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
+          yield put(
+            userActions.plantError({
+              loaderPlant: false,
+              completePlant: true,
+              errorPlant: true,
+              mensajePlant: rkeychain.message,
+            })
+          );
+          return;
+        }
+      } else {
+        removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
+        yield put(
+          userActions.plantError({
+            loaderPlant: false,
+            completePlant: true,
+            errorPlant: true,
+            mensajePlant: "Please try again",
+          })
+        );
+        return;
+      }
+    } else {
+      removeStorage(JSON.stringify(action.waterTower.upgradeFunction()));
+      yield put(
+        userActions.plantError({
+          loaderPlant: false,
+          completePlant: true,
+          errorPlant: true,
+          mensajePlant: "Please try again",
+        })
+      );
+      return;
+    }
   }
 }
 
@@ -642,7 +732,7 @@ function* plantSeed(action) {
     );
   });
 
-  console.log("plantar dice",response);
+  console.log("plantar dice", response);
 
   if (response.success) {
     yield put(
@@ -689,21 +779,20 @@ function* verificarTransaccion(tipo, user, json) {
 function* regarPlot(action) {
   console.error("regando", action);
 
-  if (!checkStorage(JSON.stringify( action.farm.seedToPlant ))) {
+  if (!checkStorage(JSON.stringify(action.farm.seedToPlant))) {
     yield put(
       userActions.plantError({
         loaderPlant: false,
         completePlant: true,
         errorPlant: true,
-        mensajePlant: "Please wait for the blockchain to receive the transaction",
+        mensajePlant:
+          "Please wait for the blockchain to receive the transaction",
       })
     );
     return;
   }
 
-
   try {
-    
     let verificacion = yield verificarTransaccion("HKWATER", action.username, {
       contractName: "tokens",
       contractAction: "transfer",
@@ -720,7 +809,7 @@ function* regarPlot(action) {
     });
 
     if (verificacion.response) {
-      removeStorage(JSON.stringify( action.farm.seedToPlant ));
+      removeStorage(JSON.stringify(action.farm.seedToPlant));
       return yield put(
         userActions.plantError({
           loaderPlant: false,
@@ -737,7 +826,7 @@ function* regarPlot(action) {
     if (action.farm.seedToPlant.properties.WATER) {
     }
     if (action.farm.seedToPlant.properties.WATER <= 0) {
-      removeStorage(JSON.stringify( action.farm.seedToPlant ));
+      removeStorage(JSON.stringify(action.farm.seedToPlant));
       return yield put(
         userActions.plantError({
           loaderPlant: false,
@@ -748,7 +837,7 @@ function* regarPlot(action) {
       );
     }
   } catch (e) {
-    removeStorage(JSON.stringify( action.farm.seedToPlant ));
+    removeStorage(JSON.stringify(action.farm.seedToPlant));
     return yield put(
       userActions.plantError({
         loaderPlant: false,
@@ -775,7 +864,7 @@ function* regarPlot(action) {
   });
 
   if (response.success) {
-    setLocalStorage(JSON.stringify( action.farm.seedToPlant ));
+    setLocalStorage(JSON.stringify(action.farm.seedToPlant));
     yield put(
       userActions.plantComplete({
         loaderPlant: false,
@@ -785,7 +874,7 @@ function* regarPlot(action) {
       })
     );
   } else {
-    removeStorage(JSON.stringify( action.farm.seedToPlant ));
+    removeStorage(JSON.stringify(action.farm.seedToPlant));
     yield put(
       userActions.plantError({
         loaderPlant: false,
@@ -802,7 +891,7 @@ function removeStorage(data) {
   let datos = JSON.parse(localStorage.getItem("pendings"));
   localStorage.setItem(
     "pendings",
-    JSON.stringify(datos.filter((e) => e != data) )
+    JSON.stringify(datos.filter((e) => e != data))
   );
 }
 
