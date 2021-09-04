@@ -115,7 +115,7 @@ import MydoomComun from "../assets/img/NFTs/Mydoom/Comun.png";
 
 import SobigLegendaria from "../assets/img/NFTs/Sobig/Legendaria.gif";
 import SobigMitica from "../assets/img/NFTs/Sobig/Mitica.gif";
-import SobigRara from "../assets/img/NFTs/Sobig/Rara.png";
+//import SobigRara from "../assets/img/NFTs/Sobig/Rara.png";
 import SobigEpica from "../assets/img/NFTs/Sobig/Epica.png";
 import SobigComun from "../assets/img/NFTs/Sobig/Comun.png";
 
@@ -144,7 +144,6 @@ const Info = {
     title: "sobig",
     description: "bla bla bla bla bla",
     comun: SobigComun,
-    rara: SobigRara,
     epica: SobigEpica,
     mitica: SobigMitica,
     legendaria: SobigLegendaria,
