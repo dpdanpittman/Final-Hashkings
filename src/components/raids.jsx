@@ -19,14 +19,17 @@ import shaggi from "../assets/img/Boss info/Shaggi.png";
 import info from "../assets/img/Boss info/Info.png";
 import ranking from "../assets/img/Boss info/Ranking.png";
 
-/* --------------ZEUS-------------- */
-import zeusLegendaria from "../assets/img/NFTs/Zeus/Legendaria.gif";
 import zeusMitica from "../assets/img/NFTs/Zeus/Mitica.gif";
+/*
+
+ --------------ZEUS-------------- 
+
 import zeusRara from "../assets/img/NFTs/Zeus/Rara.png";
 import zeusEpica from "../assets/img/NFTs/Zeus/Epica.png";
 import zeusComun from "../assets/img/NFTs/Zeus/Comun.png";
+import zeusLegendaria from "../assets/img/NFTs/Zeus/Legendaria.gif";
 
-/* --------------ANNA-------------- */
+ --------------ANNA-------------- 
 
 import annaLegendaria from "../assets/img/NFTs/Anna Kournikova/Legendaria.gif";
 import annaMitica from "../assets/img/NFTs/Anna Kournikova/Mitica.gif";
@@ -34,7 +37,7 @@ import annaRara from "../assets/img/NFTs/Anna Kournikova/Rara.png";
 import annaEpica from "../assets/img/NFTs/Anna Kournikova/Epica.png";
 import annaComun from "../assets/img/NFTs/Anna Kournikova/Comun.png";
 
-/* --------------Chameleon-------------- */
+ --------------Chameleon-------------- 
 
 import chameleonLegendaria from "../assets/img/NFTs/Chameleon/Legendaria.gif";
 import chameleonMitica from "../assets/img/NFTs/Chameleon/Mitica.gif";
@@ -42,7 +45,7 @@ import chameleonRara from "../assets/img/NFTs/Chameleon/Rara.png";
 import chameleonEpica from "../assets/img/NFTs/Chameleon/Epica.png";
 import chameleonComun from "../assets/img/NFTs/Chameleon/Comun.png";
 
-/* --------------Cryptolocker-------------- */
+ --------------Cryptolocker-------------- 
 
 import CryptolockerLegendaria from "../assets/img/NFTs/Cryptolocker/Legendaria.gif";
 import CryptolockerMitica from "../assets/img/NFTs/Cryptolocker/Mitica.gif";
@@ -50,7 +53,7 @@ import CryptolockerRara from "../assets/img/NFTs/Cryptolocker/Rara.png";
 import CryptolockerEpica from "../assets/img/NFTs/Cryptolocker/Epica.png";
 import CryptolockerComun from "../assets/img/NFTs/Cryptolocker/Comun.png";
 
-/* --------------Flashback-------------- */
+ --------------Flashback-------------- 
 
 import FlashbackLegendaria from "../assets/img/NFTs/Flashback/Legendaria.gif";
 import FlashbackMitica from "../assets/img/NFTs/Flashback/Mitica.gif";
@@ -58,7 +61,7 @@ import FlashbackRara from "../assets/img/NFTs/Flashback/Rara.png";
 import FlashbackEpica from "../assets/img/NFTs/Flashback/Epica.png";
 import FlashbackComun from "../assets/img/NFTs/Flashback/Comun.png";
 
-/* --------------fridaythe13th-------------- */
+ --------------fridaythe13th-------------- 
 
 import fridaythe13thLegendaria from "../assets/img/NFTs/fridaythe13th/Legendaria.gif";
 import fridaythe13thMitica from "../assets/img/NFTs/fridaythe13th/Mitica.gif";
@@ -66,7 +69,7 @@ import fridaythe13thRara from "../assets/img/NFTs/fridaythe13th/Rara.png";
 import fridaythe13thEpica from "../assets/img/NFTs/fridaythe13th/Epica.png";
 import fridaythe13thComun from "../assets/img/NFTs/fridaythe13th/Comun.png";
 
-/* --------------GameThief-------------- */
+ --------------GameThief-------------- 
 
 import GameThiefLegendaria from "../assets/img/NFTs/GameThief/Legendaria.gif";
 import GameThiefMitica from "../assets/img/NFTs/GameThief/Mitica.gif";
@@ -75,7 +78,7 @@ import GameThiefEpica from "../assets/img/NFTs/GameThief/Epica.png";
 import GameThiefComun from "../assets/img/NFTs/GameThief/Comun.png";
 
 
-/* --------------ILOVEYOU-------------- */
+ --------------ILOVEYOU-------------- 
 
 import ILOVEYOULegendaria from "../assets/img/NFTs/ILOVEYOU/Legendaria.gif";
 import ILOVEYOUMitica from "../assets/img/NFTs/ILOVEYOU/Mitica.gif";
@@ -84,7 +87,7 @@ import ILOVEYOUEpica from "../assets/img/NFTs/ILOVEYOU/Epica.png";
 import ILOVEYOUComun from "../assets/img/NFTs/ILOVEYOU/Comun.png";
 
 
-/* --------------Melissa-------------- */
+ --------------Melissa-------------- 
 
 import MelissaLegendaria from "../assets/img/NFTs/Melissa/Legendaria.gif";
 import MelissaMitica from "../assets/img/NFTs/Melissa/Mitica.gif";
@@ -93,7 +96,7 @@ import MelissaEpica from "../assets/img/NFTs/Melissa/Epica.png";
 import MelissaComun from "../assets/img/NFTs/Melissa/Comun.png";
 
 
-/* --------------Melissa-------------- */
+ --------------Michelangelo-------------- 
 
 import MichelangeloLegendaria from "../assets/img/NFTs/Michelangelo/Legendaria.gif";
 import MichelangeloMitica from "../assets/img/NFTs/Michelangelo/Mitica.gif";
@@ -102,7 +105,7 @@ import MichelangeloEpica from "../assets/img/NFTs/Michelangelo/Epica.png";
 import MichelangeloComun from "../assets/img/NFTs/Michelangelo/Comun.png";
 
 
-/* --------------Mydoom-------------- */
+ --------------Mydoom-------------- 
 
 import MydoomLegendaria from "../assets/img/NFTs/Mydoom/Legendaria.gif";
 import MydoomMitica from "../assets/img/NFTs/Mydoom/Mitica.gif";
@@ -111,15 +114,13 @@ import MydoomEpica from "../assets/img/NFTs/Mydoom/Epica.png";
 import MydoomComun from "../assets/img/NFTs/Mydoom/Comun.png";
 
 
-/* --------------Sobig-------------- */
+ --------------Sobig-------------- 
 
 import SobigLegendaria from "../assets/img/NFTs/Sobig/Legendaria.gif";
 import SobigMitica from "../assets/img/NFTs/Sobig/Mitica.gif";
-//import SobigRara from "../assets/img/NFTs/Sobig/Rara.png";
+import SobigRara from "../assets/img/NFTs/Sobig/Rara.png";
 import SobigEpica from "../assets/img/NFTs/Sobig/Epica.png";
 import SobigComun from "../assets/img/NFTs/Sobig/Comun.png";
-
-import * as qs from "query-string";
 
 const Info = {
   zeus: {
@@ -158,7 +159,8 @@ const Info = {
     legendaria: MydoomLegendaria,
   },
 };
-
+*/
+import * as qs from "query-string";
 
 class Raids extends Component {
   constructor(props) {
@@ -178,10 +180,10 @@ class Raids extends Component {
     let { loading, rentalLoading } = this.state;
 
     let temp = {};
-
+    /*
     if (qs.parse(window.location.search).info) {
       temp = Info[qs.parse(window.location.search).info];
-    }
+    } */
 
     if (loading || rentalLoading) {
       return (
