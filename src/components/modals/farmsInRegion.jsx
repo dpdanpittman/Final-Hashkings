@@ -198,9 +198,16 @@ class FarmsInRegion extends Component {
   }
 
   getSeedEnd() {
-    if (this.state.activeFarm.farmid) {
-      if (this.state.activeFarm.farmid.properties.DT) {
-        return this.state.activeFarm.farmid.properties.DT;
+    let farm = this.state.activeFarm.farmid;
+
+    let seed = jsonQL.query(
+      this.props.user.seeds,
+      `$[?(@.id==${farm.properties?.SEEDID})]`
+    )[0];
+
+    if (seed) {
+      if (seed.properties.DT) {
+        return seed.properties.DT;
       } else {
         return "N/A";
       }

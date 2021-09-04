@@ -19,17 +19,147 @@ import shaggi from "../assets/img/Boss info/Shaggi.png";
 import info from "../assets/img/Boss info/Info.png";
 import ranking from "../assets/img/Boss info/Ranking.png";
 
-import zeus from "../assets/img/NFTs/Zeus/Legendaria.gif";
+/* --------------ZEUS-------------- */
+import zeusLegendaria from "../assets/img/NFTs/Zeus/Legendaria.gif";
+import zeusMitica from "../assets/img/NFTs/Zeus/Mitica.gif";
+import zeusRara from "../assets/img/NFTs/Zeus/Rara.png";
+import zeusEpica from "../assets/img/NFTs/Zeus/Epica.png";
+import zeusComun from "../assets/img/NFTs/Zeus/Comun.png";
 
-import ana from "../assets/img/NFTs/Anna Kournikova/Legendaria.gif";
+/* --------------ANNA-------------- */
+
+import annaLegendaria from "../assets/img/NFTs/Anna Kournikova/Legendaria.gif";
+import annaMitica from "../assets/img/NFTs/Anna Kournikova/Mitica.gif";
+import annaRara from "../assets/img/NFTs/Anna Kournikova/Rara.png";
+import annaEpica from "../assets/img/NFTs/Anna Kournikova/Epica.png";
+import annaComun from "../assets/img/NFTs/Anna Kournikova/Comun.png";
+
+/* --------------Chameleon-------------- */
+
+import chameleonLegendaria from "../assets/img/NFTs/Chameleon/Legendaria.gif";
+import chameleonMitica from "../assets/img/NFTs/Chameleon/Mitica.gif";
+import chameleonRara from "../assets/img/NFTs/Chameleon/Rara.png";
+import chameleonEpica from "../assets/img/NFTs/Chameleon/Epica.png";
+import chameleonComun from "../assets/img/NFTs/Chameleon/Comun.png";
+
+/* --------------Cryptolocker-------------- */
+
+import CryptolockerLegendaria from "../assets/img/NFTs/Cryptolocker/Legendaria.gif";
+import CryptolockerMitica from "../assets/img/NFTs/Cryptolocker/Mitica.gif";
+import CryptolockerRara from "../assets/img/NFTs/Cryptolocker/Rara.png";
+import CryptolockerEpica from "../assets/img/NFTs/Cryptolocker/Epica.png";
+import CryptolockerComun from "../assets/img/NFTs/Cryptolocker/Comun.png";
+
+/* --------------Flashback-------------- */
+
+import FlashbackLegendaria from "../assets/img/NFTs/Flashback/Legendaria.gif";
+import FlashbackMitica from "../assets/img/NFTs/Flashback/Mitica.gif";
+import FlashbackRara from "../assets/img/NFTs/Flashback/Rara.png";
+import FlashbackEpica from "../assets/img/NFTs/Flashback/Epica.png";
+import FlashbackComun from "../assets/img/NFTs/Flashback/Comun.png";
+
+/* --------------fridaythe13th-------------- */
+
+import fridaythe13thLegendaria from "../assets/img/NFTs/fridaythe13th/Legendaria.gif";
+import fridaythe13thMitica from "../assets/img/NFTs/fridaythe13th/Mitica.gif";
+import fridaythe13thRara from "../assets/img/NFTs/fridaythe13th/Rara.png";
+import fridaythe13thEpica from "../assets/img/NFTs/fridaythe13th/Epica.png";
+import fridaythe13thComun from "../assets/img/NFTs/fridaythe13th/Comun.png";
+
+/* --------------GameThief-------------- */
+
+import GameThiefLegendaria from "../assets/img/NFTs/GameThief/Legendaria.gif";
+import GameThiefMitica from "../assets/img/NFTs/GameThief/Mitica.gif";
+import GameThiefRara from "../assets/img/NFTs/GameThief/Rara.png";
+import GameThiefEpica from "../assets/img/NFTs/GameThief/Epica.png";
+import GameThiefComun from "../assets/img/NFTs/GameThief/Comun.png";
+
+
+/* --------------ILOVEYOU-------------- */
+
+import ILOVEYOULegendaria from "../assets/img/NFTs/ILOVEYOU/Legendaria.gif";
+import ILOVEYOUMitica from "../assets/img/NFTs/ILOVEYOU/Mitica.gif";
+import ILOVEYOURara from "../assets/img/NFTs/ILOVEYOU/Rara.png";
+import ILOVEYOUEpica from "../assets/img/NFTs/ILOVEYOU/Epica.png";
+import ILOVEYOUComun from "../assets/img/NFTs/ILOVEYOU/Comun.png";
+
+
+/* --------------Melissa-------------- */
+
+import MelissaLegendaria from "../assets/img/NFTs/Melissa/Legendaria.gif";
+import MelissaMitica from "../assets/img/NFTs/Melissa/Mitica.gif";
+import MelissaRara from "../assets/img/NFTs/Melissa/Rara.png";
+import MelissaEpica from "../assets/img/NFTs/Melissa/Epica.png";
+import MelissaComun from "../assets/img/NFTs/Melissa/Comun.png";
+
+
+/* --------------Melissa-------------- */
+
+import MichelangeloLegendaria from "../assets/img/NFTs/Michelangelo/Legendaria.gif";
+import MichelangeloMitica from "../assets/img/NFTs/Michelangelo/Mitica.gif";
+import MichelangeloRara from "../assets/img/NFTs/Michelangelo/Rara.png";
+import MichelangeloEpica from "../assets/img/NFTs/Michelangelo/Epica.png";
+import MichelangeloComun from "../assets/img/NFTs/Michelangelo/Comun.png";
+
+
+/* --------------Mydoom-------------- */
+
+import MydoomLegendaria from "../assets/img/NFTs/Mydoom/Legendaria.gif";
+import MydoomMitica from "../assets/img/NFTs/Mydoom/Mitica.gif";
+import MydoomRara from "../assets/img/NFTs/Mydoom/Rara.png";
+import MydoomEpica from "../assets/img/NFTs/Mydoom/Epica.png";
+import MydoomComun from "../assets/img/NFTs/Mydoom/Comun.png";
+
+
+/* --------------Sobig-------------- */
+
+import SobigLegendaria from "../assets/img/NFTs/Sobig/Legendaria.gif";
+import SobigMitica from "../assets/img/NFTs/Sobig/Mitica.gif";
+import SobigRara from "../assets/img/NFTs/Sobig/Rara.png";
+import SobigEpica from "../assets/img/NFTs/Sobig/Epica.png";
+import SobigComun from "../assets/img/NFTs/Sobig/Comun.png";
+
 import * as qs from "query-string";
 
 const Info = {
   zeus: {
+    title: "zeus",
     description: "bla bla bla bla bla",
-    image: zeus,
+    comun: zeusComun,
+    rara: zeusRara,
+    epica: zeusEpica,
+    mitica: zeusMitica,
+    legendaria: zeusLegendaria,
+  },
+  anna: {
+    title: "anna",
+    description: "bla bla bla bla bla",
+    comun: annaComun,
+    rara: annaRara,
+    epica: annaEpica,
+    mitica: annaMitica,
+    legendaria: annaLegendaria,
+  },
+  sobig: {
+    title: "sobig",
+    description: "bla bla bla bla bla",
+    comun: SobigComun,
+    rara: SobigRara,
+    epica: SobigEpica,
+    mitica: SobigMitica,
+    legendaria: SobigLegendaria,
+  },
+  mydoom: {
+    title: "mydoom",
+    description: "bla bla bla bla bla",
+    comun: MydoomComun,
+    rara: MydoomRara,
+    epica: MydoomEpica,
+    mitica: MydoomMitica,
+    legendaria: MydoomLegendaria,
   },
 };
+
 
 class Raids extends Component {
   constructor(props) {
@@ -189,7 +319,7 @@ class Raids extends Component {
                 />
 
                 <img
-                  src={zeus}
+                  src={zeusMitica}
                   style={{
                     width: "15%",
                     position: "fixed",

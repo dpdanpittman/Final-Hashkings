@@ -18,7 +18,7 @@ export const preguntarPermisos = async (app) => {
       let user = localStorage.getItem("username");
       if (token && user) {
         axios
-          .post("http://hashkings.xyz/registerusernotifications", {
+          .post("https://hashkings.xyz/registerusernotifications", {
             user,
             token,
           })
