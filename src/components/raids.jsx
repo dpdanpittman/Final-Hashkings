@@ -100,11 +100,11 @@ import MydoomComun from "../assets/img/NFTs/Mydoom/Comun.png";
 
 /*--------------Sobig--- ya ----------- */
 
-import SobigLegendaria from "../assets/img/NFTs/sobig/Legendaria.gif";
-import SobigMitica from "../assets/img/NFTs/sobig/Mitica.gif";
-import SobigRara from "../assets/img/NFTs/sobig/rara.png";
-import SobigEpica from "../assets/img/NFTs/sobig/Epica.png";
-import SobigComun from "../assets/img/NFTs/sobig/Comun.png";
+import SobigLegendaria from "../assets/img/NFTs/Sobig/Legendaria.gif";
+import SobigMitica from "../assets/img/NFTs/Sobig/Mitica.gif";
+import SobigRara from "../assets/img/NFTs/Sobig/Rara.png";
+import SobigEpica from "../assets/img/NFTs/Sobig/Epica.png";
+import SobigComun from "../assets/img/NFTs/Sobig/Comun.png";
 
 const Info = {
   zeus: {
