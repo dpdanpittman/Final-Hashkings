@@ -96,9 +96,9 @@ class SideBar extends Component {
                     top: "-12px"
                 }}
                 />
-                <div className="inventory-label small text-center" style={{
+                <div className="inventory-button" style={{
                     maxWidth: "54px",
-                    top: "-12px"
+                    top: "-4px"
                 }}>
                   Rents
                 </div>

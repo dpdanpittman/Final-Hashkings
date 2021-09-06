@@ -498,7 +498,8 @@ html body * {
 }
 #sidebar .inventory-label {
   position: relative;
-  top: -3em;
+  top: -1em;
+  font-size: 1vw;
 }
 #sidebar .regions-row {
   width: 100%;
@@ -513,7 +514,7 @@ html body * {
   top: -3.5em;
 }
 #sidebar .regions-row img {
-  max-width: 80px;
+  max-width: 5vw;
   height: auto;
   cursor: pointer;
 }
@@ -1113,7 +1114,7 @@ html body * {
   flex-direction: column;
   justify-content: space-between;
 
-  max-width: 320px;
+  max-width: 25vw;
   overflow-x: hidden;
   background-color: transparent;
 
@@ -1207,7 +1208,7 @@ html body * {
 }
 .farms-in-region-wrapper .popup > .background {
   position: fixed;
-  width: 25%;
+  width: 29vw;
   z-index: 1;
   object-fit: cover;
 }
@@ -1216,7 +1217,7 @@ html body * {
   z-index: 3;
 }
 .farms-in-region-wrapper .popup .content .active-farm-image {
-  width: 50%;
+  width: 21vw;
   min-height: 220px;
   display: block;
   margin-left: 5%;
@@ -1227,7 +1228,7 @@ html body * {
 .farms-in-region-wrapper .popup .content .farm-operations {
   display: flex;
   flex-direction: row;
-  height: 52px;
+  height: 7vw;
   margin-top: 5%;
   margin-left: 10%;
 }
