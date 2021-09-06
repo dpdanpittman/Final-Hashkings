@@ -102,7 +102,7 @@ import MydoomComun from "../assets/img/NFTs/Mydoom/Comun.png";
 
 import SobigLegendaria from "../assets/img/NFTs/Sobig/Legendaria.gif";
 import SobigMitica from "../assets/img/NFTs/Sobig/Mitica.gif";
-import SobigRara from "../assets/img/NFTs/Sobig/Rarax.png";
+import SobigRara from "../assets/img/NFTs/Sobig/Rara.png";
 import SobigEpica from "../assets/img/NFTs/Sobig/Epica.png";
 import SobigComun from "../assets/img/NFTs/Sobig/Comun.png";
 
