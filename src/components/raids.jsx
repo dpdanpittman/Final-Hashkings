@@ -1,15 +1,5 @@
-import React, { Component, useState } from "react";
-
-import Modal from "react-bootstrap/Modal";
-import Table from "react-bootstrap/Table";
-import rentFarm from "../assets/img/RentFarm.png";
-import rentWaterTower from "../assets/img/RentTower.png";
-import rentBundle from "../assets/img/Rent bundle.png";
-
-import Button from "react-bootstrap/Button";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import ClosePNG from "../assets/img/ui/x close.png";
-
 import axios from "axios";
 import Swal from "sweetalert2";
 import logo from "../assets/img/logo.png";
@@ -112,7 +102,7 @@ import MydoomComun from "../assets/img/NFTs/Mydoom/Comun.png";
 
 import SobigLegendaria from "../assets/img/NFTs/Sobig/Legendaria.gif";
 import SobigMitica from "../assets/img/NFTs/Sobig/Mitica.gif";
-import SobigRara from "../assets/img/NFTs/Sobig/Rara.png";
+import SobigRara from "../assets/img/NFTs/Sobig/rara.png";
 import SobigEpica from "../assets/img/NFTs/Sobig/Epica.png";
 import SobigComun from "../assets/img/NFTs/Sobig/Comun.png";
 
@@ -272,6 +262,7 @@ class Raids extends Component {
                 width: "900px",
               }}
               src={logo}
+              alt="logo"
             />
             <h6 style={{ color: "red !important" }}>Hashkings Alpha</h6>
             Now Loading ...
@@ -368,7 +359,7 @@ class Raids extends Component {
 
         let avatares = this.props.API_bucket.avatars || [];
         let avatarsOptions = avatares.map((avatar, index) => {
-          if (avatar.properties.RENTEDINFO != "available") {
+          if (avatar.properties.RENTEDINFO !== "available") {
             return (
               <option
                 index={index}
@@ -380,6 +371,7 @@ class Raids extends Component {
               </option>
             );
           }
+          return <></>;
         });
         return (
           <div className="authentication">
@@ -539,6 +531,8 @@ class Raids extends Component {
         return 51;
       case 100:
         return 76;
+      default:
+        return 0;
     }
   }
 
