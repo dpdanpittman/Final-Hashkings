@@ -397,8 +397,8 @@ class Rentals extends Component {
               />
 
               <img
-                style={{ cursor: "pointer" }}
-                onClick={(e) => this.displayModal("bundle")}
+                style={{ cursor: "pointer", filter: "grayscale(100%)" }}
+                onClick={(e) => {/*this.displayModal("bundle") */}}
                 src={rentBundle}
               />
 
