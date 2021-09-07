@@ -391,6 +391,8 @@ class GameBoard extends Component {
       .then((res) => {
         this.props.updateStoreFromAPI(res.data);
 
+        localStorage.setItem("activeAvatar", JSON.stringify(res.data.activeAvatar))
+
         this.checkLocalstorage(res.data);
 
         try {

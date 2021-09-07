@@ -261,6 +261,20 @@ function* SmokeJoints(action) {
     return;
   } */
 
+  let data = JSON.parse(localStorage.getItem("activeAvatar"));
+
+  if(data.id ==140646){ 
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: "you cannot level up the default avatar, change the avatar please",
+      })
+    );
+    return;
+  }
+
   let body = {
     contractName: "nft",
     contractAction: "transfer",
