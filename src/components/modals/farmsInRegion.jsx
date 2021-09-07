@@ -143,20 +143,20 @@ class FarmsInRegion extends Component {
                     </div>
                     <div className="slider-wrapper">
                       <br />
-                      <div style={{ fontSize: "1.5vw", marginLeft: "5%" }}>
-                        Time left: {this.getTime()}
+                      <div style={{ fontSize: "1.3vw", marginLeft: "5%" }}>
+                        Time left: <strong>{this.getTime()}</strong>
                       </div>
-                      <div style={{ fontSize: "1.5vw", marginLeft: "5%" }}>
-                        Water left: {this.getWater()}
+                      <div style={{ fontSize: "1.3vw", marginLeft: "5%" }}>
+                        Water left: <strong>{this.getWater()}</strong>
                       </div>
-                      <div style={{ fontSize: "1.5vw", marginLeft: "5%" }}>
-                        PR: {this.getPR()}
+                      <div style={{ fontSize: "1.3vw", marginLeft: "5%" }}>
+                        PR: <strong>{this.getPR()}</strong>
                       </div>
-                      <div style={{ fontSize: "1.5vw", marginLeft: "5%" }}>
-                        time rente end: {this.getTimeRentedEnd()}
+                      <div style={{ fontSize: "1.3vw", marginLeft: "5%" }}>
+                        time rente end: <strong>{this.getTimeRentedEnd()}</strong>
                       </div>
-                      <div style={{ fontSize: "1.5vw", marginLeft: "5%" }}>
-                        seed death time: {this.getSeedEnd()}
+                      <div style={{ fontSize: "1.3vw", marginLeft: "5%" }}>
+                        seed death time: <strong>{this.getSeedEnd()}</strong>
                       </div>
                     </div>
                   </div>
@@ -742,7 +742,7 @@ class FarmsInRegion extends Component {
               className="item highlight-on-hover"
             >
               <div className="image">
-                <h6 style={{fontSize: "2vw", marginBottom: "2px", marginTop: "7px" }}>
+                <h6 style={{fontSize: "1.5vw", marginBottom: "2px", marginTop: "7px" }}>
                   ocuppied
                 </h6>
                 {getImageStatus(plot, allSeeds, regionsToMiniatures)}
