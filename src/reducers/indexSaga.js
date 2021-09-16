@@ -354,7 +354,7 @@ function* BuyJoints(action) {
     window.hive_keychain.requestSendToken(
       action.username,
       "hk-vault",
-      parseFloat("" + buds).toFixed(3),
+      parseFloat("" + buds).toFixed(0)+".000",
       camelize("" + action.join.name) + " " + new Date().getTime(),
       "BUDS",
       (resp) => {
