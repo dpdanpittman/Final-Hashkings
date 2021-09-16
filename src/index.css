@@ -18,3 +18,7 @@ code {
 .swal2-container .swal2-top-end .swal2-backdrop-showr {
   z-index: 99999 !important;
 }
+
+.textoFondoNegro {
+  -webkit-text-stroke: #ffffff !important;
+}

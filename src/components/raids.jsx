@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import logo from "../assets/img/logo.png";
 import triangle from "../assets/img/triangleselection.png";
 import shaggi from "../assets/img/Boss info/Shaggi.png";
-import info from "../assets/img/Boss info/Info.png";
+import information from "../assets/img/Boss info/Info.png";
 import ranking from "../assets/img/Boss info/Ranking.png";
 
 import * as qs from "query-string";
@@ -164,7 +164,7 @@ class Raids extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      info: {},
+      info: null,
       raids: [],
       loading: true,
       avatar: 0,
@@ -178,13 +178,7 @@ class Raids extends Component {
   }
 
   render() {
-    let { loading, rentalLoading } = this.state;
-
-    let temp = {};
-
-    if (qs.parse(window.location.search).info) {
-      temp = Info[qs.parse(window.location.search).info];
-    }
+    let { loading, rentalLoading, info } = this.state;
 
     if (loading || rentalLoading) {
       return (
@@ -211,7 +205,7 @@ class Raids extends Component {
         </div>
       );
     } else {
-      if (temp.description) {
+      if (info) {
         return (
           <div className="authentication">
             <div
@@ -220,22 +214,65 @@ class Raids extends Component {
             ></div>
             <div className="raidsBackground" style={{ overflow: "auto" }}>
               <div className="container">
-                <img
-                  src={temp.image}
+                <label
                   style={{
-                    width: "15%",
+                    width: "24%",
                     position: "fixed",
-                    inset: "21% 55% auto auto",
+                    inset: "10% 31% auto auto",
+                    fontSize: "113%",
+                  }}
+                >
+                  Boss: {this.state.info.raid.boss}
+                </label>
+
+                <label
+                  style={{
+                    width: "24%",
+                    position: "fixed",
+                    inset: "10% 38% auto auto",
+                    fontSize: "100%",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    this.setState({ ...this.state, info: null });
+                   } }
+                >
+                  Go Back
+                </label>
+
+
+                <img
+                  src={
+                    Info[this.state.info.raid.boss][this.state.info.raid.type]
+                  }
+                  style={{
+                    width: "14%",
+                    position: "fixed",
+                    inset: "24% 56% auto auto",
                   }}
                 />
+
                 <img
-                  src={info}
+                  src={information}
                   style={{
                     width: "30%",
                     position: "fixed",
                     inset: "20% 28% auto auto",
                   }}
                 />
+                <div
+                  style={{
+                    width: "21%",
+                    position: "fixed",
+                    height: "16%",
+                    inset: "29% 33% auto auto",
+                  }}
+                >
+                  <label className="rentalLabel">
+                    {this.getRaidInfoLabel(this.state.info)}
+                  </label>
+                </div>
+
                 <img
                   src={ranking}
                   style={{
@@ -252,25 +289,49 @@ class Raids extends Component {
                     inset: "58% 49% auto auto",
                   }}
                 />
-
-                <div
+                <label
                   style={{
-                    width: "21%",
+                    width: "20%",
                     position: "fixed",
-                    height: "16%",
-                    inset: "29% 33% auto auto",
+                    inset: "66% 37% auto auto",
+                    fontSize: "70%",
                   }}
                 >
-                  <label className="rentalLabel">{temp.description}</label>
-                </div>
+                  Avatars: {this.state.info.avatarOnRaid.length}
+                </label>
+
+                <label
+                  style={{
+                    width: "20%",
+                    position: "fixed",
+                    inset: "62% 22% auto auto",
+                    fontSize: "70%",
+                  }}
+                >
+                  Winners
+                </label>
 
                 <table
                   style={{
-                    width: "25%",
+                    width: "14%",
                     position: "fixed",
-                    inset: "60% 27% auto auto",
+                    inset: "66% 33% auto auto",
+                    textAlign: "center",
                   }}
-                ></table>
+                >
+                  <thead>
+                    <td>avatar</td>
+                    <td>power</td>
+                  </thead>
+                  <tbody>
+                    {this.state.info.avatarOnRaid.map((avatar, index) => (
+                      <tr key={index}>
+                        <td className="textoFondoNegro">{avatar.avatar}</td>
+                        <td className="textoFondoNegro">{avatar.power}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -279,6 +340,7 @@ class Raids extends Component {
         let raid = null;
         let infoqs = qs.parse(window.location.search).raid;
         let actual = 0;
+        let temp = {};
         if (infoqs) {
           if (parseInt(infoqs) < 0 || parseInt(infoqs) > 3) {
             actual = 0;
@@ -420,8 +482,8 @@ class Raids extends Component {
                   }}
                   onChange={this.onSelectavone}
                 >
-                  <option value={0} disabled defaultValue>
-                    Choose Avatar
+                  <option value={0} defaultValue>
+                    please select an avatar
                   </option>
                   {avatarsOptions}
                 </select>
@@ -433,6 +495,9 @@ class Raids extends Component {
                     inset: "75% 28% auto auto",
                     fontSize: "77%",
                     cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    this.getMoreInfo(raid._id);
                   }}
                 >
                   more info
@@ -458,6 +523,47 @@ class Raids extends Component {
         );
       }
     }
+  }
+
+  getRaidInfoLabel(info) {
+    let { raid, avatarOnRaid, budsRewards } = info;
+
+    let TotalARepartir = budsRewards;
+
+    let dropaRepartir = 0;
+    switch (raid.type) {
+      case "comun":
+        dropaRepartir =
+          TotalARepartir * ((0.1 * parseInt(raid.multiplicator)) / 100);
+        break;
+      case "rara":
+        dropaRepartir =
+          TotalARepartir * ((0.05 * parseInt(raid.multiplicator)) / 100);
+        break;
+      case "epica":
+        dropaRepartir =
+          TotalARepartir * ((0.05 * parseInt(raid.multiplicator)) / 100);
+        break;
+      case "mitica":
+        dropaRepartir =
+          TotalARepartir * ((0.05 * parseInt(raid.multiplicator)) / 100);
+        break;
+      case "legendaria":
+        dropaRepartir =
+          TotalARepartir * ((0.05 * parseInt(raid.multiplicator)) / 100);
+        break;
+    }
+
+    return (
+      raid.boss +
+      " " +
+      raid.type +
+      " X" +
+      raid.multiplicator +
+      " Total drop: " +
+      dropaRepartir +
+      " BUDS"
+    );
   }
 
   getminlvl(lvl) {
@@ -667,6 +773,27 @@ class Raids extends Component {
     // enable these in production
     // this.auth();
     this.populateStore();
+  }
+
+  getMoreInfo(raidid) {
+    Swal.fire({
+      title: "Getting info...",
+    });
+
+    Swal.showLoading();
+    axios
+      .get("https://hashkings.xyz/raidinfo/" + raidid)
+      .then((res) => {
+        console.log("inforeid", res);
+        this.setState({
+          ...this.state,
+          info: res.data,
+        });
+        Swal.close();
+      })
+      .catch((err) => {
+        Swal.close();
+      });
   }
 
   populateStore() {

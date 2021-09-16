@@ -263,13 +263,14 @@ function* SmokeJoints(action) {
 
   let data = JSON.parse(localStorage.getItem("activeAvatar"));
 
-  if(data.id ==140646){ 
+  if (data.id == 140646) {
     yield put(
       userActions.plantError({
         loaderPlant: false,
         completePlant: true,
         errorPlant: true,
-        mensajePlant: "you cannot level up the default avatar, change the avatar please",
+        mensajePlant:
+          "you cannot level up the default avatar, change the avatar please",
       })
     );
     return;
@@ -333,11 +334,27 @@ function* BuyJoints(action) {
     return;
   }
 
+  let buds = yield action.join.usd();
+
+  if (!buds) {
+    console.log("no se pudo traer los buds");
+    yield put(
+      userActions.plantError({
+        loaderPlant: false,
+        completePlant: true,
+        errorPlant: true,
+        mensajePlant: "Error on getting buds price. Please try again",
+      })
+    );
+    return;
+  }
+  console.log("buds price", buds);
+
   let response = yield new Promise((resolve, reject) => {
     window.hive_keychain.requestSendToken(
       action.username,
       "hk-vault",
-      parseFloat("" + action.join.buds).toFixed(3),
+      parseFloat("" + buds).toFixed(3),
       camelize("" + action.join.name) + " " + new Date().getTime(),
       "BUDS",
       (resp) => {
@@ -650,14 +667,13 @@ function* upgradeWater(action) {
             },
           })
           .then((result) => {
-         
             const lasPrice = result.data.result[0].lastPrice;
             const valueInHive = response * lasPrice;
             console.info("valores", response, lasPrice);
             resolve(valueInHive);
           })
           .catch(async (err) => {
-            console.log("error al traer valor de la mota", err)
+            console.log("error al traer valor de la mota", err);
             resolve(0);
           });
       });
