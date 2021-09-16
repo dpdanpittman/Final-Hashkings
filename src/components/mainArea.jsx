@@ -39,6 +39,7 @@ class MainArea extends Component {
                         onClick={(area, index, e) => this.clicked(area.fullname, index, e)}
                         onMouseEnter={ (area, index, e) => this.hover(area, index, e) }
                         fillColor="rgba(255, 255, 0, 0.521)"
+                        
                     />
                 </div>
             </Card>
