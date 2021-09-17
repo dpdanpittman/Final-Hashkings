@@ -410,7 +410,7 @@ class InventoryModal extends Component {
                       username: this.props.username,
                       waterTower: this.state.selectedForUpgrade,
                       lvl: this.props.user.lvl,
-                      token: "mota"
+                      token: "mota",
                     });
                   }}
                 />
@@ -421,7 +421,7 @@ class InventoryModal extends Component {
                       username: this.props.username,
                       waterTower: this.state.selectedForUpgrade,
                       lvl: this.props.user.lvl,
-                      token: "hive"
+                      token: "hive",
                     });
                   }}
                   src={hive}
@@ -440,6 +440,7 @@ class InventoryModal extends Component {
 
   getWaterTowers() {
     let plants = this.user().waterPlants;
+
     let total = 0;
     for (let plant in plants) {
       total += plants[plant];
@@ -573,9 +574,33 @@ class InventoryModal extends Component {
   }
 
   renderWaterTowers() {
-    const towers = this.user().waterTowers;
+    let towers = this.user().waterTowers;
 
-    return Object.keys(towers).map((tower) => (
+
+    let r = this.user()
+      .rents.filter((rented) => {
+        return rented.properties.TYPE == "water";
+      })
+      .map((tower) => {
+        return (
+          <div key={tower.id} className="inventory_asset">
+            <span className="title-tag-top">RENTED</span>
+            <img
+              style={{ width: "80%", height: "100%" }}
+              src={this.getImageForAsset(
+                "lvl" + tower.properties.LVL,
+                waterTowersImgs
+              )}
+              title={`Click to see options`}
+            />
+            <span style={{ left: "4em" }} className="title-tag">
+              {this.hydrateTowerName("lvl" + tower.properties.LVL)}
+            </span>
+          </div>
+        );
+      });
+
+    let objects = Object.keys(towers).map((tower) => (
       <div
         key={tower.id}
         className="inventory_asset"
@@ -616,6 +641,10 @@ class InventoryModal extends Component {
         </span>
       </div>
     ));
+
+    objects = objects.concat(r);
+
+    return objects;
   }
 
   renderTimeBoosters() {
