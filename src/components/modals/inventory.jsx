@@ -457,6 +457,9 @@ class InventoryModal extends Component {
   }
 
   getImageForAsset(assetName, images) {
+   if(!assetName) {
+     return null;
+   }
     const cleanedUpAssetName = assetName
       .toLowerCase()
       .replace(" ", "")

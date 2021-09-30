@@ -12,12 +12,17 @@ import LvPNG from "../assets/img/ui/Level.png";
 import FarmerPNG from "../assets/img/profile_pictures/Farmer.png";
 import Profiles from "../assets/img/profile_pictures";
 import Spirit from "../assets/img/spiritswap_logo.png";
+import tron from "../assets/img/tron.png";
+import Send from "../assets/img/ui/transfer.png";
+
 import ClosePNG from "../assets/img/ui/x close.png";
 
 import Web3 from "web3";
 
 function HeaderTab(props) {
   const [showModal, setshowModal] = useState(false);
+
+  const [showFantomModal, setshowFantomModal] = useState(false);
 
   const [paddress, setpaddress] = useState("");
 
@@ -139,11 +144,15 @@ function HeaderTab(props) {
             </div>
           </div>
         </Button>
-        <Button style={{display: "contents"}} variant="link" onClick={() => setshowModal(true)}>
+        <Button
+          style={{ display: "contents" }}
+          variant="link"
+          onClick={() => setshowModal(true)}
+        >
           <div className="icon-group">
             <img
-              style={{ transform: "scale(1.2)" }}
-              src={Spirit}
+              style={{ transform: "scale(1.2)", maxWidth: "75px" }}
+              src={Send}
               alt="LINK"
               title="LINK"
             />
@@ -153,10 +162,10 @@ function HeaderTab(props) {
 
       <Modal
         size="lg"
-        show={showModal}
-        onHide={() => setshowModal(false)}
+        show={showFantomModal}
+        onHide={() => setshowFantomModal(false)}
         centered
-        style={{ zIndex: "99999"}}
+        style={{ zIndex: "99999" }}
       >
         <div
           id="profile-modal-rent"
@@ -164,13 +173,14 @@ function HeaderTab(props) {
           className="base-modal"
         >
           <img
-            onClick={() => setshowModal(false)}
+            onClick={() => setshowFantomModal(false)}
             className="close-btn highlight-on-hover"
             src={ClosePNG}
           />
           <h1>Set your Fantom address</h1>
-          <p >
-            Your actual Fantom address is: <strong>{getPhantomAddresses()}{" "}</strong>
+          <p>
+            Your actual Fantom address is:{" "}
+            <strong>{getPhantomAddresses()} </strong>
           </p>
 
           <input
@@ -190,6 +200,62 @@ function HeaderTab(props) {
           >
             Set address
           </Button>
+        </div>
+      </Modal>
+
+      <Modal
+        size="lg"
+        show={showModal}
+        onHide={() => setshowModal(false)}
+        centered
+        style={{ zIndex: "99999" }}
+      >
+        <div
+          id="profile-modal-rent"
+          className="modal-transparent-overlay"
+          className="base-modal"
+        >
+          <img
+            onClick={() => setshowModal(false)}
+            className="close-btn highlight-on-hover"
+            src={ClosePNG}
+          />
+          <h1 style={{textAlign: "center",}}>Set your brige addresses</h1>
+
+          <div className="row">
+            <div className="col-12 col-md-6">
+              <Button
+                style={{ display: "contents" }}
+                variant="link"
+                onClick={() => setshowFantomModal(true)}
+              >
+                <div className="icon-group">
+                  <img
+                    style={{ transform: "scale(1.2)", maxWidth: "75px" }}
+                    src={Spirit}
+                    alt="LINK"
+                    title="LINK"
+                  />
+                </div>
+              </Button>
+            </div>
+            <div className="col-12 col-md-6">
+              <Button
+                style={{ display: "contents" }}
+                variant="link"
+                onClick={() => setshowFantomModal(true)}
+              >
+                <div className="icon-group">
+                  <img
+                    style={{ transform: "scale(1.2)", maxWidth: "75px" }}
+                    src={tron}
+                    alt="LINK"
+                    title="LINK"
+                  />
+                </div>
+              </Button>
+            </div>
+          </div>
         </div>
       </Modal>
     </section>

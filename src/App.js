@@ -18,6 +18,8 @@ import { getAnalytics } from "firebase/analytics";
 import { getMessaging, onMessage } from "firebase/messaging";
 import Swal from "sweetalert2";
 
+import Avatars from "./components/openAvatar";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -76,10 +78,13 @@ function App() {
           <Route path="/callback">
             <AuthenticationView mode="callback" />
           </Route>
+
           <ShopGuardRoute path="/rentals" component={Rentals} />
           <ShopGuardRoute path="/raids" component={Raids} />
+          <ShopGuardRoute path="/avatars" component={Avatars} />
           <ShopGuardRoute path="/forge" component={Forge} />
           <Route exact path="/auth" component={AuthenticationView} />
+
           <ShopGuardRoute
             exact
             path="/play"

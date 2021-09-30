@@ -97,7 +97,7 @@ async function getMotaPrice(price) {
 
   return new Promise((resolve, reject) => {
     axios
-      .post("https://us.engine.ryamer.com/contracts", {
+      .post("https://engine.rishipanthee.com/contracts", {
         jsonrpc: "2.0",
         id: 12,
         method: "find",
