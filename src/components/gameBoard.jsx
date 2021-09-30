@@ -24,17 +24,19 @@ import reload from "../assets/img/reload.gif";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-import ClosePNG from "../assets/img/ui/x close.png";
+import rentalsPNG from "../assets/img/ui/Boton cash.png";
 
 import diseno from "../assets/img/ui/diseno_2-01.png";
 
 import disenocartelera from "../assets/img/ui/diseno_cartelera-01_1.png";
 import diseno_carteleraTwp from "../assets/img/ui/Disenos_cartelera_5.png";
-
+import ClosePNG from "../assets/img/ui/x close.png";
 import DepositButton from "../assets/img/staking_modal/Deposit.png";
 import disenocarteleraOne from "../assets/img/ui/diseno_cartelera4.1-01.png";
 
 import { preguntarPermisos } from "../utils/firebaseConfig";
+
+import avataresCubo from "../assets/img/AvataresCubo.gif";
 
 const MySwal = withReactContent(Swal);
 
@@ -56,6 +58,7 @@ class GameBoard extends Component {
       showBuds: false,
       fantom: false,
       fantonValue: 0,
+      avatarsell: false,
     };
   }
 
@@ -92,6 +95,10 @@ class GameBoard extends Component {
     } else {
       return (
         <div id="game-board" className="container-fluid px-5">
+         
+         
+        
+
           <IsMobileOverlay class={this.state.isMobileOverlayClass} />
           <div className="col-12 d-flex flex-row justify-content-center">
             <HeaderTab
@@ -261,6 +268,9 @@ class GameBoard extends Component {
                 </div>
               </div>
             </Modal>
+
+           
+            
           </div>
         </div>
       );
@@ -286,7 +296,7 @@ class GameBoard extends Component {
 
     if (this.state.fantomvalue == "none") {
       alert("Please set a valid fantom address");
-      return
+      return;
     }
 
     window.hive_keychain.requestSendToken(
@@ -331,6 +341,10 @@ class GameBoard extends Component {
       case "fantom":
         this.setState({ fantom: true });
         break;
+
+      case "avatarsell":
+        this.setState({ avatarsell: true });
+        break;
     }
   }
 
@@ -363,6 +377,9 @@ class GameBoard extends Component {
       case "fantom":
         this.setState({ fantom: false });
         break;
+      case "avatarsell":
+        this.setState({ avatarsell: false });
+        break;
     }
   }
 
@@ -391,7 +408,10 @@ class GameBoard extends Component {
       .then((res) => {
         this.props.updateStoreFromAPI(res.data);
 
-        localStorage.setItem("activeAvatar", JSON.stringify(res.data.activeAvatar))
+        localStorage.setItem(
+          "activeAvatar",
+          JSON.stringify(res.data.activeAvatar)
+        );
 
         this.checkLocalstorage(res.data);
 
