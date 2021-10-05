@@ -403,15 +403,15 @@ class InventoryModal extends Component {
               <h3 className="text-center font-weight-bold mb-2">Select coin</h3>
               <div className="mb-0" style={{ textAlign: "center" }}>
                 <img
-                  style={{ cursor: "pointer", width: "200px", margin: "5%" }}
+                  style={{ cursor: "not-allowed", width: "200px", margin: "5%", filter:"grayscale(100%)" }}
                   src={mota}
                   onClick={() => {
-                    this.props.upgradeWaterTower({
+                   /* this.props.upgradeWaterTower({
                       username: this.props.username,
                       waterTower: this.state.selectedForUpgrade,
                       lvl: this.props.user.lvl,
                       token: "mota",
-                    });
+                    }); */
                   }}
                 />
                 <img

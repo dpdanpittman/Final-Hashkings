@@ -97,7 +97,18 @@ class GameBoard extends Component {
         <div id="game-board" className="container-fluid px-5">
          
          
-        
+          <img
+            src={avataresCubo}
+            onClick={() => {/* (window.location = "/avatars") */}}
+            style={{
+              width: "10%",
+              position: "fixed",
+              inset: "auto 36px 72px auto",
+              zIndex: "999999",
+              cursor: "not-allowed",
+              filter:"grayscale(1)"
+            }}
+          /> 
 
           <IsMobileOverlay class={this.state.isMobileOverlayClass} />
           <div className="col-12 d-flex flex-row justify-content-center">

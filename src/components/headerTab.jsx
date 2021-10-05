@@ -241,13 +241,13 @@ function HeaderTab(props) {
             </div>
             <div className="col-12 col-md-6">
               <Button
-                style={{ display: "contents" }}
+                style={{ display: "contents", filter:"grayscale(1)" }}
                 variant="link"
-                onClick={() => setshowFantomModal(true)}
+                onClick={() => { /*setshowFantomModal(true)*/}}
               >
                 <div className="icon-group">
                   <img
-                    style={{ transform: "scale(1.2)", maxWidth: "75px" }}
+                    style={{ transform: "scale(1.2)", maxWidth: "75px", filter:"grayscale(1)" }}
                     src={tron}
                     alt="LINK"
                     title="LINK"

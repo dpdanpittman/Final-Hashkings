@@ -399,11 +399,15 @@ html body * {
   text-transform: uppercase;
   cursor: pointer;
 }
+.resaltar{ 
+  color : red !important;
+}
+
 .authentication #how-to-play {
   background: white;
   border-radius: 4px;
   max-width: 600px;
-  height: 50vh;
+  height: 61vh;
   padding: 1em;
   position: absolute;
   z-index: 3;
