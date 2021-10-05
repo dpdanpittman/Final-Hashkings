@@ -19,6 +19,9 @@ import XPBoosters from "../../assets/img/xp_boosters";
 
 import FondoPNG from "../../assets/img/ui/Fondo y marco.png";
 import xp_boosters from "../../assets/img/xp_boosters";
+
+import especial_boosters from "../../assets/img/xp_boosters/especial/Oro SJ.png";
+
 import { Farm } from "../configs/farming";
 
 import DisplayLoader from "./displayLoader";
@@ -49,32 +52,29 @@ function CraftingModal(props) {
                   onClick={(e) => {
                     mapDispatchToProps(true);
 
-                    let name = ( ""+boostersObj[booster].name).toLowerCase();
+                    let name = ("" + boostersObj[booster].name).toLowerCase();
 
-                    if(name=="cross"){
-                      name = "cross joint"
+                    if (name == "cross") {
+                      name = "cross joint";
                     }
 
-                    if(name=="hemp wrapped"){
-                      name = "hemp wrapped joint"
+                    if (name == "hemp wrapped") {
+                      name = "hemp wrapped joint";
                     }
 
-                    if(name=="twax") {
-                      name ="twax joint"
+                    if (name == "twax") {
+                      name = "twax joint";
                     }
 
-                    boostersObj[booster].name = name
+                    boostersObj[booster].name = name;
 
                     let payload = {
-                      username:props.username,
-                      join:boostersObj[booster],
-                      lvl: props.bucket.lvl
-                    }
+                      username: props.username,
+                      join: boostersObj[booster],
+                      lvl: props.bucket.lvl,
+                    };
 
-                    props.displayBuyJoint(
-                      payload
-                    );
-
+                    props.displayBuyJoint(payload);
                   }}
                   className="crafting-icon highlight-on-hover"
                   src={CraftingPNG}
@@ -145,7 +145,7 @@ function CraftingModal(props) {
         onHide={() => props.hideModal("crafting")}
         size={props.size || null}
         centered
-        style={{ zIndex: "99999"}}
+        style={{ zIndex: "99999" }}
       >
         <div id="crafting-modal" className="base-modal pb-5">
           <div
@@ -156,14 +156,29 @@ function CraftingModal(props) {
           </div>
           <div className="d-flex flex-row justify-content-around images-container">
             <div className="item xp">
-              <img
-                onClick={() =>   toggleSubModal("xpboosters") }
-                className="highlight-on-hover xp-boosters-main-img"
-                src={xp_boosters.BroncePNG.image}
-                alt="XP Boosters"
-              />
+              <div className="row">
+                <div className="col" style={{ textAlign: "center" }}>
+                  <img
+                    onClick={() => toggleSubModal("xpboosters")}
+                    className="highlight-on-hover "
+                    style={{ maxWidth: "60%" }}
+                    src={xp_boosters.BroncePNG.image}
+                    alt="XP Boosters"
+                  />
+                </div>
+
+                <div className="col" style={{ textAlign: "center" }}>
+                  <img
+                    onClick={() => toggleSubModal("espboosters")}
+                    className="highlight-on-hover "
+                    style={{ maxWidth: "100%" }}
+                    src={especial_boosters}
+                    alt="SP Boosters"
+                  />
+                </div>
+              </div>
               <div>
-                <h3 style={{fontSize:"smaller"}}>Consumables</h3>
+                <h3 style={{ fontSize: "smaller" }}>Consumables</h3>
               </div>
             </div>
           </div>
@@ -197,7 +212,7 @@ const mapStateToProps = (state) => {
     timeBooster,
     username,
     displayModalPlanting,
-    bucket
+    bucket,
   };
 };
 
@@ -206,8 +221,7 @@ const mapDispatchToProps = (dispatch) => {
     plantSeed: (payload) => dispatch({ type: "FARM/PLANT", payload }),
     displayPlanting: (payload) =>
       dispatch({ type: "FARM/DISPLAYPLANTMODAL", payload }),
-    displayBuyJoint: (payload) =>
-      dispatch({ type: "BUY/JOIN", payload }),
+    displayBuyJoint: (payload) => dispatch({ type: "BUY/JOIN", payload }),
     updateStoreFromAPI: (API_bucket) =>
       dispatch({ type: "API UPDATE", payload: API_bucket }),
   };

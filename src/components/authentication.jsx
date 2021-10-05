@@ -208,9 +208,11 @@ class AuthenticationView extends Component {
               <hr />
               <section>
                 Hashkings is a NFT(non-fungible token) powered Cannabis farming
-                simulator on the Hive Blockchain. Please follow{" "}
-                <a href="https://peakd.com/@hashkings">this guide</a> to learn
-                how to play.
+                simulator on the Hive Blockchain. {" "}
+                <hr></hr>
+                Learn <a  className="resaltar"href="https://hashkings-2.gitbook.io/getting-started/">how to join</a> the hashkings ecosystem using our official gitbook{" "}
+                <hr></hr>
+                Aprende a <a className="resaltar"href="https://hashkings-2.gitbook.io/hashkings-es/">jugar</a> hashkings con nuestra gitbook oficial
               </section>
             </article>
           </div>

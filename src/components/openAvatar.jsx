@@ -18,20 +18,36 @@ import ClosePNG from "../assets/img/ui/x close.png";
 import DepositButton from "../assets/img/staking_modal/Deposit.png";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
+import HivePay from "../utils/HivePay";
+
 class OpenAvatars extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       loading: true,
-      avatarsell: false 
+      avatarsell: false,
+      avataropen: false,
+      cantidad: 1,
     };
 
     this.onSelectavone = this.onSelectavone.bind(this);
+    this.changeCantidad = this.changeCantidad.bind(this);
+    this.buyPacks = this.buyPacks.bind(this);
+    this.getUsd = this.getUsd.bind(this);
+    this.buyPacksHive = this.buyPacksHive.bind(this);
+  }
+
+  getUsd() {
+    return this.state.cantidad;
   }
 
   onSelectavone(e) {
     this.setState({ ...this.state, avatar: e.target.value });
+  }
+
+  changeCantidad(e) {
+    this.setState({ ...this.state, cantidad: e.target.value });
   }
 
   render() {
@@ -122,9 +138,7 @@ class OpenAvatars extends Component {
                   inset: "51% 32% auto auto",
                 }}
               >
-                <button className="rent-now px-1" onClick={{}}>
-                  Open all
-                </button>
+                <button className="rent-now px-1">Open all</button>
               </div>
 
               <div
@@ -135,7 +149,12 @@ class OpenAvatars extends Component {
                   inset: "51% 18% auto auto",
                 }}
               >
-                <button className="rent-now px-1" onClick={ () => {this.showModal()}}>
+                <button
+                  className="rent-now px-1"
+                  onClick={() => {
+                    this.showModal();
+                  }}
+                >
                   Buy pack
                 </button>
               </div>
@@ -143,8 +162,8 @@ class OpenAvatars extends Component {
           </div>
 
           <Modal
-            show={this.state.avatarsell}
-            onHide={() => this.hideModal("avatarsell")}
+            show={this.state.avataropen}
+            onHide={() => this.hideModal("avataropen")}
             size={"lg"}
             centered
           >
@@ -154,7 +173,7 @@ class OpenAvatars extends Component {
               style={{ textAlign: "center" }}
             >
               <img
-                onClick={() => this.hideModal("avatarsell")}
+                onClick={() => this.hideModal("avataropen")}
                 className="close-btn highlight-on-hover"
                 src={ClosePNG}
               />
@@ -180,11 +199,7 @@ class OpenAvatars extends Component {
 
                 <div className="span">
                   <div>
-                    <strong>
-                      {this.props.API_bucket.fantomadrs
-                        ? ""
-                        : "Please set a fantom address"}
-                    </strong>
+                    
                   </div>
                 </div>
 
@@ -222,53 +237,211 @@ class OpenAvatars extends Component {
               </div>
             </div>
           </Modal>
-          <Modal
-          size="lg"
-          show={this.state.avatarsell}
-          onHide={() => this.setState({ ...this.state, avatarsell: false })}
-          centered
-          backdrop="static"
-          style={{ zIndex: "999999" }}
-        >
-          <div
-            id="inventory-modal"
-            className="modal-transparent-overlay"
-            className="base-modal"
-          >
-            <img
-              onClick={() =>
-                this.setState({ ...this.state, avatarsell: false })
-              }
-              className="close-btn highlight-on-hover"
-              src={ClosePNG}
-            />
-            <Modal.Body>
-              <h3 className="text-center font-weight-bold mb-2">Select coin</h3>
 
-              <h4 className="text-center font-weight-bold mb-2">2$ usd</h4>
-              <div className="mb-0" style={{ textAlign: "center" }}>
-                
-                
-                <img
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                   this.buyPacks()
-                  }}
-                  src={hive}
+          <Modal
+            size="lg"
+            show={this.state.avatarsell}
+            onHide={() => this.setState({ ...this.state, avatarsell: false })}
+            centered
+            backdrop="static"
+            style={{ zIndex: "999999" }}
+          >
+            <div
+              id="inventory-modal"
+              className="modal-transparent-overlay"
+              className="base-modal"
+            >
+              <img
+                onClick={() =>
+                  this.setState({ ...this.state, avatarsell: false })
+                }
+                className="close-btn highlight-on-hover"
+                src={ClosePNG}
+              />
+              <Modal.Body>
+                <h3 className="text-center font-weight-bold mb-2">
+                  Select payment method
+                </h3>
+
+                <h4 className="text-center font-weight-bold mb-2">
+                  {this.GetValueConDescuento(this.getUsd())}$ usd
+                </h4>
+
+                <h6 className="text-center font-weight-bold mb-2">
+                  100 - 250 packs = 10% discount
+                </h6>
+                <h6 className="text-center font-weight-bold mb-2">
+                  {" "}
+                  251 - 500 = 15% discount{" "}
+                </h6>
+                <h6 className="text-center font-weight-bold mb-2">
+                  {" "}
+                  500 or more = 20% discount
+                </h6>
+
+                <input
+                  type="number"
+                  placeholder="Quantity"
+                  className="form-control"
+                  onChange={this.changeCantidad}
                 />
-              </div>
-            </Modal.Body>
-          </div>
-        </Modal>
-  
-    
-      </div>
+                <br />
+
+                <div className="mb-0" style={{ textAlign: "center" }}>
+                  <img
+                    style={{ cursor: "pointer", marginBottom: "14px" }}
+                    id="buttonview"
+                    onClick={() => this.buyPacksHive()}
+                    src="https://hivepay.io/buttons/15.png"
+                    alt="Pay Hive"
+                  />
+                  <br></br>
+                  <form
+                    action="https://www.coinpayments.net/index.php"
+                    method="post"
+                    target="_top"
+                    onSubmit={this.buyPacks}
+                    id="paymentForm"
+                  >
+                    <input
+                      type="image"
+                      src="https://www.coinpayments.net/images/pub/buynow-med.png"
+                      alt="Comprar ahora con CoinPayments.net"
+                    />
+                  </form>
+                </div>
+              </Modal.Body>
+            </div>
+          </Modal>
+        </div>
       );
     }
   }
 
-  buyPacks() {
+  buyPacks(e) {
+    e.preventDefault();
+    if (this.state.cantidad < 1) {
+      alert("error on quantity, please try again");
+      return;
+    }
 
+    if (!localStorage.getItem("username")) {
+      alert("You must be logged in to buy packs");
+      return;
+    }
+
+    let value = this.GetValueConDescuento(this.state.cantidad);
+
+    let desc = JSON.stringify({
+      username: localStorage.getItem("username"),
+      quantity: value,
+    });
+
+    var form = document.getElementById("paymentForm");
+
+    let cmd = document.createElement("input"); //prepare a new input DOM element
+    cmd.setAttribute("name", "cmd"); //set the param name
+    cmd.setAttribute("value", "_pay_simple"); //set the value
+    cmd.setAttribute("type", "hidden"); //set the type, like "hidden" or other
+    form.appendChild(cmd);
+
+    let merchant = document.createElement("input"); //prepare a new input DOM element
+    merchant.setAttribute("name", "merchant"); //set the param name
+    merchant.setAttribute("value", "33343af93aeb628f9993751a0e0a2b6d"); //set the value
+    merchant.setAttribute("type", "hidden"); //set the type, like "hidden" or other
+    form.appendChild(merchant);
+
+    let reset = document.createElement("input"); //prepare a new input DOM element
+    reset.setAttribute("name", "reset"); //set the param name
+    reset.setAttribute("value", "1"); //set the value
+    reset.setAttribute("type", "hidden"); //set the type, like "hidden" or other
+    form.appendChild(reset);
+
+    let currency = document.createElement("input"); //prepare a new input DOM element
+    currency.setAttribute("name", "currency"); //set the param name
+    currency.setAttribute("value", "USD"); //set the value
+    currency.setAttribute("type", "hidden"); //set the type, like "hidden" or other
+    form.appendChild(currency);
+
+    let amountf = document.createElement("input"); //prepare a new input DOM element
+    amountf.setAttribute("name", "amountf"); //set the param name
+    amountf.setAttribute("value", value.toFixed(2)); //set the value
+    amountf.setAttribute("type", "hidden"); //set the type, like "hidden" or other
+    form.appendChild(amountf);
+
+    let item_name = document.createElement("input"); //prepare a new input DOM element
+    item_name.setAttribute("name", "item_name"); //set the param name
+    item_name.setAttribute("value", "Avatar Packs"); //set the value
+    item_name.setAttribute("type", "hidden"); //set the type, like "hidden" or other
+    form.appendChild(item_name);
+
+    let item_desc = document.createElement("input"); //prepare a new input DOM element
+    item_desc.setAttribute("name", "item_desc"); //set the param name
+    item_desc.setAttribute("value", desc); //set the value
+    item_desc.setAttribute("type", "hidden"); //set the type, like "hidden" or other
+    form.appendChild(item_desc);
+
+    let success_url = document.createElement("input"); //prepare a new input DOM element
+    success_url.setAttribute("name", "success_url"); //set the param name
+    success_url.setAttribute("value", "https://farm.hashkings.app/avatars"); //set the value
+    success_url.setAttribute("type", "hidden"); //set the type, like "hidden" or other
+    form.appendChild(success_url);
+
+    /*
+    form.appendChild(this.setInput("want_shipping", "1"));
+    form.appendChild(
+      this.setInput("success_url", "http://www.yoursite.com/success")
+    );
+*/
+    form.submit(); //send with added input
+  }
+
+  GetValueConDescuento(cantidad) {
+    let valorReal = cantidad * 2;
+    let descuento = 0;
+    if (cantidad > 100 && cantidad <= 250) {
+      descuento = valorReal * 0.1;
+    }
+    if (cantidad > 251 && cantidad <= 500) {
+      descuento = valorReal * 0.15;
+    }
+    if (cantidad > 500) {
+      descuento = valorReal * 0.2;
+    }
+
+    let valorConDescuento = valorReal - descuento;
+    return valorConDescuento;
+  }
+
+  buyPacksHive() {
+    if (this.state.cantidad < 1) {
+      alert("error on quantity, please try again");
+      return;
+    }
+
+    if (!localStorage.getItem("username")) {
+      alert("You must be logged in to buy packs");
+      return;
+    }
+
+    let value = this.GetValueConDescuento(this.state.cantidad);
+
+    let desc = JSON.stringify({
+      username: localStorage.getItem("username"),
+      quantity: this.state.cantidad,
+    });
+
+    const HP = new HivePay("hashkings");
+    HP.setItemName("Avatar Pack")
+      .setItemDescription(desc)
+      .setMerchant_email("blackmirague@gmail.com")
+      .setNotifyUrl("https://guerrerosconsultoresas.com.co/hk/hive.php")
+      .setReturnUrl("https://farm.hashkings.app/avatars")
+      .setAmount(value.toFixed(2))
+      .setBaseCurrency()
+      .setPayCurrencies(["DEC", "SPS", "HIVE", "SWAP.HIVE", "BUDS", "SOULS"]);
+
+    HP.submit();
   }
 
   hideModal(modal) {
@@ -506,21 +679,25 @@ class OpenAvatars extends Component {
     });
 
     const API =
-      "https://hashkings.xyz/utest/" + localStorage.getItem("username");
+      "https://hashkings.xyz/compraavatars/" + localStorage.getItem("username");
     axios
       .get(API)
       .then((res) => {
-        this.props.updateStoreFromAPI(res.data);
-
         this.setState({
           ...this.state,
           loading: false,
+          comprados: res.data,
         });
 
         Swal.resumeTimer();
       })
       .catch((err) => {
         console.log("se produjo un error aqui", err);
+        this.setState({
+          ...this.state,
+          loading: false,
+          comprados: [],
+        });
         Swal.resumeTimer();
         //window.location.href ="/login";
       });
