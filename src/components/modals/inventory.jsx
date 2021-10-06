@@ -19,6 +19,10 @@ import { Farm } from "../configs/farming";
 import mota from "../../assets/img/ui/Moneda2.png";
 import hive from "../../assets/img/socialmedia/Hive.png";
 
+import especial_boosters from "../../assets/img/xp_boosters/especial/Oro SJ.png";
+import triplebraid from "../../assets/img/xp_boosters/especial/oroTrenza.png";
+
+import { usd } from "../../assets/img/xp_boosters";
 class InventoryModal extends Component {
   constructor(props) {
     super(props);
@@ -403,10 +407,15 @@ class InventoryModal extends Component {
               <h3 className="text-center font-weight-bold mb-2">Select coin</h3>
               <div className="mb-0" style={{ textAlign: "center" }}>
                 <img
-                  style={{ cursor: "not-allowed", width: "200px", margin: "5%", filter:"grayscale(100%)" }}
+                  style={{
+                    cursor: "not-allowed",
+                    width: "200px",
+                    margin: "5%",
+                    filter: "grayscale(100%)",
+                  }}
                   src={mota}
                   onClick={() => {
-                   /* this.props.upgradeWaterTower({
+                    /* this.props.upgradeWaterTower({
                       username: this.props.username,
                       waterTower: this.state.selectedForUpgrade,
                       lvl: this.props.user.lvl,
@@ -457,9 +466,9 @@ class InventoryModal extends Component {
   }
 
   getImageForAsset(assetName, images) {
-   if(!assetName) {
-     return null;
-   }
+    if (!assetName) {
+      return null;
+    }
     const cleanedUpAssetName = assetName
       .toLowerCase()
       .replace(" ", "")
@@ -579,7 +588,6 @@ class InventoryModal extends Component {
   renderWaterTowers() {
     let towers = this.user().waterTowers;
 
-
     let r = this.user()
       .rents.filter((rented) => {
         return rented.properties.TYPE == "water";
@@ -689,15 +697,25 @@ class InventoryModal extends Component {
       <div
         key={"joint" + joint.id}
         className="inventory_asset inventory_asset_joint"
-        onClick={(e) =>
+        onClick={(e) => {
+          let imaget = null;
+
+          if (joint.properties.NAME == "Scorpion Joint") {
+            imaget = especial_boosters;
+          } else if (joint.properties.NAME == "Triple Braid") {
+            imaget = triplebraid;
+          } else {
+            imaget = this.getImageForAssetJoints(
+              joint.properties.NAME,
+              xpBoostersImgs
+            );
+          }
+
           this.setState({
             selectedForUpgrade: {
               item: joint,
               name: joint.name,
-              image: this.getImageForAssetJoints(
-                joint.properties.NAME,
-                xpBoostersImgs
-              ),
+              image: imaget,
               id: joint,
               actions: ["smoke", "transfer"],
               upgradeFunction: (e) => {
@@ -705,17 +723,34 @@ class InventoryModal extends Component {
               },
             },
             showUpgradeModal: "block",
-          })
-        }
+          });
+        }}
       >
-        <img
-          style={{ width: "60% !important" }}
-          src={this.getImageForAssetJoints(
-            joint.properties.NAME,
-            xpBoostersImgs
+        {joint.properties.NAME == "Scorpion Joint" && (
+          <img
+            style={{ width: "100% " }}
+            src={especial_boosters}
+            title={`Click to see options`}
+          />
+        )}
+        {joint.properties.NAME == "Triple Braid" && (
+          <img
+            style={{ width: "100%" }}
+            src={triplebraid}
+            title={`Click to see options`}
+          />
+        )}
+        {joint.properties.NAME != "Triple Braid" &&
+          joint.properties.NAME != "Scorpion Joint" && (
+            <img
+              style={{ width: "60% !important" }}
+              src={this.getImageForAssetJoints(
+                joint.properties.NAME,
+                xpBoostersImgs
+              )}
+              title={`Click to see options`}
+            />
           )}
-          title={`Click to see options`}
-        />
       </div>
     ));
   }

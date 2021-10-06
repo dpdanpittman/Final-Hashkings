@@ -16,6 +16,7 @@ import BudsPNG from "../../assets/img/ui/BUDS.png";
 import XpPNG from "../../assets/img/ui/Icono XP.png";
 
 import XPBoosters from "../../assets/img/xp_boosters";
+import { usd } from "../../assets/img/xp_boosters";
 
 import FondoPNG from "../../assets/img/ui/Fondo y marco.png";
 import xp_boosters from "../../assets/img/xp_boosters";
@@ -25,6 +26,8 @@ import especial_boosters from "../../assets/img/xp_boosters/especial/Oro SJ.png"
 import { Farm } from "../configs/farming";
 
 import DisplayLoader from "./displayLoader";
+
+import triplebraid from "../../assets/img/xp_boosters/especial/oroTrenza.png";
 
 function CraftingModal(props) {
   const extractXPBoosters = (boostersObj, range) =>
@@ -183,6 +186,105 @@ function CraftingModal(props) {
             </div>
           </div>
         </div>
+        <div id="espboosters" className="crafting-sub-modal">
+          <i
+            style={{ borderRadius: "50%" }}
+            onClick={() => toggleSubModal("espboosters")}
+            className="fa fa-close fa-2x text-black-50 highlight-on-hover"
+          ></i>
+          <div className="d-flex flex-row justify-content-around">
+            <div key="triplebraid" className="item itemt">
+              <img
+                className="booster-image"
+                src={triplebraid}
+                alt={`XP Booster triplebraid`}
+              />
+              <div className="image-caption-wrapper">
+                <div className="image-caption">
+                  <span>
+                    <img className="buds" src={BudsPNG} alt="Buds" /> <b>40$</b>
+                  </span>
+                  <span>
+                    <img className="xp" src={XpPNG} alt="Budsxp" /> <b>15k</b>
+                  </span>
+                  <span>
+                    <img
+                      onClick={(e) => {
+                        mapDispatchToProps(true);
+
+                        let joint = {
+                          image: "",
+                          buds: "$40",
+                          boost: 15000,
+                          name: "Triple Braid",
+                          usd: () => {
+                            return usd(40);
+                          },
+                        };
+
+                        let payload = {
+                          username: props.username,
+                          join: joint,
+                          lvl: props.bucket.lvl,
+                        };
+
+                        props.displayBuyJoint(payload);
+                      }}
+                      className="crafting-icon highlight-on-hover"
+                      src={CraftingPNG}
+                      alt="Click to craft"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div key="escorpionjoint" className="item itemt">
+              <img
+                className="booster-image"
+                src={especial_boosters}
+                alt={`XP Booster escorpionjoint`}
+              />
+              <div className="image-caption-wrapper">
+                <div className="image-caption">
+                  <span>
+                    <img className="buds" src={BudsPNG} alt="Buds" /> <b>80$</b>
+                  </span>
+                  <span>
+                    <img className="xp" src={XpPNG} alt="Budsxp" /> <b>35k</b>
+                  </span>
+                  <span>
+                    <img
+                      onClick={(e) => {
+                        mapDispatchToProps(true);
+                        let joint = {
+                          image: "",
+                          buds: "$80",
+                          boost: 35000,
+                          name: "Scorpion Joint",
+                          usd: () => {
+                            return usd(80);
+                          },
+                        };
+                        let payload = {
+                          username: props.username,
+                          join: joint,
+                          lvl: props.bucket.lvl,
+                        };
+
+                        props.displayBuyJoint(payload);
+                      }}
+                      className="crafting-icon highlight-on-hover"
+                      src={CraftingPNG}
+                      alt="Click to craft"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div id="xpboosters" className="crafting-sub-modal">
           <i
             style={{ borderRadius: "50%" }}

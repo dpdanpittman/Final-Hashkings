@@ -86,6 +86,10 @@ async function getUSDPrice(price) {
   });
 }
 
+export async function usd(price) {
+  return await getMotaPrice(price);
+}
+
 async function getMotaPrice(price) {
   let usdPrice = await getUSDPrice(price);
 
@@ -93,7 +97,7 @@ async function getMotaPrice(price) {
     return 0;
   }
 
-  console.log("valor de $", price, " en hive es", usdPrice); 
+  console.log("valor de $", price, " en hive es", usdPrice);
 
   return new Promise((resolve, reject) => {
     axios
@@ -113,7 +117,12 @@ async function getMotaPrice(price) {
       .then((result) => {
         const lasPrice = result.data.result[0].lastPrice;
         const valueInHive = usdPrice / lasPrice;
-        console.log("valor actual del buds", lasPrice, "valor en hive", valueInHive);
+        console.log(
+          "valor actual del buds",
+          lasPrice,
+          "valor en hive",
+          valueInHive
+        );
         resolve(valueInHive);
       })
       .catch(async (err) => {
