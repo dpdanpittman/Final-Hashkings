@@ -227,6 +227,18 @@ function autorizedBuyJoin(join, lvl) {
         return true;
       }
       break;
+
+    case "scorpionJoint":
+      if (lvl >= 90) {
+        return true;
+      }
+      break;
+
+    case "tripleBraid":
+      if (lvl >= 80) {
+        return true;
+      }
+      break;
   }
 
   return false;
@@ -320,8 +332,7 @@ function* SmokeJoints(action) {
 }
 
 function* BuyJoints(action) {
-  console.info("BUUUUY JOOOOIN", action, action.username, action.join);
-
+ 
   if (!autorizedBuyJoin(camelize("" + action.join.name), action.lvl)) {
     yield put(
       userActions.plantError({
@@ -354,7 +365,7 @@ function* BuyJoints(action) {
     window.hive_keychain.requestSendToken(
       action.username,
       "hk-vault",
-      parseFloat("" + buds).toFixed(0)+".000",
+      parseFloat("" + buds).toFixed(0) + ".000",
       camelize("" + action.join.name) + " " + new Date().getTime(),
       "BUDS",
       (resp) => {

@@ -1036,6 +1036,20 @@ html body * {
   flex-direction: column;
   justify-content: center;
 }
+
+.crafting-sub-modal.active .itemt {
+  width: 100%;
+  max-width: 321px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.crafting-sub-modal.active .itemt .booster-image {
+  width: 100%;
+  max-width: 321px !important;
+  height: auto;
+}
+
 .crafting-sub-modal.active .item .booster-image {
   width: 100%;
   max-width: 200px;
