@@ -397,6 +397,7 @@ const buyConsumable = (props,consumable, price) => {
       "BUDS",
       "SOULS",
       "PIZZA",
+      "ONEUP"
     ]);
 
   HP.submit();
