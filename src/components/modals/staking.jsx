@@ -201,7 +201,7 @@ const StakingModal = (props) => {
           <div>
             <div className="span">
               <div>
-                <div>stake buds</div>
+                <div>special seeds</div>
               </div>
             </div>
             <div className="value">
@@ -241,7 +241,7 @@ const StakingModal = (props) => {
       },
       {
         class: "tab highlight-on-hover",
-        headline: "Staking Buds",
+        headline: "special seeds pool",
         image: PoolMotaPNG,
         link: "stakebuds-submodal",
       },
