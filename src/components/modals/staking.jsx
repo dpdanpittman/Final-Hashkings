@@ -184,6 +184,47 @@ const StakingModal = (props) => {
     );
   };
 
+
+  const StakeBudsModal = () => {
+    return (
+      <div className="submodal stakebuds-submodal">
+        <img
+          onClick={(e) => toggleSubModal("mota-submodal", true)}
+          className="close-btn highlight-on-hover"
+          src={ClosePNG}
+        />
+        <div className="body">
+          <div>
+            <div className="span">buds balance</div>
+            <div className="value">{getStat("buds").balance}</div>
+          </div>
+          <div>
+            <div className="span">
+              <div>
+                <div>stake buds</div>
+              </div>
+            </div>
+            <div className="value">
+              <input
+                onChange={(e) => setstakeBalance(e.target.value)}
+                type="number"
+                step="1"
+                min="1"
+              />
+              <img
+                onClick={(e) => Farm.stakeBuds(props.username, stakeBalance)}
+                className="stake-btn highlight-on-hover"
+                src={StakeButton}
+              />
+            </div>
+          </div>
+         
+          
+        </div>
+      </div>
+    );
+  };
+
   const renderTabs = () => {
     const tabs = [
       {
@@ -194,9 +235,15 @@ const StakingModal = (props) => {
       },
       {
         class: "tab highlight-on-hover",
-        headline: "Staking Pool",
+        headline: "Staking Mota",
         image: PoolMotaPNG,
         link: "stake-submodal",
+      },
+      {
+        class: "tab highlight-on-hover",
+        headline: "Staking Buds",
+        image: PoolMotaPNG,
+        link: "stakebuds-submodal",
       },
     ];
     return tabs.map((tab) => (
@@ -232,6 +279,7 @@ const StakingModal = (props) => {
         <div className="sub-modal-wrapper">
           {MotaModal()}
           {StakeModal()}
+          {StakeBudsModal()}
         </div>
       </Modal>
     </>

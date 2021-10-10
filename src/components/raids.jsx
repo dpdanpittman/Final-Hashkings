@@ -235,11 +235,10 @@ class Raids extends Component {
                   }}
                   onClick={() => {
                     this.setState({ ...this.state, info: null });
-                   } }
+                  }}
                 >
                   Go Back
                 </label>
-
 
                 <img
                   src={
@@ -311,27 +310,32 @@ class Raids extends Component {
                   Winners
                 </label>
 
-                <table
+                <div
+                className="raidscroll"
                   style={{
-                    width: "14%",
+                    width: "15%",
                     position: "fixed",
-                    inset: "66% 33% auto auto",
+                    inset: "66% 32% auto auto",
                     textAlign: "center",
+                    overflowY: "scroll",
+                    height: "20%"
                   }}
                 >
-                  <thead>
-                    <td>avatar</td>
-                    <td>power</td>
-                  </thead>
-                  <tbody>
-                    {this.state.info.avatarOnRaid.map((avatar, index) => (
-                      <tr key={index}>
-                        <td className="textoFondoNegro">{avatar.avatar}</td>
-                        <td className="textoFondoNegro">{avatar.power}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                  <table>
+                    <thead>
+                      <td>avatar</td>
+                      <td>power</td>
+                    </thead>
+                    <tbody>
+                      {this.state.info.avatarOnRaid.map((avatar, index) => (
+                        <tr key={index}>
+                          <td className="textoFondoNegro">{avatar.avatar}</td>
+                          <td className="textoFondoNegro">{avatar.power}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

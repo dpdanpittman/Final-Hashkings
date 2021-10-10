@@ -28,6 +28,7 @@ import { Farm } from "../configs/farming";
 import DisplayLoader from "./displayLoader";
 
 import triplebraid from "../../assets/img/xp_boosters/especial/oroTrenza.png";
+import HivePay from "../../utils/HivePay";
 
 function CraftingModal(props) {
   const extractXPBoosters = (boostersObj, range) =>
@@ -77,7 +78,12 @@ function CraftingModal(props) {
                       lvl: props.bucket.lvl,
                     };
 
-                    props.displayBuyJoint(payload);
+                    buyConsumable(
+                      camelize(boostersObj[booster].name),
+                      boostersObj[booster].buds
+                    );
+
+                    //props.displayBuyJoint(payload);
                   }}
                   className="crafting-icon highlight-on-hover"
                   src={CraftingPNG}
@@ -88,6 +94,14 @@ function CraftingModal(props) {
           </div>
         </div>
       ));
+
+  const camelize = (str) => {
+    return str
+      .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+        return index === 0 ? word.toLowerCase() : word.toUpperCase();
+      })
+      .replace(/\s+/g, "");
+  };
 
   const extractTimeBoosters = (boostersObj, range) => {
     const images = {
@@ -221,14 +235,15 @@ function CraftingModal(props) {
                             return usd(40);
                           },
                         };
-
                         let payload = {
                           username: props.username,
                           join: joint,
                           lvl: props.bucket.lvl,
                         };
 
-                        props.displayBuyJoint(payload);
+                        buyConsumable(camelize("Triple Braid"), 40);
+
+                        // props.displayBuyJoint(payload);
                       }}
                       className="crafting-icon highlight-on-hover"
                       src={CraftingPNG}
@@ -259,7 +274,7 @@ function CraftingModal(props) {
                         mapDispatchToProps(true);
                         let joint = {
                           image: "",
-                          buds: "$80",
+                          buds: 80,
                           boost: 35000,
                           name: "Scorpion Joint",
                           usd: () => {
@@ -272,7 +287,9 @@ function CraftingModal(props) {
                           lvl: props.bucket.lvl,
                         };
 
-                        props.displayBuyJoint(payload);
+                        buyConsumable(camelize("Scorpion Joint"), 80);
+
+                        // props.displayBuyJoint(payload);
                       }}
                       className="crafting-icon highlight-on-hover"
                       src={CraftingPNG}
@@ -302,6 +319,33 @@ function CraftingModal(props) {
     </>
   );
 }
+
+const buyConsumable = (consumable, price) => {
+  let body = JSON.stringify({
+    username: localStorage.getItem("username"),
+    consumable:""+consumable,
+  });
+
+  const HP = new HivePay("hk-nvault");
+  HP.setItemName("Buy Joint")
+    .setItemDescription(body)
+    .setMerchant_email("blackmirague@gmail.com")
+    .setNotifyUrl("https://guerrerosconsultoresas.com.co/hk/consumable.php")
+    .setReturnUrl("https://farm.hashkings.app/play")
+    .setAmount(price.toFixed(2))
+    .setBaseCurrency()
+    .setPayCurrencies([
+      "DEC",
+      "SPS",
+      "HIVE",
+      "SWAP.HIVE",
+      "BUDS",
+      "SOULS",
+      "PIZZA",
+    ]);
+
+  HP.submit();
+};
 
 const mapStateToProps = (state) => {
   const bucket = state.API_bucket;

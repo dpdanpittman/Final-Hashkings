@@ -223,7 +223,7 @@ class SideBar extends Component {
                   alt="Stake Items"
                   title="Stake Items"
                 />
-                <div className="text-center small">MOTA Lab</div>
+                <div className="text-center small"> Lab</div>
               </div>
             </div>
 

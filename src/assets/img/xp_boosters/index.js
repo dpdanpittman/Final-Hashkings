@@ -11,7 +11,7 @@ import axios from "axios";
 export default {
   PinnerBroncePNG: {
     image: PinnerBroncePNG,
-    buds: "$0.1",
+    buds: 0.1,
     boost: 15,
     name: "Pinner",
     usd: () => {
@@ -20,7 +20,7 @@ export default {
   },
   HempWrappedJointBroncePNG: {
     image: HempWrappedJointBroncePNG,
-    buds: "$0.4",
+    buds: 0.4,
     boost: 75,
     name: "Hemp Wrapped",
     usd: () => {
@@ -29,7 +29,7 @@ export default {
   },
   BroncePNG: {
     image: BroncePNG,
-    buds: "$2",
+    buds: 2,
     boost: 400,
     name: "Cross",
     usd: () => {
@@ -38,7 +38,7 @@ export default {
   },
   BluntPNG: {
     image: BluntPNG,
-    buds: "$5",
+    buds: 5,
     boost: 1000,
     name: "Blunt",
     usd: () => {
@@ -47,7 +47,7 @@ export default {
   },
   HempWrappedBluntBroncePNG: {
     image: HempWrappedBluntBroncePNG,
-    buds: "$10",
+    buds: 10,
     boost: 2500,
     name: "Hemp Wrapped Blunt",
     usd: () => {
@@ -56,7 +56,7 @@ export default {
   },
   TwaxJointBroncePNG: {
     image: TwaxJointBroncePNG,
-    buds: "$20",
+    buds: 20,
     boost: 6000,
     name: "Twax",
     usd: () => {
