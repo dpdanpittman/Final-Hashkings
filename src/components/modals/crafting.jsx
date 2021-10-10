@@ -78,7 +78,7 @@ function CraftingModal(props) {
                       lvl: props.bucket.lvl,
                     };
 
-                    buyConsumable(
+                    buyConsumable(props,
                       camelize(boostersObj[booster].name),
                       boostersObj[booster].buds
                     );
@@ -241,7 +241,7 @@ function CraftingModal(props) {
                           lvl: props.bucket.lvl,
                         };
 
-                        buyConsumable(camelize("Triple Braid"), 40);
+                        buyConsumable(props,camelize("Triple Braid"), 40);
 
                         // props.displayBuyJoint(payload);
                       }}
@@ -287,7 +287,7 @@ function CraftingModal(props) {
                           lvl: props.bucket.lvl,
                         };
 
-                        buyConsumable(camelize("Scorpion Joint"), 80);
+                        buyConsumable(props,camelize("Scorpion Joint"), 80);
 
                         // props.displayBuyJoint(payload);
                       }}
@@ -320,10 +320,65 @@ function CraftingModal(props) {
   );
 }
 
-const buyConsumable = (consumable, price) => {
+const checkLVL = (join, lvl) => {
+  switch (join) {
+    case "pinner":
+      if (lvl >= 1) {
+        return true;
+      }
+      break;
+    case "hempWrappedJoint":
+      if (lvl >= 15) {
+        return true;
+      }
+      break;
+    case "crossJoint":
+      if (lvl >= 30) {
+        return true;
+      }
+      break;
+    case "blunt":
+      if (lvl >= 45) {
+        return true;
+      }
+      break;
+    case "hempWrappedBlunt":
+      if (lvl >= 60) {
+        return true;
+      }
+      break;
+    case "twaxJoint":
+      if (lvl >= 75) {
+        return true;
+      }
+      break;
+
+    case "scorpionJoint":
+      if (lvl >= 90) {
+        return true;
+      }
+      break;
+
+    case "tripleBraid":
+      if (lvl >= 80) {
+        return true;
+      }
+      break;
+  }
+
+  return false;
+};
+
+const buyConsumable = (props,consumable, price) => {
+
+  if (checkLVL(consumable, props.bucket.lvl)) {
+  } else {
+    alert("Your LVL is not high enough to buy this join");
+  }
+
   let body = JSON.stringify({
     username: localStorage.getItem("username"),
-    consumable:""+consumable,
+    consumable: "" + consumable,
   });
 
   const HP = new HivePay("hk-nvault");
