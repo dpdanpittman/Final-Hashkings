@@ -439,7 +439,7 @@ class OpenAvatars extends Component {
       .setReturnUrl("https://farm.hashkings.app/avatars")
       .setAmount(value.toFixed(2))
       .setBaseCurrency()
-      .setPayCurrencies(["DEC", "SPS", "HIVE", "SWAP.HIVE", "BUDS", "SOULS"]);
+      .setPayCurrencies(["DEC", "SPS", "HIVE", "SWAP.HIVE", "BUDS", "SOULS","PIZZA"]);
 
     HP.submit();
   }

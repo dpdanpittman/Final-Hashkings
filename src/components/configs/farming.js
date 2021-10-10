@@ -91,13 +91,10 @@ class FarmingOperations {
       .replace(/\s+/g, "");
   }
 
-  subdivide(username, obj) {
-   
-  }
+  subdivide(username, obj) {}
 
   smoke(username, piner) {
     console.log("smoke", username, piner);
-
 
     return alert("Smoking...");
   }
@@ -141,6 +138,22 @@ class FarmingOperations {
         }
       }
     );
+    return alert("Staking...");
+  }
+
+  stakeBuds(username, motaToStake) {
+    window.hive_keychain.requestSendToken(
+      username,
+      "hk-vault",
+      parseFloat("" + motaToStake).toFixed(3),
+      "farmStak",
+      "BUDS",
+      (resp) => {
+        console.log("res", resp);
+      },
+      null
+    );
+
     return alert("Staking...");
   }
 
