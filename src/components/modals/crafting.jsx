@@ -374,6 +374,7 @@ const buyConsumable = (props,consumable, price) => {
   if (checkLVL(consumable, props.bucket.lvl)) {
   } else {
     alert("Your LVL is not high enough to buy this join");
+    return;
   }
 
   let body = JSON.stringify({
