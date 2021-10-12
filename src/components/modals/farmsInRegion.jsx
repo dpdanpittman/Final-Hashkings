@@ -30,29 +30,65 @@ const SEEDS = {
     aceh: "Aceh",
     thai: "Thai",
     thaichocolate: "Chocolate Thai",
+    bluedream: "Blue Dream",
+    bubblegum: "Bubblegum",
+    criticalkush: "Critical Kush",
+    shaggisdream: "Shaggi’s Dream",
+    purplehaze: "Purple Haze",
+    snoopsdream: "Snoops Dream",
   },
   jamaica: {
     lambsbread: "Lamb’s Bread",
     kingsbread: "King’s Bread",
+    bluedream: "Blue Dream",
+    bubblegum: "Bubblegum",
+    criticalkush: "Critical Kush",
+    shaggisdream: "Shaggi’s Dream",
+    purplehaze: "Purple Haze",
+    snoopsdream: "Snoops Dream",
   },
   africa: {
     swazigold: "Swazi Gold",
     kilimanjaro: "Kilimanjaro",
     durbanpoison: "Durban Poison",
     malawi: "Malawi",
+    bluedream: "Blue Dream",
+    bubblegum: "Bubblegum",
+    criticalkush: "Critical Kush",
+    shaggisdream: "Shaggi’s Dream",
+    purplehaze: "Purple Haze",
+    snoopsdream: "Snoops Dream",
   },
   afghanistan: {
     hindukush: "Hindu Kush",
     afghani: "Afghani",
     lashkargah: "Lashkar Gah",
     mazarisharif: "Mazar I Sharif",
+    bluedream: "Blue Dream",
+    bubblegum: "Bubblegum",
+    criticalkush: "Critical Kush",
+    shaggisdream: "Shaggi’s Dream",
+    purplehaze: "Purple Haze",
+    snoopsdream: "Snoops Dream",
   },
   mexico: {
     acapulcogold: "Acapulco Gold",
+    bluedream: "Blue Dream",
+    bubblegum: "Bubblegum",
+    criticalkush: "Critical Kush",
+    shaggisdream: "Shaggi’s Dream",
+    purplehaze: "Purple Haze",
+    snoopsdream: "Snoops Dream",
   },
   southamerica: {
     colombiangold: "Colombian Gold",
     panamared: "Panama Red",
+    bluedream: "Blue Dream",
+    bubblegum: "Bubblegum",
+    criticalkush: "Critical Kush",
+    shaggisdream: "Shaggi’s Dream",
+    purplehaze: "Purple Haze",
+    snoopsdream: "Snoops Dream",
   },
 };
 
@@ -127,7 +163,7 @@ class FarmsInRegion extends Component {
               <div className="popup">
                 <img className="background" src={PopupBackgroundPNG} />
                 <div className="content">
-                  <h5 style={{fontSize:"2vw"}}>
+                  <h5 style={{ fontSize: "2vw" }}>
                     {this.state.activeFarm.name +
                       " " +
                       this.state.activeFarm.farmid.id}
@@ -153,7 +189,8 @@ class FarmsInRegion extends Component {
                         PR: <strong>{this.getPR()}</strong>
                       </div>
                       <div style={{ fontSize: "1.3vw", marginLeft: "5%" }}>
-                        time rente end: <strong>{this.getTimeRentedEnd()}</strong>
+                        time rente end:{" "}
+                        <strong>{this.getTimeRentedEnd()}</strong>
                       </div>
                       <div style={{ fontSize: "1.3vw", marginLeft: "5%" }}>
                         seed death time: <strong>{this.getSeedEnd()}</strong>
@@ -742,7 +779,13 @@ class FarmsInRegion extends Component {
               className="item highlight-on-hover"
             >
               <div className="image">
-                <h6 style={{fontSize: "1.5vw", marginBottom: "2px", marginTop: "7px" }}>
+                <h6
+                  style={{
+                    fontSize: "1.5vw",
+                    marginBottom: "2px",
+                    marginTop: "7px",
+                  }}
+                >
                   ocuppied
                 </h6>
                 {getImageStatus(plot, allSeeds, regionsToMiniatures)}

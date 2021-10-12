@@ -12,7 +12,7 @@ import LvPNG from "../assets/img/ui/Level.png";
 import FarmerPNG from "../assets/img/profile_pictures/Farmer.png";
 import Profiles from "../assets/img/profile_pictures";
 import Spirit from "../assets/img/spiritswap_logo.png";
-import tron from "../assets/img/tron.png";
+import matic from "../assets/img/matic.png";
 import Send from "../assets/img/ui/transfer.png";
 
 import ClosePNG from "../assets/img/ui/x close.png";
@@ -24,7 +24,11 @@ function HeaderTab(props) {
 
   const [showFantomModal, setshowFantomModal] = useState(false);
 
+  const [showMaticModal, setshowMaticModal] = useState(false);
+
   const [paddress, setpaddress] = useState("");
+
+  const [paddressMatic, setpaddressMatic] = useState("");
 
   // console.log(" User Dets :>> ", props.userDets)
   const getXPWidth = (xp) => `${xp}px`;
@@ -60,6 +64,11 @@ function HeaderTab(props) {
   const getPhantomAddresses = () => {
     let userx = user();
     return userx.fantomadrs ? userx.fantomadrs : "none";
+  };
+
+  const getMaticAddresses = () => {
+    let userx = user();
+    return userx.maticadrs ? userx.maticadrs : "none";
   };
 
   return (
@@ -205,6 +214,49 @@ function HeaderTab(props) {
 
       <Modal
         size="lg"
+        show={showMaticModal}
+        onHide={() => setshowMaticModal(false)}
+        centered
+        style={{ zIndex: "99999" }}
+      >
+        <div
+          id="profile-modal-rent"
+          className="modal-transparent-overlay"
+          className="base-modal"
+        >
+          <img
+            onClick={() => setshowMaticModal(false)}
+            className="close-btn highlight-on-hover"
+            src={ClosePNG}
+          />
+          <h1>Set your Matic address</h1>
+          <p>
+            Your actual Matic address is:{" "}
+            <strong>{getMaticAddresses()} </strong>
+          </p>
+
+          <input
+            onChange={(e) => setpaddressMatic(e.target.value)}
+            type="text"
+            style={{
+              marginTop: "5%",
+              marginLeft: "0%",
+              padding: "2%",
+              width: "-webkit-fill-available",
+              border: "0",
+            }}
+          />
+          <Button
+            style={{ marginTop: "10px" }}
+            onClick={() => setrentarMatic(paddressMatic)}
+          >
+            Set address
+          </Button>
+        </div>
+      </Modal>
+
+      <Modal
+        size="lg"
         show={showModal}
         onHide={() => setshowModal(false)}
         centered
@@ -239,22 +291,25 @@ function HeaderTab(props) {
                 </div>
               </Button>
             </div>
+
             <div className="col-12 col-md-6">
               <Button
                 style={{ display: "contents", filter:"grayscale(1)" }}
                 variant="link"
-                onClick={() => { /*setshowFantomModal(true)*/}}
+                onClick={() => { setshowMaticModal(true)}}
               >
                 <div className="icon-group">
                   <img
-                    style={{ transform: "scale(1.2)", maxWidth: "75px", filter:"grayscale(1)" }}
-                    src={tron}
+                    style={{ transform: "scale(1.2)", maxWidth: "75px"}}
+                    src={matic}
                     alt="LINK"
                     title="LINK"
                   />
                 </div>
               </Button>
             </div>
+
+          
           </div>
         </div>
       </Modal>
@@ -276,6 +331,37 @@ const setrentar = (paddress) => {
     window.hive_keychain.requestCustomJson(
       localStorage.getItem("username"),
       "qwoyn_set_adrs",
+      "Posting",
+      `${JSON.stringify(body)}`,
+      "Setting address",
+      (res) => {
+        console.log("posted");
+      },
+      null
+    );
+  } else {
+    alert("Invalid address");
+  }
+  /*
+
+*/
+};
+
+
+const setrentarMatic = (paddress) => {
+  if (!paddress) {
+    return;
+  }
+  let body = {
+    adrs: paddress,
+  };
+
+  let web3 = new Web3("https://rpc-mainnet.matic.network/");
+
+  if (web3.utils.isAddress(paddress)) {
+    window.hive_keychain.requestCustomJson(
+      localStorage.getItem("username"),
+      "qwoyn_set_adrsmatic",
       "Posting",
       `${JSON.stringify(body)}`,
       "Setting address",
